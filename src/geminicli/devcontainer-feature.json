@@ -1,0 +1,24 @@
+{
+  "id": "gemini-cli",
+  "version": "0.1.0",
+  "name": "Google Gemini CLI",
+  "description": "Installs Google Gemini CLI for AI code assistance https://geminicli.com",
+  "options": {
+    "version": {
+      "type": "string",
+      "default": "latest",
+      "proposals":[
+        "latest",
+        "nightly",
+        "preview"
+      ],
+      "description": "Version of Gemini CLI to install https://www.npmjs.com/package/@google/gemini-cli#release-cadence-and-tags"
+    }
+  },
+  "dependsOn": {
+      "ghcr.io/devcontainers/features/node": {
+          "version": "lts" 
+      }
+  }
+}
+
