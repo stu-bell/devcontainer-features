@@ -30,6 +30,7 @@
 #                   --base-image mcr.microsoft.com/devcontainers/base:ubuntu \
 #                   /path/to/this/repo
 
+# exit if a command exits with a non-zero status (ie, an error) to fail a test
 set -e
 
 # Optional: Import test library bundled with the devcontainer CLI
