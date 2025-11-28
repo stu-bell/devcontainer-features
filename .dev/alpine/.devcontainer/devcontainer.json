@@ -1,0 +1,7 @@
+{
+    "image": "mcr.microsoft.com/devcontainers/base:alpine",
+    "workspace": "/workspace",
+    "features": {
+        "../../../src/geminicli":{}
+    }
+}
