@@ -16,28 +16,15 @@ Using https://github.com/devcontainers/feature-starter
 https://github.com/devcontainers/cli/blob/main/docs/features/test.md
 https://containers.dev/guide/feature-authoring-best-practices
 
+Command to quickly test feature with a particular image:
+`devcontainer features test --skip-scenarios -f <FEATURE_NAME>  -i <IMAGE_URI>`
+where <IMAGE_URI> could be, eg: mcr.microsoft.com/devcontainers/base:ubuntu 
 
-devcontainer features test --skip-scenarios -f hello \
-   -i mcr.microsoft.com/devcontainers/base:ubuntu 
+## Duplicate tests
 
-# OS compatibility
+TODO
 
-https://containers.dev/guide/feature-authoring-best-practices#detect-platformos
-
-write install.sh for the sh shell to target Alpine?
-
-Someone has contributed an alpine node feature. 
-
-remove the node dependsOn. 
-
-Replace with installsAfter
-
-and tell user to ensure node is installed with an appropriate feature. 
-
-you can check if node is installed during install.sh and prompt user to add a feature that installs node
-
-
-or you could pull the node install.sh script from the git repo, depending on the OS
+Tests what happens if a devcontainer.json installs the feature multiple times with different options. Feature installs should be idempotent.
 
 
 # CI
@@ -45,4 +32,7 @@ or you could pull the node install.sh script from the git repo, depending on the
 TODO figure this out...
 .github/workflows has yaml for 3 pipelines that may reference the starter template features (called color and hello)
 
+# Docs generation
 
+From the src directory (devcontainer cli command is available in the devcontainer for this project)
+`devcontainer features generate-docs`
