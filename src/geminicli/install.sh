@@ -7,8 +7,8 @@ if command -v gemini  > /dev/null 2>&1; then
     exit 0
 fi
 
-# ensure node and npm are installed
-./install-node.sh
+# ensure node and npm are installed. Min v 20 required by gemini
+NODE_MAJOR_VERSION=${NODE_MAJOR_VERSION:-20} ./install-node.sh
 
 # Check npm is installed
 if command -v node > /dev/null 2>&1 && command -v npm > /dev/null 2>&1; then
