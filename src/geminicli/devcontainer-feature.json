@@ -16,12 +16,7 @@
     },
     "node_version": {
       "type": "string",
-      "default": "lts",
-      "proposals":[
-        "lts",
-        "latest",
-        "18"
-      ],
+      "default": "24",
       "description": "Version of Node to use. Note this is only used if Node is not already installed."
     }
   }

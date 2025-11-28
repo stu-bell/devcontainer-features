@@ -1,4 +1,11 @@
 #!/bin/sh
+
+# Scripts sourcing this script will need source nvm, before calling node or npm
+# # Source nvm if it exists
+# if [ -s "$HOME/.nvm/nvm.sh" ]; then
+#     . "$HOME/.nvm/nvm.sh"
+# fi
+
 set -e
 
 # Check if node is already available
@@ -7,28 +14,23 @@ if command -v node > /dev/null 2>&1 && command -v npm > /dev/null 2>&1; then
   exit 0
 fi
 
-# TODO install a requested version of node
-
 # Detect OS, populates ID, ID_LIKE
 . /etc/os-release
+# Alpine
 if [ "${ID}" = "alpine" ]; then
     echo "Installing node on Alpine Linux via apk..."
     apk --no-cache add nodejs npm
 
+# Debian, Ubuntu
 elif [ "${ID}" = "debian" ] || \
      [ "${ID_LIKE}" = "debian" ];  then
-
-    # echo "Installing node from apt-get..."
-    # apt-get update -y
-    # apt-get install -y nodejs npm
 
     # Download and install node version manager (nvm)
     echo "Installing node via nvm"
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
     \. "$HOME/.nvm/nvm.sh"
-    nvm install "${NODE_VERSION:-"lts"}" 
+    nvm install "${NODE_VERSION:-"24"}" 
 fi
-echo "Node install completed."
 
 # validate node install
 if command -v node > /dev/null 2>&1 && command -v npm > /dev/null 2>&1; then

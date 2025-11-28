@@ -2,7 +2,9 @@
   "geminicli-ubuntu": {
     "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
     "features": {
-      "geminicli": {}
+      "geminicli": {
+        "node_version": "18"
+      }
     }
   },
   "geminicli-node": {
