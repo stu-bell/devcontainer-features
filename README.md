@@ -20,6 +20,25 @@ https://containers.dev/guide/feature-authoring-best-practices
 devcontainer features test --skip-scenarios -f hello \
    -i mcr.microsoft.com/devcontainers/base:ubuntu 
 
+# OS compatibility
+
+https://containers.dev/guide/feature-authoring-best-practices#detect-platformos
+
+write install.sh for the sh shell to target Alpine?
+
+Someone has contributed an alpine node feature. 
+
+remove the node dependsOn. 
+
+Replace with installsAfter
+
+and tell user to ensure node is installed with an appropriate feature. 
+
+you can check if node is installed during install.sh and prompt user to add a feature that installs node
+
+
+or you could pull the node install.sh script from the git repo, depending on the OS
+
 
 # CI
 
