@@ -1,0 +1,20 @@
+{
+  "geminicli-ubuntu": {
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+    "features": {
+      "geminicli": {}
+    }
+  },
+  "geminicli-node": {
+    "image": "mcr.microsoft.com/devcontainers/javascript-node:latest",
+    "features": {
+      "geminicli": {}
+    }
+  },
+  "geminicli-alpine": {
+    "image": "mcr.microsoft.com/devcontainers/base:alpine",
+    "features": {
+      "geminicli": {}
+    }
+  }
+}
