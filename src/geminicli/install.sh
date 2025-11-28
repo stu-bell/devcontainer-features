@@ -8,7 +8,7 @@ if command -v gemini  > /dev/null 2>&1; then
 fi
 
 # ensure node and npm are installed
-VERSION="${NODE_VERSION:-"lts"}" ./install-node.sh
+./install-node.sh
 
 # Install Gemini CLI via npm
 echo "Installing Gemini CLI..."

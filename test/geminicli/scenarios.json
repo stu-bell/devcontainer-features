@@ -16,5 +16,11 @@
     "features": {
       "geminicli": {}
     }
+  },
+  "geminicli-debian": {
+    "image": "mcr.microsoft.com/devcontainers/base:debian",
+    "features": {
+      "geminicli": {}
+    }
   }
 }
