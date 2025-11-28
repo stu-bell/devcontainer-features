@@ -1,6 +1,5 @@
 {
     "image": "mcr.microsoft.com/devcontainers/typescript-node",
-    "workspace": "/workspace",
     "features": {
         "../../../src/geminicli": {}
     }

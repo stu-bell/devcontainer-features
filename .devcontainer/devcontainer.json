@@ -1,7 +1,8 @@
 {
     "image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bookworm",
     "features": {
-        "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+        "../src/geminicli": {}
     },
     "updateContentCommand": "npm install -g @devcontainers/cli",
     "remoteUser": "node",

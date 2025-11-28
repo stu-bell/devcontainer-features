@@ -13,13 +13,17 @@
         "preview"
       ],
       "description": "Version of Gemini CLI to install https://www.npmjs.com/package/@google/gemini-cli#release-cadence-and-tags"
+    },
+    "node_version": {
+      "type": "string",
+      "default": "lts",
+      "proposals":[
+        "lts",
+        "latest",
+        "18"
+      ],
+      "description": "Version of Node to use. Note this is only used if Node is not already installed."
     }
-  },
-  "installsAfter": ["ghcr.io/devcontainers/features/node"],
-  "dependsOn": {
-      "ghcr.io/devcontainers/features/node": {
-          "version": "lts" 
-      }
   }
 }
 

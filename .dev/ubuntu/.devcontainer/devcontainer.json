@@ -1,11 +1,6 @@
 {
-    "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
-    "workspace": "/workspace",
+    "image": "mcr.microsoft.com/devcontainers/base:alpine",
     "features": {
-        "../../../src/geminicli": {
-        },
-        "ghcr.io/devcontainers/features/node": {
-          "version": "lts" 
-      }
+        "../../../src/geminicli":{}
     }
 }
