@@ -3,9 +3,19 @@
 set -e
 
 # Check if node is already available
-if command -v node > /dev/null 2>&1 && command -v npm > /dev/null 2>&1; then
-  echo "Already installed: Node.js: $(node -v) | npm: $(npm -v)"
-  exit 0
+if command -v node > /dev/null 2>&1 ; then
+
+  # check version is sufficient
+  REQUIRED_MAJOR=${NODE_MAJOR_VERSION:-24}
+  CURRENT_VERSION=$(node -v)
+  CURRENT_VERSION=${CURRENT_VERSION#v}  # Remove 'v' prefix
+  CURRENT_MAJOR=$(echo "$CURRENT_VERSION" | cut -d. -f1) # take the major number
+  if [ "$CURRENT_MAJOR" -ge "$REQUIRED_MAJOR" ]; then
+    echo "Already installed: Node.js: $(node -v)"
+    exit 0
+  else
+    echo "Node.js version $CURRENT_VERSION is installed but version ${REQUIRED_MAJOR}x or higher is required"
+  fi
 fi
 
 # Detect OS, populates ID, ID_LIKE
@@ -21,7 +31,7 @@ elif [ "${ID}" = "debian" ] || \
 
     echo "Installing Node.js from NodeSource..."
     export DEBIAN_FRONTEND=noninteractive
-    curl -fsSL "https://deb.nodesource.com/setup_${NODE_MAJOR_VERSION:-24}.x" | bash -
+    curl -fsSL "https://deb.nodesource.com/setup_$NODE_MAJOR_VERSION.x" | bash -
     apt-get update -y
     apt-get install -y nodejs
 

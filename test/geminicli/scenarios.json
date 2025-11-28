@@ -3,7 +3,7 @@
     "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
     "features": {
       "geminicli": {
-        "node_version": "18"
+        "node_major_version": "18"
       }
     }
   },
