@@ -10,15 +10,11 @@ fi
 # ensure node and npm are installed
 ./install-node.sh
 
-# TODO add this to install-node.sh as comment if it works
-# Source nvm if it exists
-if [ -s "$HOME/.nvm/nvm.sh" ]; then
-    . "$HOME/.nvm/nvm.sh"
-fi
-
 # Check npm is installed
 if command -v node > /dev/null 2>&1 && command -v npm > /dev/null 2>&1; then
   echo "Found Node.js: $(node -v) | npm: $(npm -v)"
+else 
+    echo "Could not find an node or npm. Ensure Node.js and npm are installed before this feature installs, using an appropriate base image or feature."
 fi
 
 # Install Gemini CLI via npm
