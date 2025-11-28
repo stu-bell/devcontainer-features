@@ -3,14 +3,22 @@
     "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
     "features": {
       "geminicli": {
-        "node_major_version": "18"
+        "node_major_version": "20"
       }
     }
   },
   "geminicli-node": {
-    "image": "mcr.microsoft.com/devcontainers/javascript-node:latest",
+    "image": "mcr.microsoft.com/devcontainers/javascript-node:18",
     "features": {
       "geminicli": {}
+    }
+  },
+  "geminicli-node-latest": {
+    "image": "mcr.microsoft.com/devcontainers/javascript-node:latest",
+    "features": {
+      "geminicli": {
+        "node_major_version": "20"
+      }
     }
   },
   "geminicli-alpine": {
