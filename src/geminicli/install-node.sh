@@ -1,4 +1,5 @@
 #!/bin/sh
+# This script prepends /usr/bin to the $PATH to prioritise the node version installed by apt-get, to avoid conflicts with lower versions of node already installed.
 
 set -e
 
@@ -18,7 +19,7 @@ if command -v node > /dev/null 2>&1 ; then
   fi
 fi
 
-# Detect OS, populates ID, ID_LIKE
+# Detect OS, populates ID, ID_LIKE, VERSION
 . /etc/os-release
 # Alpine
 if [ "${ID}" = "alpine" ]; then
@@ -36,6 +37,7 @@ elif [ "${ID}" = "debian" ] || \
     apt-get install -y nodejs
 
     # Update PATH to prioritize the newly installed node
+    echo "Adding /usr/bin to PATH"
     export PATH="/usr/bin:$PATH"
 else
 # this script does not install for the current distro
@@ -44,10 +46,10 @@ fi
 
 # validate node install
 if command -v node > /dev/null 2>&1 && command -v npm > /dev/null 2>&1; then
-  echo "Successfully installed Node.js: $(node -v) | npm: $(npm -v)"
-  echo "Node installed at: $(command -v node)"
+  echo "Successfully installed Node.js $(node -v) | npm: $(npm -v)"
+  echo "Node.js installed at: $(command -v node)"
 else
-    echo "Could not install Node.js."
+    echo "ERROR Could not install Node.js."
     exit 1
 fi
 

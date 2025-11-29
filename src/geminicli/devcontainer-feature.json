@@ -17,8 +17,11 @@
     "node_major_version": {
       "type": "string",
       "default": "24",
-      "description": "Major version of Node.js to use from NodeSource. Must be 20 or higher. Note this is only used if Node.js is not already installed."
+      "description": "Major version of Node.js to use from NodeSource. Only used if the minimum required version of Node.js is not already installed. Must be 20 or higher."
     }
+  },
+  "containerEnv": {
+    "PATH": "/usr/bin:$PATH"
   }
 }
 

@@ -9,3 +9,7 @@ Gemini CLI runs off Node.js, so it *should* run on any container with Node.js v 
 
 This feature checks for Node and attempts to install it if the OS is Alpine, Debian or Ubuntu. For other OS versions, ensure Node.js and npm are installed before this feature is installed (see [overrideFeatureInstallOrder](https://containers.dev/implementors/json_reference/#general-properties)).
 
+# PATH variable for node
+
+devcontainer-feature.json adds `/usr/bin` to PATH. See install-node.sh for more details.
+
