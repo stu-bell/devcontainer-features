@@ -10,7 +10,9 @@
   "geminicli-node": {
     "image": "mcr.microsoft.com/devcontainers/javascript-node:18",
     "features": {
-      "geminicli": {}
+      "geminicli": {
+        "node_major_version": "20"
+      }
     }
   },
   "geminicli-node-latest": {

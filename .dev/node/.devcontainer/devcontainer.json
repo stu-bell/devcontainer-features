@@ -1,6 +1,6 @@
 {
-    "image": "mcr.microsoft.com/devcontainers/typescript-node",
+    "image": "mcr.microsoft.com/devcontainers/javascript-node:latest",
     "features": {
-        "../../../src/geminicli": {}
+        "../../../src/geminicli": { }
     }
 }
