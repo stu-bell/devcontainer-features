@@ -13,8 +13,7 @@ GEMINI_VERSION="${VERSION:-latest}"
 # ensure node and npm are installed. Min v 20 required by gemini
 NODE_MAJOR_VERSION="${NODE_MAJOR_VERSION:- 20}"
 export NODE_MAJOR_VERSION
-# Source the script so PATH changes persist
-. ./install-node.sh
+./install-node.sh
 
 # Check npm is installed
 if command -v node > /dev/null 2>&1 && command -v npm > /dev/null 2>&1; then

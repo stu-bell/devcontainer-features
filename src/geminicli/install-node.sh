@@ -1,5 +1,5 @@
 #!/bin/sh
-# This script prepends /usr/bin to the $PATH to prioritise the node version installed by apt-get, to avoid conflicts with lower versions of node already installed.
+# Note for installations via apt-get, prepend /usr/bin to the $PATH to prioritise the installation by apt-get
 
 set -e
 
@@ -30,15 +30,12 @@ if [ "${ID}" = "alpine" ]; then
 elif [ "${ID}" = "debian" ] || \
      [ "${ID_LIKE}" = "debian" ];  then
 
-    echo "Installing Node.js from NodeSource..."
+    echo "Installing Node.js from NodeSource and apt-get..."
     export DEBIAN_FRONTEND=noninteractive
     curl -fsSL "https://deb.nodesource.com/setup_$NODE_MAJOR_VERSION.x" | bash -
     apt-get update -y
     apt-get install -y nodejs
 
-    # Update PATH to prioritize the newly installed node
-    echo "Adding /usr/bin to PATH"
-    export PATH="/usr/bin:$PATH"
 else
 # this script does not install for the current distro
   echo "Unsupported Linux distribution ${ID} / ${ID_LIKE} for Node.js installation via this feature"
