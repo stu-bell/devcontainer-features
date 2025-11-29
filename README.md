@@ -11,6 +11,15 @@ Using https://github.com/devcontainers/feature-starter
 1. Use your feature locally in your .devcontainer projects
 1. Or [disbribute it](./README-template.md#distributing-features)
 
+# Dev iterations requiring feature reinstalls
+
+To reinstall the feature after a code change (using devpod, podman, powershell)
+
+```
+devpod delete .; podman builder prune -a -f; devpod up . --reset
+```
+
+
 # Tests
 
 https://github.com/devcontainers/cli/blob/main/docs/features/test.md
