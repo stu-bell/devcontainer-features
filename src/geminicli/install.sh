@@ -7,8 +7,18 @@ if command -v gemini  > /dev/null 2>&1; then
     exit 0
 fi
 
+echo "DEBUG: VERSION='${VERSION}'"
+
 # ensure node and npm are installed. Min v 20 required by gemini
-NODE_MAJOR_VERSION="${NODE_MAJOR_VERSION:- 20}" ./install-node.sh
+# Source the script so PATH changes persist
+NODE_MAJOR_VERSION="${NODE_MAJOR_VERSION:-20}"
+export NODE_MAJOR_VERSION
+. ./install-node.sh
+
+# Debug: Check what we're finding now
+# echo "DEBUG: Current PATH=$PATH"
+# echo "DEBUG: which node=$(which node)"
+# echo "DEBUG: command -v node=$(command -v node)"
 
 # Check npm is installed
 if command -v node > /dev/null 2>&1 && command -v npm > /dev/null 2>&1; then
@@ -18,7 +28,7 @@ else
 fi
 
 # Install Gemini CLI via npm
-echo "Installing Gemini CLI..."
+echo "Installing Gemini CLI version ${VERSION}..."
 if [ "$VERSION" = "latest" ]; then
     npm install -g @google/gemini-cli
 else

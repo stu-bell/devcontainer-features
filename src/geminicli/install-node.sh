@@ -32,8 +32,11 @@ elif [ "${ID}" = "debian" ] || \
     echo "Installing Node.js from NodeSource..."
     export DEBIAN_FRONTEND=noninteractive
     curl -fsSL "https://deb.nodesource.com/setup_$NODE_MAJOR_VERSION.x" | bash -
-    apt update -y
-    apt install -y nodejs
+    apt-get update -y
+    apt-get install -y nodejs
+
+    # Update PATH to prioritize the newly installed node
+    export PATH="/usr/bin:$PATH"
 else
 # this script does not install for the current distro
   echo "Unsupported Linux distribution ${ID} / ${ID_LIKE} for Node.js installation via this feature"
