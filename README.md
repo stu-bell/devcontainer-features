@@ -30,6 +30,79 @@ TODO
 
 Tests what happens if a devcontainer.json installs the feature multiple times with different options. Feature installs should be idempotent.
 
+# Issue running Docker-in-Docker tests...
+
+## The Issue
+
+When running `devcontainer features test` inside a DevPod workspace with Docker-in-Docker enabled, all Docker registry operations fail with:
+
+```
+ERROR: failed to solve: EOF
+```
+
+Or when trying to pull images:
+```
+Error retrieving credentials: Post "http://localhost:12049/docker-credentials": dial tcp 127.0.0.1:12049: connect: connection refused
+docker: EOF
+```
+
+**Root cause:** DevPod sets `~/.docker/config.json` with `"credsStore": "devpod"`, which tells Docker to use a credential helper service on `localhost:12049`. This service exists on the host but not inside the DevPod container. The inner Docker daemon (from Docker-in-Docker) tries to use this credential helper and fails, blocking all registry access.
+
+## How to Diagnose
+
+**1. Check if Docker registry access fails:**
+```bash
+docker pull alpine
+```
+
+**2. Look for credential helper errors:**
+```bash
+docker run --rm alpine echo "test"
+# Look for: "dial tcp 127.0.0.1:12049: connect: connection refused"
+```
+
+**3. Check your Docker config:**
+```bash
+cat ~/.docker/config.json
+# Look for: "credsStore": "devpod"
+```
+
+If you see the credential helper error and `credsStore` is set to `devpod`, you have this issue.
+
+## The Solution
+
+Create a separate Docker config without the credential helper for the inner Docker daemon:
+
+**Quick fix (current session only):**
+```bash
+# Create a clean Docker config for this session
+export DOCKER_CONFIG=/tmp/docker-test-config
+mkdir -p $DOCKER_CONFIG
+echo '{"auths":{}}' > $DOCKER_CONFIG/config.json
+
+# Verify it works
+docker pull alpine
+
+# Run your test
+devcontainer features test --skip-scenarios -f geminicli -i mcr.microsoft.com/devcontainers/base:ubuntu
+```
+
+**Permanent fix (persists across sessions):**
+
+Add this to your `~/.bashrc` or `~/.zshrc`:
+```bash
+# Override Docker config to avoid devpod credential helper conflicts
+export DOCKER_CONFIG=/tmp/docker-test-config
+mkdir -p $DOCKER_CONFIG
+echo '{"auths":{}}' > $DOCKER_CONFIG/config.json
+```
+
+Then reload your shell:
+```bash
+source ~/.bashrc  # or ~/.zshrc
+```
+
+This allows DevPod to continue managing `~/.docker/config.json` on the host while the inner Docker daemon uses a separate config without the inaccessible credential helper.
 
 # CI
 
@@ -40,3 +113,4 @@ TODO figure this out...
 
 From the src directory (devcontainer cli command is available in the devcontainer for this project)
 `devcontainer features generate-docs`
+

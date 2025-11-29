@@ -32,9 +32,8 @@ elif [ "${ID}" = "debian" ] || \
     echo "Installing Node.js from NodeSource..."
     export DEBIAN_FRONTEND=noninteractive
     curl -fsSL "https://deb.nodesource.com/setup_$NODE_MAJOR_VERSION.x" | bash -
-    apt-get update -y
-    apt-get install -y nodejs
-
+    apt update -y
+    apt install -y nodejs
 else
 # this script does not install for the current distro
   echo "Unsupported Linux distribution ${ID} / ${ID_LIKE} for Node.js installation via this feature"
@@ -43,6 +42,7 @@ fi
 # validate node install
 if command -v node > /dev/null 2>&1 && command -v npm > /dev/null 2>&1; then
   echo "Successfully installed Node.js: $(node -v) | npm: $(npm -v)"
+  echo "Node installed at: $(command -v node)"
 else
     echo "Could not install Node.js."
     exit 1

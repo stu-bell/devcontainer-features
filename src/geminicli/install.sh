@@ -3,12 +3,12 @@ set -e
 
 # make sure there isn't already an installation of the tool
 if command -v gemini  > /dev/null 2>&1; then
-    echo "Gemini CLI is already installed"
+    echo "Gemini CLI $(gemini --version) is already installed"
     exit 0
 fi
 
 # ensure node and npm are installed. Min v 20 required by gemini
-NODE_MAJOR_VERSION=${NODE_MAJOR_VERSION:-20} ./install-node.sh
+NODE_MAJOR_VERSION="${NODE_MAJOR_VERSION:- 20}" ./install-node.sh
 
 # Check npm is installed
 if command -v node > /dev/null 2>&1 && command -v npm > /dev/null 2>&1; then
