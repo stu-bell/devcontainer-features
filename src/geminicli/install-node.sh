@@ -1,21 +1,18 @@
 #!/bin/sh
 # Note for installations via apt-get, prepend /usr/bin to the $PATH to prioritise the installation by apt-get
-
 set -e
 
 # Check if node is already available
+REQUIRED_MAJOR=${NODE_MIN_MAJOR_VERSION:-24}
 if command -v node > /dev/null 2>&1 ; then
-
   # check version is sufficient
-  REQUIRED_MAJOR=${NODE_MAJOR_VERSION:-24}
   CURRENT_VERSION=$(node -v)
-  CURRENT_VERSION=${CURRENT_VERSION#v}  # Remove 'v' prefix
-  CURRENT_MAJOR=$(echo "$CURRENT_VERSION" | cut -d. -f1) # take the major number
+  CURRENT_MAJOR=$(echo "$CURRENT_VERSION" | cut -c2- | cut -d. -f1)
   if [ "$CURRENT_MAJOR" -ge "$REQUIRED_MAJOR" ]; then
-    echo "Already installed: Node.js: $(node -v)"
+    echo "Already installed: Node.js $CURRENT_VERSION"
     exit 0
   else
-    echo "Node.js version $CURRENT_VERSION is installed but version ${REQUIRED_MAJOR}x or higher is required"
+    echo "Node.js version $CURRENT_VERSION is installed but version ${REQUIRED_MAJOR}.x or higher is required"
   fi
 fi
 
@@ -24,6 +21,7 @@ fi
 # Alpine
 if [ "${ID}" = "alpine" ]; then
     echo "Installing Node.js on Alpine Linux via apk..."
+    apk update 
     apk --no-cache add nodejs npm
 
 # Debian, Ubuntu
@@ -32,7 +30,9 @@ elif [ "${ID}" = "debian" ] || \
 
     echo "Installing Node.js from NodeSource and apt-get..."
     export DEBIAN_FRONTEND=noninteractive
-    curl -fsSL "https://deb.nodesource.com/setup_$NODE_MAJOR_VERSION.x" | bash -
+    URL="https://deb.nodesource.com/setup_${REQUIRED_MAJOR}.x"
+    echo "Fetching from: $URL"
+    curl -fsSL $URL | bash -
     apt-get update -y
     apt-get install -y nodejs
 

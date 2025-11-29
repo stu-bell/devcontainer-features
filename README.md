@@ -19,6 +19,10 @@ To reinstall the feature after a code change (using devpod, podman, powershell)
 devpod delete .; podman builder prune -a -f; devpod up . --reset
 ```
 
+```
+docker builder prune -a -f
+```
+
 
 # Tests
 
@@ -40,6 +44,12 @@ TODO
 Tests what happens if a devcontainer.json installs the feature multiple times with different options. Feature installs should be idempotent.
 
 # Issue running Docker-in-Docker tests...
+
+oneliner:
+```
+export DOCKER_CONFIG=/tmp/docker-test-config && mkdir -p $DOCKER_CONFIG && echo '{"auths":{}}' > $DOCKER_CONFIG/config.json
+```
+
 
 ## The Issue
 
@@ -83,8 +93,10 @@ If you see the credential helper error and `credsStore` is set to `devpod`, you 
 Create a separate Docker config without the credential helper for the inner Docker daemon:
 
 **Quick fix (current session only):**
+
 ```bash
 # Create a clean Docker config for this session
+# change docker config path from ~/.docker/ and create a new config.json
 export DOCKER_CONFIG=/tmp/docker-test-config
 mkdir -p $DOCKER_CONFIG
 echo '{"auths":{}}' > $DOCKER_CONFIG/config.json
@@ -97,19 +109,6 @@ devcontainer features test --skip-scenarios -f geminicli -i mcr.microsoft.com/de
 ```
 
 **Permanent fix (persists across sessions):**
-
-Add this to your `~/.bashrc` or `~/.zshrc`:
-```bash
-# Override Docker config to avoid devpod credential helper conflicts
-export DOCKER_CONFIG=/tmp/docker-test-config
-mkdir -p $DOCKER_CONFIG
-echo '{"auths":{}}' > $DOCKER_CONFIG/config.json
-```
-
-Then reload your shell:
-```bash
-source ~/.bashrc  # or ~/.zshrc
-```
 
 This allows DevPod to continue managing `~/.docker/config.json` on the host while the inner Docker daemon uses a separate config without the inaccessible credential helper.
 

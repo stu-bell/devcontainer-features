@@ -14,10 +14,10 @@
       ],
       "description": "Version of Gemini CLI to install https://www.npmjs.com/package/@google/gemini-cli#release-cadence-and-tags"
     },
-    "node_major_version": {
+    "node_min_major_version": {
       "type": "string",
-      "default": "24",
-      "description": "Major version of Node.js to use from NodeSource. Only used if the minimum required version of Node.js is not already installed. Must be 20 or higher."
+      "default": "20",
+      "description": "Minimum major version of Node.js required."
     }
   },
   "containerEnv": {

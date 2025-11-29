@@ -7,34 +7,45 @@ if command -v gemini  > /dev/null 2>&1; then
     exit 0
 fi
 
-# version var overwritten by node install
-GEMINI_VERSION="${VERSION:-latest}"
+# ensure node and npm are installed. Min v 20 required by gemini cli. Can be changed in feature options
+NODE_MIN_MAJOR_VERSION="${NODE_MIN_MAJOR_VERSION:-20}" ./install-node.sh
 
-# ensure node and npm are installed. Min v 20 required by gemini
-NODE_MAJOR_VERSION="${NODE_MAJOR_VERSION:- 20}"
-export NODE_MAJOR_VERSION
-./install-node.sh
-
-# Check npm is installed
-if command -v node > /dev/null 2>&1 && command -v npm > /dev/null 2>&1; then
-  echo "Found Node.js: $(node -v) | npm: $(npm -v)"
+# Check min node version installed
+MSG_NODE_MISSING="Ensure Node.js (minimum v${NODE_MIN_MAJOR_VERSION}.x) and npm are installed before this feature installs, using an appropriate base image or feature. 
+FAILED TO INSTALL Gemini CLI"
+if command -v node > /dev/null 2>&1; then
+  CURRENT_VERSION=$(node -v)
+  CURRENT_MAJOR=$(echo "$CURRENT_VERSION" | cut -c2- | cut -d. -f1)
+  if [ "$CURRENT_MAJOR" -ge "$NODE_MIN_MAJOR_VERSION" ]; then
+    echo "Found Node.js $CURRENT_VERSION"
+  else
+    echo "ERROR: Insufficient version of Node.js $CURRENT_VERSION is installed. $MSG_NODE_MISSING"
+    exit 1
+  fi
 else 
-    echo "Could not find an node or npm. Ensure Node.js and npm are installed before this feature installs, using an appropriate base image or feature."
+    # Node not found
+    echo "ERROR: could not find node. $MSG_NODE_MISSING"
+    exit 1
+fi
+
+# check npm is installed
+if command -v npm > /dev/null 2>&1; then
+  echo "Using npm $(npm -v)"
+else 
+    echo "ERROR: could not find npm. $MSG_NODE_MISSING"
+    exit 1
 fi
 
 # Install Gemini CLI via npm
-echo "Installing Gemini CLI version ${GEMINI_VERSION}..."
-if [ "$GEMINI_VERSION" = "latest" ]; then
-    npm install -g @google/gemini-cli
-else
-    npm install -g @google/gemini-cli@${GEMINI_VERSION}
-fi
+GEMINI_V=${VERSION:-"latest"}
+echo "Installing Gemini CLI version ${GEMINI_V}..."
+npm install -g @google/gemini-cli@${GEMINI_V}
 
 # Verify installation
 if command -v gemini  > /dev/null 2>&1; then
     echo "Gemini CLI $(gemini --version) installed successfully"
 else
-    echo "Failed to install Gemini CLI"
+    echo "ERROR: Failed to install Gemini CLI"
     exit 1
 fi
 
