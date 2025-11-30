@@ -13,6 +13,12 @@ Using https://github.com/devcontainers/feature-starter
 
 # Dev iterations requiring feature reinstalls
 
+Try building with --no-cache
+
+```
+devpod up . --provider-option --no-cache
+```
+
 To reinstall the feature after a code change (using devpod, podman, powershell)
 
 ```
@@ -42,6 +48,12 @@ To test all devcontainer.json configs in scenarios.json:
 TODO
 
 Tests what happens if a devcontainer.json installs the feature multiple times with different options. Feature installs should be idempotent.
+
+## Testing build failure messages
+
+There may be some instances in which you want to test that your install script correctly fails in the absence of certain dependencies.
+
+scenarios-build-fails.sh is under development to test this
 
 # Issue running Docker-in-Docker tests...
 
