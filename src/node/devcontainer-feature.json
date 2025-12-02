@@ -1,0 +1,16 @@
+{
+  "id": "node",
+  "version": "0.1.0",
+  "name": "Node.js",
+  "description": "Installs Node.js, if the minimum requested major version is not already installed.",
+  "options": {
+    "node_min_major_version": {
+      "type": "string",
+      "default": "22",
+      "description": "Minimum major version of Node.js required."
+    }
+  },
+  "containerEnv": {
+    "PATH": "/usr/bin:$PATH"
+  }
+}
