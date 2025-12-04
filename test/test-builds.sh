@@ -7,7 +7,15 @@
 
 set -e
 #
-# TODO add verbose option, to display all output. Or make it verbose by default and add a quiet option to just show test results?
+# TODO determine feature_src_path from the file path in the scenario's devcontainer.features.<featurepath> in the scenarios.json file, the feature paths will be relative to the scenarios.json file. However, when we copy the features folder to the temporary devcontainer directory, when writing the devcontainer.json, we need to change the path to be relative to the new temporary .devcontainer folder
+# TODO after all tests are complete, display a summary of: test name, test result, build result, and the 
+#
+# TODO change expected message on  scenarios to expected output, which should be tested for in the output regardless of build success or failure, since we may want to test for an expected output message in a successful build. only test if the expeced_output  key is present and not a blank string. 
+#
+# TODO change --verbose option to --quiet, which suppresses outputs, unless a test fails (ie unexpected build success or unexpected build failure, or expected output text not found)
+# TODO when loading scenarios.json, ensure that there are no objects in the array with matching name keys, error if so
+# TODO add optional scenario description, which gets printed with the test results
+#
 VERBOSE=true
 
 # Default values
@@ -159,7 +167,6 @@ load_scenarios() {
         return 1
     fi
     echogrn "✓ Scenarios loaded successfully." >&2
-    echo "$SCENARIOS" # Output the scenarios for main function to capture
     return 0
 }
 
@@ -207,7 +214,7 @@ setup_test_workspace() {
     
     if [ "$VERBOSE" = true ]; then
         echo ""
-        echo "devcontainer.json contents:"
+        echoyel "devcontainer.json contents:"
         cat "$devcontainer_dir/devcontainer.json"
         echo ""
     fi
