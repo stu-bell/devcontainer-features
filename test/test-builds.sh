@@ -4,7 +4,12 @@
 # with expected error messages.
 # Currently tests a single scenario - designed to be extended to loop over multiple scenarios.
 
+
 set -e
+
+
+# TODO add verbose option, to display all output. Or make it verbose by default and add a quiet option to just show test results?
+VERBOSE=true
 
 # Colors for output
 RED='\033[0;31m'
@@ -33,13 +38,12 @@ show_help() {
   echo "Tests a devcontainer.json configuration by building it and verifying the result."
   echo ""
   echo "Options:"
-  echo "  --ignore-docker-config           Ignore Docker configuration (use temp config)"
   echo "  --feature-name, -f <name>        Feature name (default: node)"
   echo "  --feature-src-path <path>        Feature source path (default: ../src/FEATURE_NAME)"
   echo "  --test-workspace-path <path>     Test workspace path (default: /tmp/devcontainer_test_builds)"
   echo "  --expected-exit-code <code>      Expected exit code (default: 0)"
   echo "  --expected-message <message>     Expected error message (for failure tests)"
-  echo "  --verbose, -v                    Show detailed build output"
+  echo "  --blank-docker-config            Use a blank Docker configuration: {"auths":{}}"
   echo "  -h, --help                       Show this help message"
   echo ""
   echo "Examples:"
@@ -53,7 +57,7 @@ show_help() {
 parse_arguments() {
   while [ $# -gt 0 ]; do
     case "$1" in
-      --ignore-docker-config)
+      --blank-docker-config)
         IGNORE_DOCKER_CONFIG=true
         shift
         ;;
@@ -93,10 +97,6 @@ parse_arguments() {
         EXPECTED_MESSAGE="$2"
         shift 2
         ;;
-      --verbose|-v)
-        VERBOSE=true
-        shift
-        ;;
       -h|--help)
         show_help
         exit 0
@@ -109,6 +109,8 @@ parse_arguments() {
     esac
   done
 }
+
+
 
 check_dependencies() {
     local need_deps=false
