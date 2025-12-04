@@ -12,7 +12,6 @@ VERBOSE=true
 
 # Default values
 IGNORE_DOCKER_CONFIG=${IGNORE_DOCKER_CONFIG:-false}
-FEATURE_NAME=${FEATURE_NAME:-"node"}
 FEATURE_SRC_PATH=${FEATURE_SRC_PATH:-""}
 TEST_WORKSPACE=${TEST_WORKSPACE:-"/tmp/devcontainer_test_builds"}
 SCENARIOS_FILE=${SCENARIOS_FILE:-""}
@@ -32,8 +31,6 @@ show_help() {
   echo "Tests a devcontainer.json configuration by building it and verifying the result."
   echo ""
   echo "Options:"
-  echo "  --feature-name, -f <name>        Feature name (default: node)"
-  echo "  --feature-src-path <path>        Feature source path (default: ../src/FEATURE_NAME)"
   echo "  --test-workspace-path <path>     Test workspace path (default: /tmp/devcontainer_test_builds)"
   echo "  --scenarios-file <path>          Path to a JSON file containing multiple test scenarios"
   echo "  --expected-exit-code <code>      Expected exit code (default: 0)"
@@ -43,10 +40,10 @@ show_help() {
   echo ""
   echo "Examples:"
   echo "  # Test a successful build"
-  echo "  $(basename "$0") --feature-name node"
+  echo "  $(basename "$0") --scenarios-file test/scenarios.json"
   echo ""
   echo "  # Test an expected failure"
-  echo "  $(basename "$0") --feature-name node --expected-exit-code 1 --expected-message 'invalid version'"
+  echo "  $(basename "$0") --scenarios-file test/scenarios.json --expected-exit-code 1 --expected-message 'invalid version'"
 }
 
 # Colors for output
@@ -72,14 +69,6 @@ parse_arguments() {
       --blank-docker-config)
         IGNORE_DOCKER_CONFIG=true
         shift
-        ;;
-      --feature-name|-f)
-        FEATURE_NAME="$2"
-        if [ -z "$FEATURE_NAME" ]; then
-          echored "Error: --feature-name requires a value." >&2
-          exit 1
-        fi
-        shift 2
         ;;
       --feature-src-path)
         FEATURE_SRC_PATH="$2"
@@ -184,6 +173,7 @@ ignore_docker_config() {
 }
 
 setup_test_workspace() {
+    local devcontainer_json_content="$1"
     local devcontainer_dir="$TEST_WORKSPACE/.devcontainer"
     
     echoyel "Setting up test workspace..."
@@ -193,45 +183,27 @@ setup_test_workspace() {
     mkdir -p "$devcontainer_dir"
     
     # Write devcontainer.json
-    # TODO this devcontainer.json should be a node on each of the scenarios.json
-
-# TODO feature should be relative to the scenarios.json file
-# Try to resolve feature paths and if they're found relative to the scenarios.json dir, 
-# copy the folder to the temp workspace folder. update the feature path in the devcontainer.json 
-# to the new path relative to the temp .devcontainer folder 
-
-    cat > "$devcontainer_dir/devcontainer.json" <<EOF
-{
-  "image": "mcr.microsoft.com/devcontainers/base:alpine",
-  "features": {
-    "./${FEATURE_NAME}": {}
-  }
-}
-EOF
+    echo "$devcontainer_json_content" > "$devcontainer_dir/devcontainer.json"
     
     # Validate JSON
-# TODO review this jq condition
     if ! jq empty "$devcontainer_dir/devcontainer.json" 2>/dev/null; then
         echored "✗ Error: Invalid JSON in devcontainer.json" >&2
         return 1
     fi
     
-    # Copy feature source
-    # Set default feature path if not provided
-    if [ -z "$FEATURE_SRC_PATH" ]; then
-        FEATURE_SRC_PATH="src/${FEATURE_NAME}"
+    # Copy feature source if FEATURE_SRC_PATH is set
+    if [ -n "$FEATURE_SRC_PATH" ]; then
+        if [ ! -d "$FEATURE_SRC_PATH" ]; then
+            echored "✗ Error: Feature source not found at $FEATURE_SRC_PATH" >&2
+            return 1
+        fi
+        
+        cp -r "$FEATURE_SRC_PATH" "$devcontainer_dir/"
+        echogrn "✓ Copied feature from $FEATURE_SRC_PATH"
     fi
-    
-    if [ ! -d "$FEATURE_SRC_PATH" ]; then
-        echored "✗ Error: Feature source not found at $FEATURE_SRC_PATH" >&2
-        return 1
-    fi
-    
-    cp -r "$FEATURE_SRC_PATH" "$devcontainer_dir/"
-    
+
     echogrn "✓ Created test workspace at $TEST_WORKSPACE"
     echogrn "✓ Created devcontainer.json"
-    echogrn "✓ Copied feature from $FEATURE_SRC_PATH"
     
     if [ "$VERBOSE" = true ]; then
         echo ""
@@ -383,12 +355,11 @@ run_scenarios() {
             exit 1
         fi
 
-        # Extract values for the current scenario
-        FEATURE_NAME=$(echo "$SCENARIO" | jq -r '.feature_name // ""')
         FEATURE_SRC_PATH=$(echo "$SCENARIO" | jq -r '.feature_src_path // ""')
         EXPECTED_EXIT_CODE=$(echo "$SCENARIO" | jq -r '.expected_exit_code // 0')
         EXPECTED_MESSAGE=$(echo "$SCENARIO" | jq -r '.expected_message // ""')
-        local TEST_NAME="Scenario: $(echo "$SCENARIO" | jq -r '.name // "Unnamed Scenario"') (Feature: $FEATURE_NAME)"
+        DEVCONTAINER_JSON_CONTENT=$(echo "$SCENARIO" | jq -c '.devcontainer // {}')
+        local TEST_NAME="Scenario: $(echo "$SCENARIO" | jq -r '.name // "Unnamed Scenario"')"
         
         echo ""
         echo "*****************************************"
@@ -396,7 +367,7 @@ run_scenarios() {
         echo "*****************************************"
         
         # Setup test workspace for each scenario
-        if ! setup_test_workspace; then
+        if ! setup_test_workspace "$DEVCONTAINER_JSON_CONTENT"; then
             run_test \
                 "$TEST_NAME" \
                 "1" \
@@ -487,35 +458,12 @@ main() {
     # Setup trap for cleanup
     trap cleanup EXIT
     
-    if [ -n "$SCENARIOS_FILE" ]; then
-        run_scenarios "$SCENARIOS_FILE"
-    else
-    # TODO this shouldn't be here. scenarios file is required
-        echoyel "No scenarios file provided. Running single test."
-        # Run a single test using command-line arguments
-        if ! setup_test_workspace; then
-            run_test \
-                "Feature: $FEATURE_NAME" \
-                "1" \
-                "Workspace setup failed" \
-                "$EXPECTED_EXIT_CODE" \
-                "$EXPECTED_MESSAGE"
-            print_summary
-            exit 1
-        fi
-        
-        # Build the devcontainer
-        build_devcontainer "$TEST_WORKSPACE"
-        local build_exit_code=$?
-        
-        # Run the test
-        run_test \
-            "Feature: $FEATURE_NAME" \
-            "$build_exit_code" \
-            "$BUILD_OUTPUT" \
-            "$EXPECTED_EXIT_CODE" \
-            "$EXPECTED_MESSAGE"
+    if [ -z "$SCENARIOS_FILE" ]; then
+        echored "Error: --scenarios-file is a required argument." >&2
+        exit 1
     fi
+
+    run_scenarios "$SCENARIOS_FILE"
     
     # Print summary and exit with appropriate code
     print_summary

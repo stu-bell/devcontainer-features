@@ -1,16 +1,26 @@
 [
   {
     "name": "Successful build",
-    "feature_name": "node",
     "feature_src_path": "src/node",
     "expected_exit_code": 0,
-    "expected_message": ""
+    "expected_message": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:alpine",
+      "features": {
+        "./node": {}
+      }
+    }
   },
   {
     "name": "Failed build - invalid feature name",
-    "feature_name": "invalid-feature",
     "feature_src_path": "src/invalid-feature",
     "expected_exit_code": 1,
-    "expected_message": "Feature source not found"
+    "expected_message": "Feature source not found",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:alpine",
+      "features": {
+        "./invalid-feature": {}
+      }
+    }
   }
 ]
