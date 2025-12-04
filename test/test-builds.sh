@@ -20,12 +20,11 @@ VERBOSE=true
 
 # Default values
 IGNORE_DOCKER_CONFIG=${IGNORE_DOCKER_CONFIG:-false}
-FEATURE_SRC_PATH=${FEATURE_SRC_PATH:-""}
 TEST_WORKSPACE=${TEST_WORKSPACE:-"/tmp/devcontainer_test_builds"}
 SCENARIOS_FILE=${SCENARIOS_FILE:-""}
 VERBOSE=${VERBOSE:-false}
 EXPECTED_EXIT_CODE=${EXPECTED_EXIT_CODE:-0}
-EXPECTED_MESSAGE=${EXPECTED_MESSAGE:-""}
+EXPECTED_OUTPUT=${EXPECTED_OUTPUT:-""}
 
 # Test tracking
 TOTAL_TESTS=0
@@ -78,14 +77,6 @@ parse_arguments() {
         IGNORE_DOCKER_CONFIG=true
         shift
         ;;
-      --feature-src-path)
-        FEATURE_SRC_PATH="$2"
-        if [ -z "$FEATURE_SRC_PATH" ]; then
-          echored "Error: --feature-src-path requires a value." >&2
-          exit 1
-        fi
-        shift 2
-        ;;
       --test-workspace-path)
         TEST_WORKSPACE="$2"
         if [ -z "$TEST_WORKSPACE" ]; then
@@ -110,8 +101,8 @@ parse_arguments() {
         fi
         shift 2
         ;;
-      --expected-message)
-        EXPECTED_MESSAGE="$2"
+      --expected-output)
+        EXPECTED_OUTPUT="$2"
         shift 2
         ;;
       -h|--help)
@@ -161,11 +152,13 @@ load_scenarios() {
     fi
 
     echoyel "Loading scenarios from $scenarios_file..." >&2
-    SCENARIOS=$(jq -c '.' "$scenarios_file")
+    local scenarios_content
+    scenarios_content=$(jq -c '.' "$scenarios_file")
     if [ $? -ne 0 ]; then
         echored "Error: Invalid JSON in scenarios file: $scenarios_file" >&2
         return 1
     fi
+    echo "$scenarios_content" # Echo the content to stdout
     echogrn "✓ Scenarios loaded successfully." >&2
     return 0
 }
@@ -181,6 +174,7 @@ ignore_docker_config() {
 
 setup_test_workspace() {
     local devcontainer_json_content="$1"
+    local scenarios_file="$2"
     local devcontainer_dir="$TEST_WORKSPACE/.devcontainer"
     
     echoyel "Setting up test workspace..."
@@ -189,7 +183,42 @@ setup_test_workspace() {
     rm -rf "$TEST_WORKSPACE"
     mkdir -p "$devcontainer_dir"
     
-    # Write devcontainer.json
+    # Get the directory of the scenarios file to resolve relative paths
+    local scenarios_dir
+    scenarios_dir=$(dirname "$scenarios_file")
+
+    # Read feature paths and copy them over
+    local feature_paths
+    feature_paths=$(echo "$devcontainer_json_content" | jq -r '.features | keys[]' 2>/dev/null)
+    if [ -n "$feature_paths" ]; then
+        local modified_json_content="$devcontainer_json_content"
+        
+        # Loop over each feature path
+        for feature_path in $feature_paths; do
+            # Resolve the real path of the feature source
+            local real_feature_path
+            real_feature_path=$(realpath "$scenarios_dir/$feature_path")
+            
+            if [ ! -d "$real_feature_path" ]; then
+                echored "✗ Error: Feature source not found for '$feature_path' (resolved to '$real_feature_path')" >&2
+                return 1
+            fi
+            
+            # Copy feature source to the temp .devcontainer folder
+            cp -r "$real_feature_path" "$devcontainer_dir/"
+            
+            # Get the feature's directory name and update the json
+            local feature_name
+            feature_name=$(basename "$real_feature_path")
+            local new_feature_path="./$feature_name"
+            
+            modified_json_content=$(echo "$modified_json_content" | jq --arg old "$feature_path" --arg new "$new_feature_path" '(.features[$new] = .features[$old]) | del(.features[$old])')
+            echogrn "✓ Copied feature from '$feature_path' and updated path to '$new_feature_path'"
+        done
+        devcontainer_json_content="$modified_json_content"
+    fi
+
+    # Write the (potentially modified) devcontainer.json
     echo "$devcontainer_json_content" > "$devcontainer_dir/devcontainer.json"
     
     # Validate JSON
@@ -198,17 +227,6 @@ setup_test_workspace() {
         return 1
     fi
     
-    # Copy feature source if FEATURE_SRC_PATH is set
-    if [ -n "$FEATURE_SRC_PATH" ]; then
-        if [ ! -d "$FEATURE_SRC_PATH" ]; then
-            echored "✗ Error: Feature source not found at $FEATURE_SRC_PATH" >&2
-            return 1
-        fi
-        
-        cp -r "$FEATURE_SRC_PATH" "$devcontainer_dir/"
-        echogrn "✓ Copied feature from $FEATURE_SRC_PATH"
-    fi
-
     echogrn "✓ Created test workspace at $TEST_WORKSPACE"
     echogrn "✓ Created devcontainer.json"
     
@@ -261,7 +279,7 @@ run_test() {
     local exit_code="$2"
     local output="$3"
     local expected_exit_code="$4"
-    local expected_message="$5"
+    local expected_output="$5" # Renamed from expected_message
     
     echo ""
     echo "========================================="
@@ -276,7 +294,6 @@ run_test() {
         # Expecting success
         if [ "$exit_code" -eq 0 ]; then
             echogrn "✓ Build succeeded as expected (exit code: $exit_code)"
-            test_result="expected_success"
             passed=true
         else
             echored "✗ Build should have succeeded but failed (exit code: $exit_code)" >&2
@@ -292,26 +309,32 @@ run_test() {
             test_result="unexpected_success"
         else
             echogrn "✓ Build failed as expected (exit code: $exit_code)"
-            
-            # Check error message if provided
-            if [ -n "$expected_message" ]; then
-                if echo "$output" | grep -q "$expected_message"; then
-                    echogrn "✓ Expected error message found: '$expected_message'"
-                    test_result="expected_fail_correct_message"
-                    passed=true
-                else
-                    echored "✗ Expected error message not found" >&2
-                    echo "Expected substring: '$expected_message'"
-                    echo ""
-                    echo "Actual output:"
-                    echo "$output"
-                    test_result="expected_fail_wrong_message"
-                fi
+            passed=true # Assume passed for now, will check output next
+        fi
+    fi
+
+    # Check for expected output if provided
+    if [ -n "$expected_output" ]; then
+        if echo "$output" | grep -q "$expected_output"; then
+            echogrn "✓ Expected output found: '$expected_output'"
+            if [ "$passed" = true ]; then
+                test_result="expected_success_and_output" # or expected_fail_and_output
             else
-                # No specific message to check, just that it failed
-                test_result="expected_fail"
-                passed=true
+                test_result="expected_output_found_but_exit_code_mismatch"
+                passed=false
             fi
+        else
+            echored "✗ Expected output NOT found: '$expected_output'" >&2
+            echo "Expected substring: '$expected_output'"
+            echo ""
+            echo "Actual output:"
+            echo "$output"
+            test_result="expected_output_not_found"
+            passed=false
+        fi
+    else
+        if [ "$passed" = true ]; then
+            test_result="no_specific_output_expected_and_passed"
         fi
     fi
     
@@ -337,7 +360,8 @@ run_scenarios() {
     # Load scenarios from the file
     local SCENARIOS_JSON
     SCENARIOS_JSON=$(load_scenarios "$scenarios_file")
-    if [ $? -ne 0 ]; then
+    local load_scenarios_exit_code=$?
+    if [ $load_scenarios_exit_code -ne 0 ]; then
         exit 1
     fi
 
@@ -362,9 +386,8 @@ run_scenarios() {
             exit 1
         fi
 
-        FEATURE_SRC_PATH=$(echo "$SCENARIO" | jq -r '.feature_src_path // ""')
         EXPECTED_EXIT_CODE=$(echo "$SCENARIO" | jq -r '.expected_exit_code // 0')
-        EXPECTED_MESSAGE=$(echo "$SCENARIO" | jq -r '.expected_message // ""')
+        EXPECTED_MESSAGE=$(echo "$SCENARIO" | jq -r '.expected_output // ""')
         DEVCONTAINER_JSON_CONTENT=$(echo "$SCENARIO" | jq -c '.devcontainer // {}')
         local TEST_NAME="Scenario: $(echo "$SCENARIO" | jq -r '.name // "Unnamed Scenario"')"
         
@@ -375,7 +398,7 @@ run_scenarios() {
         
         # Setup test workspace for each scenario
         local setup_output
-        setup_output=$(setup_test_workspace "$DEVCONTAINER_JSON_CONTENT" 2>&1)
+        setup_output=$(setup_test_workspace "$DEVCONTAINER_JSON_CONTENT" "$scenarios_file" 2>&1)
         if [ $? -ne 0 ]; then
             run_test \
                 "$TEST_NAME" \

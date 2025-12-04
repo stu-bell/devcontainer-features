@@ -1,9 +1,9 @@
 [
   {
     "name": "Successful build",
-      "feature_src_path": "src/hello",
+
     "expected_exit_code": 0,
-    "expected_message": "",
+    "expected_output": "",
     "devcontainer": {
       "image": "mcr.microsoft.com/devcontainers/base:alpine",
       "features": {
@@ -13,9 +13,9 @@
   },
   {
     "name": "Failed build - invalid feature name",
-    "feature_src_path": "src/hello",
+
     "expected_exit_code": 1,
-    "expected_message": "demonstrate a build error",
+    "expected_output": "demonstrate a build error",
     "devcontainer": {
       "image": "mcr.microsoft.com/devcontainers/base:alpine",
       "features": {
