@@ -367,11 +367,13 @@ run_scenarios() {
         echo "*****************************************"
         
         # Setup test workspace for each scenario
-        if ! setup_test_workspace "$DEVCONTAINER_JSON_CONTENT"; then
+        local setup_output
+        setup_output=$(setup_test_workspace "$DEVCONTAINER_JSON_CONTENT" 2>&1)
+        if [ $? -ne 0 ]; then
             run_test \
                 "$TEST_NAME" \
                 "1" \
-                "Workspace setup failed" \
+                "$setup_output" \
                 "$EXPECTED_EXIT_CODE" \
                 "$EXPECTED_MESSAGE"
             continue
