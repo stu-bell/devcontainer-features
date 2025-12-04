@@ -3,55 +3,29 @@
 # Tests devcontainer.json configurations to verify they build successfully or fail
 # with expected error messages.
 # Currently tests a single scenario - designed to be extended to loop over multiple scenarios.
-# test/test-builds.sh --scenarios-file test/scenarios.json --blank-docker-config
+# test/test-builds.sh -s test/scenarios.json --blank-docker-config
 
 set -e
 #
-# TODO determine feature_src_path from the file path in the scenario's devcontainer.features.<featurepath> in the scenarios.json file, the feature paths will be relative to the scenarios.json file. However, when we copy the features folder to the temporary devcontainer directory, when writing the devcontainer.json, we need to change the path to be relative to the new temporary .devcontainer folder
-# TODO after all tests are complete, display a summary of: test name, test result, build result, and the 
-#
-# TODO change expected message on  scenarios to expected output, which should be tested for in the output regardless of build success or failure, since we may want to test for an expected output message in a successful build. only test if the expeced_output  key is present and not a blank string. 
-#
-# TODO change --verbose option to --quiet, which suppresses outputs, unless a test fails (ie unexpected build success or unexpected build failure, or expected output text not found)
+# TODO after all tests are complete, display a summary of: test name, test result, build result, if the expected output was found, the expeted output being searched for if it was not found.
+# TODO option to provide a list of one or more scenario names to run. Other scenarios in the json should be skipped for this run.
 # TODO when loading scenarios.json, ensure that there are no objects in the array with matching name keys, error if so
-# TODO add optional scenario description, which gets printed with the test results
-#
-VERBOSE=true
+# TODO add optional scenario description to scenarios.json, to print alongside tests that fail, if the description is provided
+# TODO add option to generate template scenarios.json, which just outputs a starter scenarios.json  that the user can save to a file and fill in. 
+# TODO if scenarios.json param is blank, or resolves to a non existant, or invalid file, output a message explaining where the file should be and give an example of how it should look. If we've included the option to generate a blank scenarios.json, provide the command to do that
+# TODO change expected message on  scenarios to expected output, which should be tested for in the output regardless of build success or failure, since we may want to test for an expected output message in a successful build. only test if the expeced_output  key is present and not a blank string. 
 
 # Default values
 IGNORE_DOCKER_CONFIG=${IGNORE_DOCKER_CONFIG:-false}
 TEST_WORKSPACE=${TEST_WORKSPACE:-"/tmp/devcontainer_test_builds"}
 SCENARIOS_FILE=${SCENARIOS_FILE:-""}
-VERBOSE=${VERBOSE:-false}
-EXPECTED_EXIT_CODE=${EXPECTED_EXIT_CODE:-0}
-EXPECTED_OUTPUT=${EXPECTED_OUTPUT:-""}
+VERBOSE=${VERBOSE:-true}
 
 # Test tracking
 TOTAL_TESTS=0
 PASSED_TESTS=0
 FAILED_TESTS=0
 declare -a TEST_RESULTS=()
-
-show_help() {
-  echo "Usage: $(basename "$0") [OPTIONS]"
-  echo ""
-  echo "Tests a devcontainer.json configuration by building it and verifying the result."
-  echo ""
-  echo "Options:"
-  echo "  --test-workspace-path <path>     Test workspace path (default: /tmp/devcontainer_test_builds)"
-  echo "  --scenarios-file <path>          Path to a JSON file containing multiple test scenarios"
-  echo "  --expected-exit-code <code>      Expected exit code (default: 0)"
-  echo "  --expected-message <message>     Expected error message (for failure tests)"
-  echo "  --blank-docker-config            Use a blank Docker configuration: {"auths":{}}"
-  echo "  -h, --help                       Show this help message"
-  echo ""
-  echo "Examples:"
-  echo "  # Test a successful build"
-  echo "  $(basename "$0") --scenarios-file test/scenarios.json"
-  echo ""
-  echo "  # Test an expected failure"
-  echo "  $(basename "$0") --scenarios-file test/scenarios.json --expected-exit-code 1 --expected-message 'invalid version'"
-}
 
 # Colors for output
 RED='\033[0;31m'
@@ -68,15 +42,27 @@ echoyel() {
     echo -e "${YELLOW}$@${NC}"
 }
 
-
+show_help() {
+  echo "Usage: $(basename "$0") [OPTIONS]"
+  echo ""
+  echo "Tests a devcontainer.json configuration by building it and verifying the result."
+  echo ""
+  echo "Options:"
+  echo "  --scenarios-file <path>          Path to a JSON file containing multiple test scenarios"
+  echo "  --test-workspace-path <path>     Test workspace path (default: /tmp/devcontainer_test_builds)"
+  echo "  --quiet                          Suppress build outputs unless a test fails"
+  echo "  --blank-docker-config            Use a blank Docker configuration: {"auths":{}}"
+  echo "  -h, --help                       Show this help message"
+  echo ""
+  echo "Examples:"
+  echo "  # Test a successful build"
+  echo "  $(basename "$0") --scenarios-file test/scenarios.json"
+  echo ""
+}
 
 parse_arguments() {
   while [ $# -gt 0 ]; do
     case "$1" in
-      --blank-docker-config)
-        IGNORE_DOCKER_CONFIG=true
-        shift
-        ;;
       --test-workspace-path)
         TEST_WORKSPACE="$2"
         if [ -z "$TEST_WORKSPACE" ]; then
@@ -85,7 +71,7 @@ parse_arguments() {
         fi
         shift 2
         ;;
-      --scenarios-file)
+      -s|--scenarios-file)
         SCENARIOS_FILE="$2"
         if [ -z "$SCENARIOS_FILE" ]; then
           echored "Error: --scenarios-file requires a value." >&2
@@ -93,17 +79,13 @@ parse_arguments() {
         fi
         shift 2
         ;;
-      --expected-exit-code)
-        EXPECTED_EXIT_CODE="$2"
-        if [ -z "$EXPECTED_EXIT_CODE" ]; then
-          echored "Error: --expected-exit-code requires a value." >&2
-          exit 1
-        fi
-        shift 2
+      --quiet)
+        VERBOSE=false
+        shift
         ;;
-      --expected-output)
-        EXPECTED_OUTPUT="$2"
-        shift 2
+      --blank-docker-config)
+        IGNORE_DOCKER_CONFIG=true
+        shift
         ;;
       -h|--help)
         show_help
@@ -208,6 +190,9 @@ setup_test_workspace() {
             cp -r "$real_feature_path" "$devcontainer_dir/"
             
             # Get the feature's directory name and update the json
+            # in the devcontainer json provided by scenarios.json, the feature path is relative to the scenarios.json file
+            # in the devcontainer.json of the temporary workspace, we need the feature path to be relative to the 
+            # copy of the feature in the temp workspace
             local feature_name
             feature_name=$(basename "$real_feature_path")
             local new_feature_path="./$feature_name"
@@ -466,6 +451,7 @@ cleanup() {
     if [ -d "$TEST_WORKSPACE" ]; then
         echoyel "Cleaning up test workspace..."
         rm -rf "$TEST_WORKSPACE"
+        echoyel "Done"
     fi
 }
 
