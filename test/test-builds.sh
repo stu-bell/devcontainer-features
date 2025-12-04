@@ -123,26 +123,20 @@ parse_arguments() {
 
 
 check_dependencies() {
-    local need_deps=false
+    local need_deps=""
     if ! command -v jq >/dev/null 2>&1; then
-        echo -e "${RED}✗ Dependency not found: jq${NC}"
-        echo "  Install: apt-get install jq  or  brew install jq"
-        need_deps=true
+        need_deps="jq \nInstall: apt-get install jq  or  brew install jq"
     fi
     if ! command -v devcontainer >/dev/null 2>&1; then
-        echo -e "${RED}✗ Dependency not found: devcontainer${NC}"
-        echo "  Install: npm install -g @devcontainers/cli"
-        need_deps=true
+        need_deps="devcontainer \nInstall: npm install -g @devcontainers/cli"
     fi
     if ! command -v docker >/dev/null 2>&1; then
-        echo -e "${RED}✗ Dependency not found: docker${NC}"
-        echo "  Install: https://docker.com"
-        need_deps=true
+        need_deps="Docker \nInstall: https://docker.com"
     fi
-    if [ "$need_deps" = true ]; then
+    if [ "$need_deps" != "" ]; then
+        echo -e "${RED}Dependency not found: ${need_deps}${NC}"
         exit 1
     fi
-    echo -e "${GREEN}✓ All dependencies found${NC}"
     return 0
 }
 
