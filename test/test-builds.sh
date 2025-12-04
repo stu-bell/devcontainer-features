@@ -6,16 +6,9 @@
 # test/test-builds.sh --scenarios-file test/scenarios.json --blank-docker-config
 
 set -e
-
-
+#
 # TODO add verbose option, to display all output. Or make it verbose by default and add a quiet option to just show test results?
 VERBOSE=true
-
-# Colors for output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-NC='\033[0m'
 
 # Default values
 IGNORE_DOCKER_CONFIG=${IGNORE_DOCKER_CONFIG:-false}
@@ -56,6 +49,23 @@ show_help() {
   echo "  $(basename "$0") --feature-name node --expected-exit-code 1 --expected-message 'invalid version'"
 }
 
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+echored() {
+    echo -e "${RED}$@${NC}"
+}
+echogrn() {
+    echo -e "${GREEN}$@${NC}"
+}
+echoyel() {
+    echo -e "${YELLOW}$@${NC}"
+}
+
+
+
 parse_arguments() {
   while [ $# -gt 0 ]; do
     case "$1" in
@@ -66,7 +76,7 @@ parse_arguments() {
       --feature-name|-f)
         FEATURE_NAME="$2"
         if [ -z "$FEATURE_NAME" ]; then
-          echo "Error: --feature-name requires a value." >&2
+          echored "Error: --feature-name requires a value." >&2
           exit 1
         fi
         shift 2
@@ -74,7 +84,7 @@ parse_arguments() {
       --feature-src-path)
         FEATURE_SRC_PATH="$2"
         if [ -z "$FEATURE_SRC_PATH" ]; then
-          echo "Error: --feature-src-path requires a value." >&2
+          echored "Error: --feature-src-path requires a value." >&2
           exit 1
         fi
         shift 2
@@ -82,7 +92,7 @@ parse_arguments() {
       --test-workspace-path)
         TEST_WORKSPACE="$2"
         if [ -z "$TEST_WORKSPACE" ]; then
-          echo "Error: --test-workspace-path requires a value." >&2
+          echored "Error: --test-workspace-path requires a value." >&2
           exit 1
         fi
         shift 2
@@ -90,7 +100,7 @@ parse_arguments() {
       --scenarios-file)
         SCENARIOS_FILE="$2"
         if [ -z "$SCENARIOS_FILE" ]; then
-          echo "Error: --scenarios-file requires a value." >&2
+          echored "Error: --scenarios-file requires a value." >&2
           exit 1
         fi
         shift 2
@@ -98,7 +108,7 @@ parse_arguments() {
       --expected-exit-code)
         EXPECTED_EXIT_CODE="$2"
         if [ -z "$EXPECTED_EXIT_CODE" ]; then
-          echo "Error: --expected-exit-code requires a value." >&2
+          echored "Error: --expected-exit-code requires a value." >&2
           exit 1
         fi
         shift 2
@@ -112,7 +122,7 @@ parse_arguments() {
         exit 0
         ;;
       *)
-        echo "Error: Unknown argument: $1" >&2
+        echored "Error: Unknown argument: $1" >&2
         echo "Use --help for usage information." >&2
         exit 1
         ;;
@@ -134,7 +144,7 @@ check_dependencies() {
         need_deps="Docker \nInstall: https://docker.com"
     fi
     if [ "$need_deps" != "" ]; then
-        echo -e "${RED}Error: Dependency not found: ${need_deps}${NC}"
+        echored "Error: Dependency not found: ${need_deps}" >&2
         exit 1
     fi
     return 0
@@ -144,22 +154,22 @@ load_scenarios() {
     local scenarios_file="$1"
 
     if [ -z "$scenarios_file" ]; then
-        echo "${RED}Error: No scenarios file provided.${NC}" >&2
+        echored "Error: No scenarios file provided." >&2
         return 1
     fi
 
     if [ ! -f "$scenarios_file" ]; then
-        echo -e "${RED}Error: Scenarios file not found at $scenarios_file${NC}" >&2
+        echored "Error: Scenarios file not found at $scenarios_file" >&2
         return 1
     fi
 
-    echo -e "${YELLOW}Loading scenarios from $scenarios_file...${NC}" >&2
+    echoyel "Loading scenarios from $scenarios_file..." >&2
     SCENARIOS=$(jq -c '.' "$scenarios_file")
     if [ $? -ne 0 ]; then
-        echo -e "${RED}Error: Invalid JSON in scenarios file: $scenarios_file${NC}" >&2
+        echored "Error: Invalid JSON in scenarios file: $scenarios_file" >&2
         return 1
     fi
-    echo -e "${GREEN}✓ Scenarios loaded successfully.${NC}" >&2
+    echogrn "✓ Scenarios loaded successfully." >&2
     echo "$SCENARIOS" # Output the scenarios for main function to capture
     return 0
 }
@@ -169,20 +179,27 @@ ignore_docker_config() {
         export DOCKER_CONFIG=/tmp/docker-test-config
         mkdir -p "$DOCKER_CONFIG"
         echo '{"auths":{}}' > "$DOCKER_CONFIG/config.json"
-        echo -e "${YELLOW}Using temporary Docker config: ${DOCKER_CONFIG}/config.json${NC}"
+        echoyel "Using temporary Docker config: ${DOCKER_CONFIG}/config.json"
    fi
 }
 
 setup_test_workspace() {
     local devcontainer_dir="$TEST_WORKSPACE/.devcontainer"
     
-    echo -e "${YELLOW}Setting up test workspace...${NC}"
+    echoyel "Setting up test workspace..."
     
     # Clean up if it already exists
     rm -rf "$TEST_WORKSPACE"
     mkdir -p "$devcontainer_dir"
     
     # Write devcontainer.json
+    # TODO this devcontainer.json should be a node on each of the scenarios.json
+
+# TODO feature should be relative to the scenarios.json file
+# Try to resolve feature paths and if they're found relative to the scenarios.json dir, 
+# copy the folder to the temp workspace folder. update the feature path in the devcontainer.json 
+# to the new path relative to the temp .devcontainer folder 
+
     cat > "$devcontainer_dir/devcontainer.json" <<EOF
 {
   "image": "mcr.microsoft.com/devcontainers/base:alpine",
@@ -193,8 +210,9 @@ setup_test_workspace() {
 EOF
     
     # Validate JSON
+# TODO review this jq condition
     if ! jq empty "$devcontainer_dir/devcontainer.json" 2>/dev/null; then
-        echo -e "${RED}✗ Error: Invalid JSON in devcontainer.json${NC}"
+        echored "✗ Error: Invalid JSON in devcontainer.json" >&2
         return 1
     fi
     
@@ -205,15 +223,15 @@ EOF
     fi
     
     if [ ! -d "$FEATURE_SRC_PATH" ]; then
-        echo -e "${RED}✗ Error: Feature source not found at $FEATURE_SRC_PATH${NC}"
+        echored "✗ Error: Feature source not found at $FEATURE_SRC_PATH" >&2
         return 1
     fi
     
     cp -r "$FEATURE_SRC_PATH" "$devcontainer_dir/"
     
-    echo -e "${GREEN}✓ Created test workspace at $TEST_WORKSPACE${NC}"
-    echo -e "${GREEN}✓ Created devcontainer.json${NC}"
-    echo -e "${GREEN}✓ Copied feature from $FEATURE_SRC_PATH${NC}"
+    echogrn "✓ Created test workspace at $TEST_WORKSPACE"
+    echogrn "✓ Created devcontainer.json"
+    echogrn "✓ Copied feature from $FEATURE_SRC_PATH"
     
     if [ "$VERBOSE" = true ]; then
         echo ""
@@ -230,7 +248,7 @@ build_devcontainer() {
     local id_label="dc-test-build-$(date +%s)-$$"
     
     echo ""
-    echo -e "${YELLOW}Running devcontainer build...${NC}"
+    echoyel "Running devcontainer build..."
     echo "Workspace: $workspace_folder"
     echo "Image label: $id_label"
     echo ""
@@ -249,11 +267,11 @@ build_devcontainer() {
     fi
     
     # Clean up container image
-    echo -e "${YELLOW}Cleaning up test image...${NC}"
+    echoyel "Cleaning up test image..."
     if docker rmi -f "$id_label" 2>/dev/null; then
-        echo -e "${GREEN}✓ Image removed${NC}"
+        echogrn "✓ Image removed"
     else
-        echo -e "${YELLOW}Note: Image cleanup skipped (may not exist)${NC}"
+        echoyel "Note: Image cleanup skipped (may not exist)"
     fi
     
     return $BUILD_EXIT_CODE
@@ -278,11 +296,11 @@ run_test() {
     if [ "$expected_exit_code" -eq 0 ]; then
         # Expecting success
         if [ "$exit_code" -eq 0 ]; then
-            echo -e "${GREEN}✓ Build succeeded as expected (exit code: $exit_code)${NC}"
+            echogrn "✓ Build succeeded as expected (exit code: $exit_code)"
             test_result="expected_success"
             passed=true
         else
-            echo -e "${RED}✗ Build should have succeeded but failed (exit code: $exit_code)${NC}"
+            echored "✗ Build should have succeeded but failed (exit code: $exit_code)" >&2
             echo ""
             echo "Build output:"
             echo "$output"
@@ -291,19 +309,19 @@ run_test() {
     else
         # Expecting failure
         if [ "$exit_code" -eq 0 ]; then
-            echo -e "${RED}✗ Build should have failed but succeeded${NC}"
+            echored "✗ Build should have failed but succeeded" >&2
             test_result="unexpected_success"
         else
-            echo -e "${GREEN}✓ Build failed as expected (exit code: $exit_code)${NC}"
+            echogrn "✓ Build failed as expected (exit code: $exit_code)"
             
             # Check error message if provided
             if [ -n "$expected_message" ]; then
                 if echo "$output" | grep -q "$expected_message"; then
-                    echo -e "${GREEN}✓ Expected error message found: '$expected_message'${NC}"
+                    echogrn "✓ Expected error message found: '$expected_message'"
                     test_result="expected_fail_correct_message"
                     passed=true
                 else
-                    echo -e "${RED}✗ Expected error message not found${NC}"
+                    echored "✗ Expected error message not found" >&2
                     echo "Expected substring: '$expected_message'"
                     echo ""
                     echo "Actual output:"
@@ -322,10 +340,10 @@ run_test() {
     ((TOTAL_TESTS++))
     if [ "$passed" = true ]; then
         ((PASSED_TESTS++))
-        echo -e "${GREEN}✓ TEST PASSED${NC}"
+        echogrn "✓ TEST PASSED"
     else
         ((FAILED_TESTS++))
-        echo -e "${RED}✗ TEST FAILED${NC}"
+        echored "✗ TEST FAILED" >&2
     fi
     
     # Store result
@@ -348,12 +366,12 @@ run_scenarios() {
     local NUM_SCENARIOS
     NUM_SCENARIOS=$(echo "$SCENARIOS_JSON" | jq '. | length')
     if [ $? -ne 0 ]; then
-        echo -e "${RED}✗ Error: Invalid JSON in scenarios file: $scenarios_file${NC}" >&2
+        echored "✗ Error: Invalid JSON in scenarios file: $scenarios_file" >&2
         exit 1
     fi
 
     if [ "$NUM_SCENARIOS" -eq 0 ]; then
-        echo -e "${YELLOW}No scenarios found in $scenarios_file. Exiting.${NC}"
+        echoyel "No scenarios found in $scenarios_file. Exiting."
         return 0
     fi
 
@@ -361,7 +379,7 @@ run_scenarios() {
         local SCENARIO
         SCENARIO=$(echo "$SCENARIOS_JSON" | jq -c ".[$i]")
         if [ $? -ne 0 ]; then
-            echo -e "${RED}✗ Error: Invalid JSON in scenarios file: $scenarios_file${NC}" >&2
+            echored "✗ Error: Invalid JSON in scenarios file: $scenarios_file" >&2
             exit 1
         fi
 
@@ -408,8 +426,8 @@ print_summary() {
     echo "TEST SUMMARY"
     echo "========================================="
     echo "Total Tests: $TOTAL_TESTS"
-    echo -e "${GREEN}Passed: $PASSED_TESTS${NC}"
-    echo -e "${RED}Failed: $FAILED_TESTS${NC}"
+    echogrn "Passed: $PASSED_TESTS"
+    echored "Failed: $FAILED_TESTS" >&2
     echo ""
     
     if [ ${#TEST_RESULTS[@]} -gt 0 ]; then
@@ -433,17 +451,17 @@ print_summary() {
     
     # Return exit code based on results
     if [ $FAILED_TESTS -eq 0 ]; then
-        echo -e "${GREEN}All tests passed!${NC}"
+        echogrn "All tests passed!"
         return 0
     else
-        echo -e "${RED}Some tests failed.${NC}"
+        echored "Some tests failed." >&2
         return 1
     fi
 }
 
 cleanup() {
     if [ -d "$TEST_WORKSPACE" ]; then
-        echo -e "${YELLOW}Cleaning up test workspace...${NC}"
+        echoyel "Cleaning up test workspace..."
         rm -rf "$TEST_WORKSPACE"
     fi
 }
@@ -453,6 +471,7 @@ main() {
     # Parse command line arguments
     parse_arguments "$@"
     if [ $? -ne 0 ]; then
+        echored "Error parsing arguments" >&2
         exit 1
     fi
     
@@ -471,7 +490,8 @@ main() {
     if [ -n "$SCENARIOS_FILE" ]; then
         run_scenarios "$SCENARIOS_FILE"
     else
-        echo -e "${YELLOW}No scenarios file provided. Running single test.${NC}"
+    # TODO this shouldn't be here. scenarios file is required
+        echoyel "No scenarios file provided. Running single test."
         # Run a single test using command-line arguments
         if ! setup_test_workspace; then
             run_test \
