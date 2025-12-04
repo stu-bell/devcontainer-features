@@ -18,7 +18,7 @@ YELLOW='\033[1;33m'
 NC='\033[0m'
 
 # Default values
-IGNORE_DOCKER_CONFIG=${IGNORE_DOCKER_CONFIG:-""}
+IGNORE_DOCKER_CONFIG=${IGNORE_DOCKER_CONFIG:-false}
 FEATURE_NAME=${FEATURE_NAME:-"node"}
 FEATURE_SRC_PATH=${FEATURE_SRC_PATH:-""}
 TEST_WORKSPACE=${TEST_WORKSPACE:-"/tmp/devcontainer_test_builds"}
@@ -134,7 +134,7 @@ check_dependencies() {
         need_deps="Docker \nInstall: https://docker.com"
     fi
     if [ "$need_deps" != "" ]; then
-        echo -e "${RED}Dependency not found: ${need_deps}${NC}"
+        echo -e "${RED}Error: Dependency not found: ${need_deps}${NC}"
         exit 1
     fi
     return 0
@@ -144,19 +144,19 @@ load_scenarios() {
     local scenarios_file="$1"
 
     if [ -z "$scenarios_file" ]; then
-        echo "Error: No scenarios file provided." >&2
+        echo "${RED}Error: No scenarios file provided.${NC}" >&2
         return 1
     fi
 
     if [ ! -f "$scenarios_file" ]; then
-        echo -e "${RED}✗ Error: Scenarios file not found at $scenarios_file${NC}" >&2
+        echo -e "${RED}Error: Scenarios file not found at $scenarios_file${NC}" >&2
         return 1
     fi
 
     echo -e "${YELLOW}Loading scenarios from $scenarios_file...${NC}" >&2
     SCENARIOS=$(jq -c '.' "$scenarios_file")
     if [ $? -ne 0 ]; then
-        echo -e "${RED}✗ Error: Invalid JSON in scenarios file: $scenarios_file${NC}" >&2
+        echo -e "${RED}Error: Invalid JSON in scenarios file: $scenarios_file${NC}" >&2
         return 1
     fi
     echo -e "${GREEN}✓ Scenarios loaded successfully.${NC}" >&2
@@ -165,7 +165,7 @@ load_scenarios() {
 }
 
 ignore_docker_config() {
-   if [[ "$IGNORE_DOCKER_CONFIG" == "true" ]] || [[ "$IGNORE_DOCKER_CONFIG" == "1" ]]; then
+   if [ "$IGNORE_DOCKER_CONFIG" = true ]; then
         export DOCKER_CONFIG=/tmp/docker-test-config
         mkdir -p "$DOCKER_CONFIG"
         echo '{"auths":{}}' > "$DOCKER_CONFIG/config.json"
