@@ -46,10 +46,12 @@ mv nvim-linux-x86_64.appimage /opt/nvim/nvim
 # add to path: /opt/nvim/
 
 # Verify installation
-if command -v nvim  > /dev/null 2>&1; then
+if nvim -v > /dev/null 2>&1; then
 	echo -e "Neovim installed successfully: \n$(nvim -v)"
 else
-    echo -e "ERROR: Failed to install Neovim. See https://neovim.io/doc/install/#linux"
-    exit 1
+	echo "ERROR: Failed to install or run Neovim. See https://neovim.io/doc/install/#linux"
+	echo "Attempting to run nvim -v for diagnostics:"
+	nvim -v 2>&1 || true # || true waits until explicit exit
+	exit 1
 fi
 
