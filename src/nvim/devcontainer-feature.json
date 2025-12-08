@@ -1,0 +1,24 @@
+{
+    // TODO make config mount source configurable
+    "name": "Neovim",
+    "id": "neovim",
+    "version": "0.1.0",
+    "description": "Installs Neovim Editor. See neovim.io",
+    "installsAfter": [
+        "ghcr.io/devcontainers/features/common-utils"
+    ],
+    "containerEnv": {
+        // update config home for neovim. Alternatively, symlink: "postCreateCommand": "ln -sf /config/nvim ~/.config/nvim",
+        "XDG_CONFIG_HOME": "/config",
+        // add install location to path
+        "PATH": "$PATH:/opt/nvim"
+    },
+    "mounts": [
+        // mount host nvim config to container
+        // Note: nvim may hang for a few minutes when initially loading plugins. Use `nvim --noplugin` or disable unneeded plugins
+        // LINUX HOST: replace source with your host nvim config location
+        // "source=${localEnv:HOME}/.config/nvim/,target=/config/nvim,type=bind",
+        // WINDOWS HOST: replace source with your host nvim config location
+        "source=${localEnv:LOCALAPPDATA}/nvim/,target=/config/nvim,type=bind"
+    }
+}
