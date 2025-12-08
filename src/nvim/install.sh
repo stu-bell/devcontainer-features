@@ -31,7 +31,7 @@ elif [ "${ID}" = "debian" ] || \
 	/bin/bash "$(dirname $0)/install-deb.sh" "$@"
 else
 # this script does not install for the current distro
-	echo "Unsupported Linux distribution (${ID}/${ID_LIKE}) for Node.js installation via this feature. Please use an appropriate script or devcontainer feature to install Node.js for your system."
+	echo "Unsupported Linux distribution (${ID}/${ID_LIKE})"
 	echo "Attempting appimage installation..."
 	/bin/bash "$(dirname $0)/install-appimage.sh" "$@"
 fi
@@ -51,7 +51,7 @@ fi
 if [ -n "$CONFIG_GIT_URL" ]; then
 	# check git installed
 	if ! command -v git >/dev/null 2>&1; then
-		echo "${RED}ERROR: configGitUrl specified but git is not installed."
+		echo "${RED}ERROR: CONFIG_GIT_URL specified but git is not installed."
 		echo "Install git by including devcontainer feature: ghcr.io/devcontainers/features/common-utils${NC}"
 		exit 1
 	fi

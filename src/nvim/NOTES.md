@@ -2,10 +2,7 @@
 
 Devcontainer feature option `CONFIG_GIT_URL` takes a URL pointing to a public git repository to be cloned to the container.
 
-The default location for the config can be changed using feature option `XDG_CONFIG_HOME`.
-
-```
-
+```devcontainer.json
 {
     "image": "mcr.microsoft.com/devcontainers/base:alpine",
     "features": {
@@ -29,7 +26,7 @@ The default mount source locations for Neovim are:
 
 If your local Neovim config is stored somewhere else, use that folder path.
 
-This feature sets `XDG_CONFIG_HOME` in feature options. This defaults to `/config`, so the mount target should be `/config/nvim`.
+This feature sets `XDG_CONFIG_HOME` in feature containerEnv to `/config`. So the mount target should be `/config/nvim`.
 
 
 **Example devcontainer.json for Linux / MacOS host:**
