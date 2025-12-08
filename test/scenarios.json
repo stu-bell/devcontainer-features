@@ -1,7 +1,6 @@
 [
   {
     "name": "Successful build",
-
     "expected_exit_code": 0,
     "expected_output": "",
     "devcontainer": {
@@ -12,8 +11,7 @@
     }
   },
   {
-    "name": "Failed build - invalid feature name",
-
+    "name": "Failed build, ",
     "expected_exit_code": 1,
     "expected_output": "demonstrate a build error",
     "devcontainer": {
