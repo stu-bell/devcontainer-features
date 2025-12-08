@@ -32,7 +32,7 @@ fi
 # Detect architecture
 # https://learn.microsoft.com/en-us/windows/msix/package/device-architecture
 arch=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/x86_64/)
-if [[ "$arch" != "x86_64" && "$arch" != "aarch64" ]]; then
+if [ "$arch" != "x86_64" ] && [ "$arch" != "aarch64" ]; then
   echo -e "${RED}ERROR: Unsupported architecture '$arch'. Only x86_64 and aarch64 (ARM64) are supported."
   exit 1
 fi
