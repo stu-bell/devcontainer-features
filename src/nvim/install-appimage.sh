@@ -1,3 +1,7 @@
+#!/bin/sh
+# Copyright (c) Stuart Bell 
+# Licensed under the MIT License. See https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE for license information.
+set -e
 # Detect architecture
 # https://learn.microsoft.com/en-us/windows/msix/package/device-architecture
 arch=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/x86_64/)
@@ -13,3 +17,4 @@ chmod u+x nvim-linux-${arch}.appimage
 mkdir -p /opt/nvim
 mv nvim-linux-x86_64.appimage /opt/nvim/nvim
 # add to path: /opt/nvim/
+#

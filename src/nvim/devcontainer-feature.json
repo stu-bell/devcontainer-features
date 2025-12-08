@@ -1,5 +1,4 @@
 {
-    // TODO make config mount source configurable
     "name": "Neovim",
     "id": "neovim",
     "version": "0.1.0",
@@ -7,18 +6,18 @@
     "installsAfter": [
         "ghcr.io/devcontainers/features/common-utils"
     ],
-    "containerEnv": {
-        // update config home for neovim. Alternatively, symlink: "postCreateCommand": "ln -sf /config/nvim ~/.config/nvim",
-        "XDG_CONFIG_HOME": "/config",
-        // add install location to path
-        "PATH": "$PATH:/opt/nvim"
+    "options": {
+        "CONFIG_GIT_URL": {
+            "type": "string",
+            "default": "",
+            "description": "Optional URL to a public Git repository for Neovim config, cloned during feature install to ${XDG_CONFIG_HOME}/nvim."
+        }
     },
-    "mounts": [
-        // mount host nvim config to container
-        // Note: nvim may hang for a few minutes when initially loading plugins. Use `nvim --noplugin` or disable unneeded plugins
-        // LINUX HOST: replace source with your host nvim config location
-        // "source=${localEnv:HOME}/.config/nvim/,target=/config/nvim,type=bind",
-        // WINDOWS HOST: replace source with your host nvim config location
-        "source=${localEnv:LOCALAPPDATA}/nvim/,target=/config/nvim,type=bind"
-    ]
+    "containerEnv": {
+        // Path Neovim checks for config. Defaults to a shared location since feature installs as root, which isn't necessarily the devcontainer user.
+        "XDG_CONFIG_HOME": "/config",
+        // add appimage install location to path
+        "PATH": "$PATH:/opt/nvim"
+    }
 }
+

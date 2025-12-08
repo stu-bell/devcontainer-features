@@ -5,3 +5,4 @@ set -e
 echo "Installing Neovim on Alpine Linux via apk..."
 apk update
 apk add --no-cache neovim
+
