@@ -2,11 +2,11 @@
 #
 # Tests devcontainer.json configurations to verify they build successfully or fail
 # with expected error messages.
-# 
 #
-# test/test-builds.sh -s test/scenarios.json --blank-docker-config
-
-
+# Copyright (c) Stuart Bell
+# Licensed under the MIT License. See https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE for license information.
+#
+# Run with flag --help for help message
 
 # TODO after all tests are complete, display a summary of: test name, test result, build result, if the expected output was found, the expeted output being searched for if it was not found.
 # TODO option to provide a list of one or more scenario names to run. Other scenarios in the json should be skipped for this run.
@@ -19,7 +19,6 @@
 # TODO include a test-script property on each scenario which includes a path to a test script for that scenario. Multiple scenarios might share the same test. Script should exit 0 to pass, 1 to fail
 # TODO accept an array of expected output strings to test for, all should be present
 # TODO accept non-local features (current behaviour is to treat feature as a local path and copy the folder)
-#
 
 show_help() {
   echo "Usage: $(basename "$0") [OPTIONS]"
