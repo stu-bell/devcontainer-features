@@ -1,9 +1,10 @@
-# TODO 
+# OS Support
 
-App image seems to be working on debian.
-Will it work on alpine? although apk works.
+Tested on Alpine/Ubuntu/Debian base images.
 
+Alpine: installs via [apk](apk).
 
+Anything else: attempts install via [AppImage](https://neovim.io/doc/install/#appimage-universal-linux-package).
 
 # Clone Neovim config from Git repository
 
