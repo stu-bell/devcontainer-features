@@ -13,6 +13,7 @@ Devcontainer feature option `CONFIG_GIT_URL` takes a URL pointing to a public gi
 }
 ```
 
+If you need to clone config to a different location, you'll need to set feature option CONFIG_LOCATION *and* ensure containerEnv:XDG_CONFIG_HOME is set to the same value in your devcontainer.json.
 
 
 # Local Neovim config

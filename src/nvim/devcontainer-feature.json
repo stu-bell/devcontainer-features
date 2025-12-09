@@ -10,7 +10,11 @@
         "CONFIG_GIT_URL": {
             "type": "string",
             "default": "",
-            "description": "Optional URL to a public Git repository for Neovim config, cloned during feature install to ${XDG_CONFIG_HOME}/nvim."
+            "description": "Optional URL to a public Git repository for Neovim config, cloned during feature install to ${CONFIG_LOCATION}/nvim."
+        },
+        "CONFIG_LOCATION": {
+            "type": "string",
+            "default": "/config"
         }
     },
     "containerEnv": {

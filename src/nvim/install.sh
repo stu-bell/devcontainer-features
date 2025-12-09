@@ -58,7 +58,7 @@ if [ -n "$CONFIG_GIT_URL" ]; then
 
 	# clone the config
 	echo "Cloning from $CONFIG_GIT_URL..."
-	mkdir -p "$(dirname "$XDG_CONFIG_HOME")"
-	GIT_TERMINAL_PROMPT=0 git clone --depth 1 "$CONFIG_GIT_URL" "${XDG_CONFIG_HOME}/nvim"
+	mkdir -p $CONFIG_LOCATION
+	GIT_TERMINAL_PROMPT=0 git clone --depth 1 "$CONFIG_GIT_URL" "${CONFIG_LOCATION}/nvim"
 fi
 
