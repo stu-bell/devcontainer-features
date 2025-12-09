@@ -28,29 +28,30 @@ fi
 . /etc/os-release
 # Alpine
 if [ "${ID}" = "alpine" ]; then
-     exec /bin/sh "$(dirname "$0")/install-alp.sh" "$@"
+     /bin/sh "$(dirname "$0")/install-alp.sh" "$@"
 # Debian, Ubuntu
 elif [ "${ID}" = "debian" ] || \
      [ "${ID_LIKE}" = "debian" ];  then
-     exec /bin/bash "$(dirname $0)/install-deb.sh" "$@"
+     /bin/bash "$(dirname $0)/install-deb.sh" "$@"
 
 else
 # this script does not install for the current distro
-  echo "ERROR: Unsupported Linux distribution (${ID}/${ID_LIKE}) for Node.js installation via this feature. Please use an appropriate script or devcontainer feature to install Node.js for your system."
+  feature="Node.js"
+  echo "ERROR: Unsupported Linux distribution (${ID}/${ID_LIKE}) for ${feature} installation via this feature. Please use an appropriate script or devcontainer feature to install ${feature} for your system."
 fi
 
 # validate node install
-if command -v node > /dev/null 2>&1 ; then
+if node -v > /dev/null 2>&1 ; then
   CURRENT_VERSION=$(node -v)
   CURRENT_MAJOR=$(echo "$CURRENT_VERSION" | cut -c2- | cut -d. -f1)
   if [ "$CURRENT_MAJOR" -ge "$NODE_MIN_MAJOR_VERSION" ]; then
     echo "Installation complete: Node.js $CURRENT_VERSION"
-    exit 0
   else
     echo "WARNING: Attempted to install Node.js v${NODE_MIN_MAJOR_VERSION} but installed version ${CURRENT_VERSION}."
   fi
 else
     echo "ERROR: Could not install Node.js."
+    node -v
     exit 1
 fi
 

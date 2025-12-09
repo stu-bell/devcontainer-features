@@ -2,8 +2,10 @@
 #
 # Tests devcontainer.json configurations to verify they build successfully or fail
 # with expected error messages.
-# Currently tests a single scenario - designed to be extended to loop over multiple scenarios.
+# 
+#
 # test/test-builds.sh -s test/scenarios.json --blank-docker-config
+#
 
 set -e
 #
@@ -14,6 +16,9 @@ set -e
 # TODO add option to generate template scenarios.json, which just outputs a starter scenarios.json  that the user can save to a file and fill in. 
 # TODO if scenarios.json param is blank, or resolves to a non existant, or invalid file, output a message explaining where the file should be and give an example of how it should look. If we've included the option to generate a blank scenarios.json, provide the command to do that
 # TODO change expected message on  scenarios to expected output, which should be tested for in the output regardless of build success or failure, since we may want to test for an expected output message in a successful build. only test if the expeced_output  key is present and not a blank string. 
+# TODO pass grep options for testing expected output
+# TODO include a test-script property on each scenario which includes a path to a test script for that scenario. Multiple scenarios might share the same test. Script should exit 0 to pass, 1 to fail
+# TODO accept an array of expected output strings to test for, all should be present
 
 # Default values
 IGNORE_DOCKER_CONFIG=${IGNORE_DOCKER_CONFIG:-false}
@@ -30,8 +35,6 @@ declare -a TEST_RESULTS=()
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-NC='\033[0m'
 echored() {
     echo -e "${RED}$@${NC}"
 }
@@ -48,7 +51,7 @@ show_help() {
   echo "Tests a devcontainer.json configuration by building it and verifying the result."
   echo ""
   echo "Options:"
-  echo "  --scenarios-file <path>          Path to a JSON file containing multiple test scenarios"
+  echo "  -s, --scenarios-file <path>          Path to a JSON file containing multiple test scenarios"
   echo "  --test-workspace-path <path>     Test workspace path (default: /tmp/devcontainer_test_builds)"
   echo "  --quiet                          Suppress build outputs unless a test fails"
   echo "  --blank-docker-config            Use a blank Docker configuration: {"auths":{}}"
