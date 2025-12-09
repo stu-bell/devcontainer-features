@@ -2,19 +2,34 @@
 # Copyright (c) Stuart Bell 
 # Licensed under the MIT License. See https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE for license information.
 set -e
-# Detect architecture
-# https://learn.microsoft.com/en-us/windows/msix/package/device-architecture
-arch=$(arch | sed s/aarch64/arm64/ | sed s/x86_64/x86_64/)
-if [ "$arch" != "x86_64" ] && [ "$arch" != "aarch64" ]; then
-  echo -e "${RED}ERROR: Unsupported architecture '$arch'. Only x86_64 and aarch64 (ARM64) are supported."
-  exit 1
-fi
 
-# Install
-echo -e "Installing neovim via appimage: https://neovim.io/doc/install/#appimage-universal-linux-package"
+# Detect architecture and normalize
+arch=$(uname -m)
+case "$arch" in
+  x86_64)
+    arch="x86_64"
+    ;;
+  aarch64|arm64)
+    arch="arm64"
+    ;;
+  *)
+    echo "ERROR: Unsupported architecture '$arch'. Only x86_64 and arm64 are supported."
+    exit 1
+    ;;
+esac
+
+echo "Installing neovim via appimage: https://neovim.io/doc/install/#appimage-universal-linux-package"
 curl -LO "https://github.com/neovim/neovim/releases/latest/download/nvim-linux-${arch}.appimage"
-chmod u+x nvim-linux-${arch}.appimage
+chmod u+x "nvim-linux-${arch}.appimage"
+# /dev/null to reduce noise
+"./nvim-linux-${arch}.appimage" --appimage-extract > /dev/null
+
+# Move extracted files to /opt/nvim
 mkdir -p /opt/nvim
-mv nvim-linux-x86_64.appimage /opt/nvim/nvim
-# add to path: /opt/nvim/
-#
+mv squashfs-root /opt/nvim/
+ln -sf /opt/nvim/squashfs-root/usr/bin/nvim /usr/local/bin/nvim
+
+# Clean up
+rm "nvim-linux-${arch}.appimage"
+
+echo "Neovim installed successfully."

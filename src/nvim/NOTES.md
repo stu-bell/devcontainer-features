@@ -1,3 +1,10 @@
+# TODO 
+
+App image seems to be working on debian.
+Will it work on alpine? although apk works.
+
+
+
 # Clone Neovim config from Git repository
 
 Devcontainer feature option `CONFIG_GIT_URL` takes a URL pointing to a public git repository to be cloned to the container.

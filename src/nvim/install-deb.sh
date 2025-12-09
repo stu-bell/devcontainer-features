@@ -28,5 +28,5 @@ make CMAKE_BUILD_TYPE=RelWithDebInfo CMAKE_INSTALL_PREFIX=/usr/local/nvim
 sudo make install
 ln -sf /usr/local/nvim/bin/nvim /usr/local/bin/nvim
 
-# rm -rf /tmp/neovim
+rm -rf /tmp/neovim
 

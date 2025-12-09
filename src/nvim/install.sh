@@ -28,7 +28,8 @@ if [ "${ID}" = "alpine" ]; then
 # Debian, Ubuntu
 elif [ "${ID}" = "debian" ] || \
      [ "${ID_LIKE}" = "debian" ];  then
-	/bin/bash "$(dirname $0)/install-deb.sh" "$@"
+	# /bin/bash "$(dirname $0)/install-deb.sh" "$@"
+	/bin/bash "$(dirname $0)/install-appimage.sh" "$@"
 else
 # this script does not install for the current distro
 	echo "${RED}Unsupported Linux distribution (${ID}/${ID_LIKE}) for Neovim installation.${NC}"
