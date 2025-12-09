@@ -15,6 +15,15 @@
             "default": "hey",
             "description": "Select a pre-made greeting, or enter your own"
         }
+        "forceBuildError": {
+            "type":"string", 
+            "default": false,
+            "proposals": [
+                true,
+                false
+            ],
+            "description": "If true, forces a build error, for demonstrating test-builds.sh"
+        }
     },
     "installsAfter": [
         "ghcr.io/devcontainers/features/common-utils"

@@ -1,0 +1,67 @@
+[
+  {
+    "name": "Build on alpine",
+    "expected_exit_code": 0,
+    "expected_output": "Installation complete: Node.js v22",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:alpine",
+      "features": {
+        "../../src/node": {
+          "node_min_major_version": "22"
+        }
+      }
+    }
+  },
+  {
+    "name": "Build on Ubuntu",
+    "expected_exit_code": 0,
+    "expected_output": "Installation complete: Node.js v22",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+      "features": {
+        "../../src/node": {
+          "node_min_major_version": "22"
+        }
+      }
+    }
+  },
+  {
+    "name": "Build on Debian - already installed",
+    "expected_exit_code": 0,
+    "expected_output": "Found already installed: Node.js v18",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/javascript-node:1-18-bookworm",
+      "features": {
+        "../../src/node": {
+          "node_min_major_version": "18"
+        }
+      }
+    }
+  },
+  {
+    "name": "Build on debian - upgrade required",
+    "expected_exit_code": 0,
+    "expected_output": "installed but version 22.x or higher is required",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/javascript-node:1-18-bookworm",
+      "features": {
+        "../../src/node": {
+          "node_min_major_version": "22"
+        }
+      }
+    }
+  },
+  {
+    "name": "Demo build error",
+    "expected_exit_code": 1,
+    "expected_output": "demonstrate a build error",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:alpine",
+      "features": {
+        "../../src/hello": {
+          "forceBuildError": true
+        }
+      }
+    }
+  }
+]

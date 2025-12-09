@@ -1,0 +1,48 @@
+[
+  {
+    "name": "Build on alpine",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:alpine",
+      "features": {
+        "../../src/nvim": {}
+      }
+    }
+  },
+  {
+    "name": "Build on Ubuntu",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+      "features": {
+        "../../src/nvim": {}
+      }
+    }
+  },
+  {
+    "name": "Build on debian",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:debian",
+      "features": {
+        "../../src/nvim": {}
+      }
+    }
+  },
+  {
+    "name": "Demo build error",
+    "expected_exit_code": 1,
+    "expected_output": "demonstrate a build error",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:alpine",
+      "features": {
+        "../src/hello": {
+          "forceBuildError": true
+        }
+      }
+    }
+  }
+]

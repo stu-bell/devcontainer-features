@@ -1,0 +1,25 @@
+{
+    "name": "Neovim",
+    "id": "neovim",
+    "version": "0.1.0",
+    "description": "Installs Neovim Editor. See neovim.io",
+    "installsAfter": [
+        "ghcr.io/devcontainers/features/common-utils"
+    ],
+    "options": {
+        "CONFIG_GIT_URL": {
+            "type": "string",
+            "default": "",
+            "description": "Optional URL to a public Git repository for Neovim config, cloned during feature install to ${CONFIG_LOCATION}/nvim."
+        },
+        "CONFIG_LOCATION": {
+            "type": "string",
+            "default": "/config"
+        }
+    },
+    "containerEnv": {
+        // Path Neovim checks for config. Defaults to a shared location since feature installs as root, which isn't necessarily the devcontainer user.
+        "XDG_CONFIG_HOME": "/config"
+    }
+}
+
