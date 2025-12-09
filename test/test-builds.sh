@@ -5,10 +5,9 @@
 # 
 #
 # test/test-builds.sh -s test/scenarios.json --blank-docker-config
-#
 
-set -e
-#
+
+
 # TODO after all tests are complete, display a summary of: test name, test result, build result, if the expected output was found, the expeted output being searched for if it was not found.
 # TODO option to provide a list of one or more scenario names to run. Other scenarios in the json should be skipped for this run.
 # TODO when loading scenarios.json, ensure that there are no objects in the array with matching name keys, error if so
@@ -19,12 +18,70 @@ set -e
 # TODO pass grep options for testing expected output
 # TODO include a test-script property on each scenario which includes a path to a test script for that scenario. Multiple scenarios might share the same test. Script should exit 0 to pass, 1 to fail
 # TODO accept an array of expected output strings to test for, all should be present
+# TODO accept non-local features (current behaviour is to treat feature as a local path and copy the folder)
+#
+
+show_help() {
+  echo "Usage: $(basename "$0") [OPTIONS]"
+  echo ""
+  echo "Tests a devcontainer.json configuration by building it and verifying the result."
+  echo ""
+  echo "Options:"
+  echo "  -s, --scenarios-file <path>      Path to a JSON file containing multiple test scenarios"
+  echo "  -g, --generate-sample            Output sample scenarios.json"
+  echo "  --test-workspace-path <path>     Test workspace path (default: /tmp/devcontainer_test_builds)"
+  echo "  --quiet                          Suppress build outputs unless a test fails"
+  echo "  --blank-docker-config            Use a blank Docker configuration: {"auths":{}}"
+  echo "  -h, --help                       Show this help message"
+  echo ""
+  echo "Examples:"
+  echo "  # Test scenarios in test/scenarios.json"
+  echo "  $(basename "$0") --scenarios-file test/scenarios.json"
+  echo ""
+  echo "  # Generate a sample scenarios.json"
+  echo "  $(basename "$0") --generate-sample"
+  echo ""
+}
+
+# Help string produced with --generate-sample
+sample_json=$(cat << 'EOF'
+[
+  {
+    "name": "Demo build success",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:alpine",
+      "features": {
+        "../src/hello": {}
+      }
+    }
+  },
+  {
+    "name": "Demo build error",
+    "expected_exit_code": 1,
+    "expected_output": "demonstrate a build error",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:alpine",
+      "features": {
+        "../src/hello": {
+          "forceBuildError": true
+        }
+      }
+    }
+  }
+]
+EOF
+)
+
+set -e
 
 # Default values
 IGNORE_DOCKER_CONFIG=${IGNORE_DOCKER_CONFIG:-false}
 TEST_WORKSPACE=${TEST_WORKSPACE:-"/tmp/devcontainer_test_builds"}
 SCENARIOS_FILE=${SCENARIOS_FILE:-""}
 VERBOSE=${VERBOSE:-true}
+GENERATE_SAMPLE=${GENERATE_SAMPLE:-false}
 
 # Test tracking
 TOTAL_TESTS=0
@@ -43,24 +100,6 @@ echogrn() {
 }
 echoyel() {
     echo -e "${YELLOW}$@${NC}"
-}
-
-show_help() {
-  echo "Usage: $(basename "$0") [OPTIONS]"
-  echo ""
-  echo "Tests a devcontainer.json configuration by building it and verifying the result."
-  echo ""
-  echo "Options:"
-  echo "  -s, --scenarios-file <path>          Path to a JSON file containing multiple test scenarios"
-  echo "  --test-workspace-path <path>     Test workspace path (default: /tmp/devcontainer_test_builds)"
-  echo "  --quiet                          Suppress build outputs unless a test fails"
-  echo "  --blank-docker-config            Use a blank Docker configuration: {"auths":{}}"
-  echo "  -h, --help                       Show this help message"
-  echo ""
-  echo "Examples:"
-  echo "  # Test a successful build"
-  echo "  $(basename "$0") --scenarios-file test/scenarios.json"
-  echo ""
 }
 
 parse_arguments() {
@@ -86,6 +125,10 @@ parse_arguments() {
         VERBOSE=false
         shift
         ;;
+      -g|--generate-sample)
+        GENERATE_SAMPLE=true
+        shift
+        ;;
       --blank-docker-config)
         IGNORE_DOCKER_CONFIG=true
         shift
@@ -102,8 +145,6 @@ parse_arguments() {
     esac
   done
 }
-
-
 
 check_dependencies() {
     local need_deps=""
@@ -465,6 +506,12 @@ main() {
     if [ $? -ne 0 ]; then
         echored "Error parsing arguments" >&2
         exit 1
+    fi
+
+    # sample scnearios.json
+    if $GENERATE_SAMPLE ; then
+        echo "$sample_json"
+        exit 0
     fi
     
     # Check dependencies
