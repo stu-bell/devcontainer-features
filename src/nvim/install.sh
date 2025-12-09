@@ -31,9 +31,7 @@ elif [ "${ID}" = "debian" ] || \
 	/bin/bash "$(dirname $0)/install-deb.sh" "$@"
 else
 # this script does not install for the current distro
-	echo "Unsupported Linux distribution (${ID}/${ID_LIKE})"
-	echo "Attempting appimage installation..."
-	/bin/bash "$(dirname $0)/install-appimage.sh" "$@"
+	echo "${RED}Unsupported Linux distribution (${ID}/${ID_LIKE}) for Neovim installation.${NC}"
 fi
 
 # Verify installation
