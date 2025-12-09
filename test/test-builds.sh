@@ -8,17 +8,21 @@
 #
 # Run with flag --help for help message
 
-# TODO after all tests are complete, display a summary of: test name, test result, build result, if the expected output was found, the expeted output being searched for if it was not found.
-# TODO option to provide a list of one or more scenario names to run. Other scenarios in the json should be skipped for this run.
+# NOTE this test script just builds a devcontainer image and installs the feature. It does not start and execute any feature command.
+# To test that a feature command works, a lightweight validation step can be added at the end of the feature install.sh that test runs the command, eg by invoking the command with a --version flag.
+# This will cause the build step to fail if the command has not installed correctly and can be used for testing. 
+# However, this approach will not necessarily catch issues where the installation is only accessible to the root user.
+
+# TODO option to provide a list of one or more scenario names to run. Other scenarios in the json should be skipped for this run. --include <list of scenario names> error if an included scenario name is not found in scenarios.json
 # TODO when loading scenarios.json, ensure that there are no objects in the array with matching name keys, error if so
 # TODO add optional scenario description to scenarios.json, to print alongside tests that fail, if the description is provided
-# TODO add option to generate template scenarios.json, which just outputs a starter scenarios.json  that the user can save to a file and fill in. 
-# TODO if scenarios.json param is blank, or resolves to a non existant, or invalid file, output a message explaining where the file should be and give an example of how it should look. If we've included the option to generate a blank scenarios.json, provide the command to do that
-# TODO change expected message on  scenarios to expected output, which should be tested for in the output regardless of build success or failure, since we may want to test for an expected output message in a successful build. only test if the expeced_output  key is present and not a blank string. 
-# TODO pass grep options for testing expected output
-# TODO include a test-script property on each scenario which includes a path to a test script for that scenario. Multiple scenarios might share the same test. Script should exit 0 to pass, 1 to fail
+# TODO if scenarios.json param is blank, or resolves to a non existant, or invalid file, output a message explaining where the file should be and rerun with --generate-example to see an example
 # TODO accept an array of expected output strings to test for, all should be present
+# TODO pass grep options for testing expected output
 # TODO accept non-local features (current behaviour is to treat feature as a local path and copy the folder)
+# TODO include a test-script property on each scenario which includes a path to a test script for that scenario. Multiple scenarios might share the same test. Script should exit 0 to pass, 1 to fail
+# TODO option to test starting and executing a test script in the started dev container (rather than just building the image)
+# TODO include other .devcontainer/* artifacts (eg docker compose or docker file), for testing .devcontainer config, not just devcontainer features
 
 show_help() {
   echo "Usage: $(basename "$0") [OPTIONS]"
@@ -27,7 +31,7 @@ show_help() {
   echo ""
   echo "Options:"
   echo "  -s, --scenarios-file <path>      Path to a JSON file containing multiple test scenarios"
-  echo "  -g, --generate-sample            Output sample scenarios.json"
+  echo "  -g, --generate-example            Output example scenarios.json"
   echo "  --test-workspace-path <path>     Test workspace path (default: /tmp/devcontainer_test_builds)"
   echo "  --quiet                          Suppress build outputs unless a test fails"
   echo "  --blank-docker-config            Use a blank Docker configuration: {"auths":{}}"
@@ -37,12 +41,12 @@ show_help() {
   echo "  # Test scenarios in test/scenarios.json"
   echo "  $(basename "$0") --scenarios-file test/scenarios.json"
   echo ""
-  echo "  # Generate a sample scenarios.json"
-  echo "  $(basename "$0") --generate-sample"
+  echo "  # Generate a example scenarios.json"
+  echo "  $(basename "$0") --generate-example"
   echo ""
 }
 
-# Help string produced with --generate-sample
+# Help string produced with --generate-example
 sample_json=$(cat << 'EOF'
 [
   {
@@ -126,7 +130,7 @@ parse_arguments() {
         VERBOSE=false
         shift
         ;;
-      -g|--generate-sample)
+      -g|--generate-example)
         GENERATE_SAMPLE=true
         shift
         ;;
@@ -510,7 +514,7 @@ main() {
         exit 1
     fi
 
-    # sample scnearios.json
+    # example scnearios.json
     if $GENERATE_SAMPLE ; then
         echo "$sample_json"
         exit 0
