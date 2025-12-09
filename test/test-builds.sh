@@ -230,10 +230,10 @@ build_devcontainer() {
     local id_label="dc-test-build-$(date +%s)-$$"
     
     echo ""
-    echoyel "Running devcontainer build..."
     echo "Workspace: $workspace_folder"
     echo "Image label: $id_label"
     echo ""
+    echoyel "Running devcontainer build..."
     
     # Capture build output and exit code
     BUILD_OUTPUT=$(devcontainer build --no-cache --image-name "$id_label" --workspace-folder "$workspace_folder" 2>&1)
@@ -492,3 +492,4 @@ main() {
 
 # Run main function
 main "$@"
+
