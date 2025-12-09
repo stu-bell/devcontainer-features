@@ -227,6 +227,7 @@ setup_test_workspace() {
             
             if [ ! -d "$real_feature_path" ]; then
                 echored "✗ Error: Feature source not found for '$feature_path' (resolved to '$real_feature_path')" >&2
+                echo "Feature path is the path to the local feature src folder, relative to the scenarios.json file. eg: ../../src/myfeature" >&2
                 return 1
             fi
             
