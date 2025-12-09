@@ -19,9 +19,7 @@
     },
     "containerEnv": {
         // Path Neovim checks for config. Defaults to a shared location since feature installs as root, which isn't necessarily the devcontainer user.
-        "XDG_CONFIG_HOME": "/config",
-        // add appimage install location to path
-        "PATH": "$PATH:/opt/nvim"
+        "XDG_CONFIG_HOME": "/config"
     }
 }
 
