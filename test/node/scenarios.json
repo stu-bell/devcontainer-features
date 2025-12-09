@@ -6,7 +6,7 @@
     "devcontainer": {
       "image": "mcr.microsoft.com/devcontainers/base:alpine",
       "features": {
-        "../src/node": {}
+        "../../src/node": {}
       }
     }
   },
@@ -17,7 +17,7 @@
     "devcontainer": {
       "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
       "features": {
-        "../src/node": {}
+        "../../src/node": {}
       }
     }
   },
@@ -28,7 +28,7 @@
     "devcontainer": {
       "image": "mcr.microsoft.com/devcontainers/base:debian",
       "features": {
-        "../src/node": {}
+        "../../src/node": {}
       }
     }
   },
@@ -39,7 +39,7 @@
     "devcontainer": {
       "image": "mcr.microsoft.com/devcontainers/base:alpine",
       "features": {
-        "../src/hello": {
+        "../../src/hello": {
           "forceBuildError": true
         }
       }
