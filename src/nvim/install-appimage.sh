@@ -32,4 +32,3 @@ ln -sf /opt/nvim/squashfs-root/usr/bin/nvim /usr/local/bin/nvim
 # Clean up
 rm "nvim-linux-${arch}.appimage"
 
-echo "Neovim installed successfully."
