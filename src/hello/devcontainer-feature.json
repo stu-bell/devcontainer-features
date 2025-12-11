@@ -11,10 +11,8 @@
                 "hello",
                 "hi",
                 "howdy"
-            ],
-            "default": "hey",
-            "description": "Select a pre-made greeting, or enter your own"
-        }
+            ]
+        },
         "forceBuildError": {
             "type":"string", 
             "default": false,
