@@ -15,12 +15,8 @@
             ]
         },
         "forceBuildError": {
-            "type":"string", 
+            "type": "boolean",
             "default": false,
-            "proposals": [
-                true,
-                false
-            ],
             "description": "If true, forces a build error, for demonstrating test-builds.sh"
         }
     },
