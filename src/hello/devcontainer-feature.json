@@ -6,6 +6,7 @@
     "options": {
         "greeting": {
             "type": "string",
+            "default": "hello",
             "proposals": [
                 "hey",
                 "hello",
