@@ -15,10 +15,11 @@ A hello world feature
 
 | Options Id | Description | Type | Default Value |
 |-----|-----|-----|-----|
-| greeting | Select a pre-made greeting, or enter your own | string | hey |
+| greeting | - | string | hello |
+| forceBuildError | If true, forces a build error, for demonstrating test-builds.sh | boolean | false |
 
 
 
 ---
 
-_Note: This file was auto-generated from the [devcontainer-feature.json](devcontainer-feature.json).  Add additional notes to a `NOTES.md`._
+_Note: This file was auto-generated from the [devcontainer-feature.json](https://github.com/stu-bell/devcontainer-features/blob/main/src/hello/devcontainer-feature.json).  Add additional notes to a `NOTES.md`._
