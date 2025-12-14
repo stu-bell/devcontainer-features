@@ -1,34 +1,54 @@
-{
-  "geminicli-ubuntu": {
-    "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
-    "features": {
-      "geminicli": {
-        "node_min_major_version": "24"
+[
+  {
+    "name": "Build on alpine",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:alpine",
+      "features": {
+        "../../src/geminicli": {
+          "node_min_major_version": "20"
+        }
       }
     }
   },
-  "geminicli-node": {
-    "image": "mcr.microsoft.com/devcontainers/javascript-node:18",
-    "features": {
-      "geminicli": {}
+  {
+    "name": "Build on Ubuntu",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+      "features": {
+        "../../src/geminicli": {
+          "node_min_major_version": "20"
+        }
+      }
     }
   },
-  "geminicli-node-latest": {
-    "image": "mcr.microsoft.com/devcontainers/javascript-node:latest",
-    "features": {
-      "geminicli": {}
+  {
+    "name": "Build on Debian",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:debian",
+      "features": {
+        "../../src/geminicli": {
+          "node_min_major_version": "20"
+        }
+      }
     }
   },
-  "geminicli-alpine": {
-    "image": "mcr.microsoft.com/devcontainers/base:alpine",
-    "features": {
-      "geminicli": {}
-    }
-  },
-  "geminicli-debian": {
-    "image": "mcr.microsoft.com/devcontainers/base:debian",
-    "features": {
-      "geminicli": {}
+  {
+    "name": "Build on debian - node upgrade required",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/javascript-node:1-18-bookworm",
+      "features": {
+        "../../src/geminicli": {
+          "node_min_major_version": "20"
+        }
+      }
     }
   }
-}
+]

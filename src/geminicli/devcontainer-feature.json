@@ -1,5 +1,5 @@
 {
-  "id": "gemini-cli",
+  "id": "geminicli",
   "version": "0.1.0",
   "name": "Google Gemini CLI",
   "description": "Installs Google Gemini CLI for AI code assistance https://geminicli.com",
@@ -20,8 +20,10 @@
       "description": "Minimum major version of Node.js required."
     }
   },
-  "containerEnv": {
-    "PATH": "/usr/bin:$PATH"
+  "dependsOn": {
+    "ghcr.io/stu-bell/devcontainer-features/node": {
+      "node_min_major_version": "20"
+    }
   }
 }
 

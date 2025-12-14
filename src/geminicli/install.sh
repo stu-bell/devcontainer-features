@@ -8,7 +8,7 @@ if command -v gemini  > /dev/null 2>&1; then
 fi
 
 # ensure node and npm are installed. Min v 20 required by gemini cli. Can be changed in feature options
-NODE_MIN_MAJOR_VERSION="${NODE_MIN_MAJOR_VERSION:-20}" ./install-node.sh
+# NODE_MIN_MAJOR_VERSION="${NODE_MIN_MAJOR_VERSION:-20}" ./install-node.sh
 
 # Check min node version installed
 MSG_NODE_MISSING="Ensure Node.js (minimum v${NODE_MIN_MAJOR_VERSION}.x) and npm are installed before this feature installs, using an appropriate base image or feature. 

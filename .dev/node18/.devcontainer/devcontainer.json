@@ -1,6 +1,0 @@
-{
-    "image": "mcr.microsoft.com/devcontainers/javascript-node:18",
-    "features": {
-        "../../../src/geminicli": {}
-    }
-}
