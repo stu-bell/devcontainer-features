@@ -13,6 +13,7 @@ jobs:
     strategy:
       matrix:
         features:
+          - geminicli
           - node
           - neovim
           - hello

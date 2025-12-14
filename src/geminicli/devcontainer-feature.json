@@ -1,0 +1,29 @@
+{
+  "id": "geminicli",
+  "version": "0.1.0",
+  "name": "Google Gemini CLI",
+  "description": "Installs Google Gemini CLI for AI code assistance https://geminicli.com",
+  "options": {
+    "version": {
+      "type": "string",
+      "default": "latest",
+      "proposals":[
+        "latest",
+        "nightly",
+        "preview"
+      ],
+      "description": "Version of Gemini CLI to install https://www.npmjs.com/package/@google/gemini-cli#release-cadence-and-tags"
+    },
+    "node_min_major_version": {
+      "type": "string",
+      "default": "20",
+      "description": "Minimum major version of Node.js required."
+    }
+  },
+  "dependsOn": {
+    "ghcr.io/stu-bell/devcontainer-features/node": {
+      "node_min_major_version": "20"
+    }
+  }
+}
+
