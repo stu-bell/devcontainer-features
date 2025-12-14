@@ -237,6 +237,7 @@ setup_test_workspace() {
             fi
             
             # Copy feature source to the temp .devcontainer folder
+            echoyel "cp -r $real_feature_path" "$devcontainer_dir/ ..."
             cp -r "$real_feature_path" "$devcontainer_dir/"
             
             # Get the feature's directory name and update the json
