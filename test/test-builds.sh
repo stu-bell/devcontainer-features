@@ -32,6 +32,7 @@ show_help() {
   echo "Options:"
   echo "  -s, --scenarios-file <path>      Path to a JSON file containing multiple test scenarios"
   echo "  -g, --generate-example            Output example scenarios.json"
+  echo "  -i, --scenarios <names...>         Space-separated list of scenario names to run. If not specified, all scenarios are run."
   echo "  --test-workspace-path <path>     Test workspace path (default: /tmp/devcontainer_test_builds)"
   echo "  --quiet                          Suppress build outputs unless a test fails"
   echo "  --blank-docker-config            Use a blank Docker configuration: {"auths":{}}"
@@ -91,6 +92,7 @@ TOTAL_TESTS=0
 PASSED_TESTS=0
 FAILED_TESTS=0
 declare -a TEST_RESULTS=()
+declare -a SCENARIO_NAMES_TO_RUN=()
 
 # Colors for output
 RED='\033[0;31m'
@@ -125,6 +127,13 @@ parse_arguments() {
           exit 1
         fi
         shift 2
+        ;;
+      -i|--scenarios)
+        shift
+        while [ $# -gt 0 ] && ! [[ "$1" =~ ^- ]]; do
+          SCENARIO_NAMES_TO_RUN+=("$1")
+          shift
+        done
         ;;
       --quiet)
         VERBOSE=false
@@ -193,6 +202,32 @@ load_scenarios() {
     echogrn "✓ Scenarios loaded successfully." >&2
     return 0
 }
+
+validate_scenario_names() {
+    local scenarios_json="$1"
+    if [ ${#SCENARIO_NAMES_TO_RUN[@]} -eq 0 ]; then
+        return 0
+    fi
+
+    local all_scenario_names
+    mapfile -t all_scenario_names < <(echo "$scenarios_json" | jq -r '.[].name')
+
+    for scenario_name in "${SCENARIO_NAMES_TO_RUN[@]}"; do
+        local found=false
+        for name in "${all_scenario_names[@]}"; do
+            if [ "$scenario_name" == "$name" ]; then
+                found=true
+                break
+            fi
+        done
+
+        if [ "$found" == "false" ]; then
+            echored "Error: Scenario name '$scenario_name' not found in scenarios file." >&2
+            exit 1
+        fi
+    done
+}
+
 
 ignore_docker_config() {
    if [ "$IGNORE_DOCKER_CONFIG" = true ]; then
@@ -401,6 +436,8 @@ run_scenarios() {
         exit 1
     fi
 
+    validate_scenario_names "$SCENARIOS_JSON"
+
     # Get the number of scenarios
     local NUM_SCENARIOS
     NUM_SCENARIOS=$(echo "$SCENARIOS_JSON" | jq '. | length')
@@ -422,10 +459,26 @@ run_scenarios() {
             exit 1
         fi
 
+        local scenario_name
+        scenario_name=$(echo "$SCENARIO" | jq -r '.name // "Unnamed Scenario"')
+
+        if [ ${#SCENARIO_NAMES_TO_RUN[@]} -gt 0 ]; then
+            local found=false
+            for name in "${SCENARIO_NAMES_TO_RUN[@]}"; do
+                if [ "$scenario_name" == "$name" ]; then
+                    found=true
+                    break
+                fi
+            done
+            if [ "$found" == "false" ]; then
+                continue
+            fi
+        fi
+
         EXPECTED_EXIT_CODE=$(echo "$SCENARIO" | jq -r '.expected_exit_code // 0')
         EXPECTED_MESSAGE=$(echo "$SCENARIO" | jq -r '.expected_output // ""')
         DEVCONTAINER_JSON_CONTENT=$(echo "$SCENARIO" | jq -c '.devcontainer // {}')
-        local TEST_NAME="Scenario: $(echo "$SCENARIO" | jq -r '.name // "Unnamed Scenario"')"
+        local TEST_NAME="Scenario: $scenario_name"
         
         echo ""
         echo "*****************************************"
