@@ -1,8 +1,7 @@
 #!/bin/bash
 set -e
-set -x
 
-# Test script for scenario filtering in test-builds.sh
+# WIP script to test test-builds.sh
 
 # Create a temporary directory for our test scenarios
 TEST_DIR=$(mktemp -d)
@@ -89,25 +88,31 @@ fi
 
 # Test Case 4: Invalid scenario name
 echo "--- Test Case 4: Invalid scenario name ---"
-error_output=$(./test/test-builds.sh --scenarios-file "$TEST_DIR/scenarios.json" --scenarios scenario-invalid 2>&1 >/dev/null)
+STDERR_FILE=$(mktemp)
+./test/test-builds.sh --scenarios-file "$TEST_DIR/scenarios.json" --scenarios scenario-invalid 2> "$STDERR_FILE"
 exit_code=$?
-if [ $exit_code -ne 0 ] && echo "$error_output" | grep -q "Error: Scenario name 'scenario-invalid' not found"; then
+STDERR_OUTPUT=$(cat "$STDERR_FILE")
+rm "$STDERR_FILE"
+if [ $exit_code -ne 0 ] && echo "$STDERR_OUTPUT" | grep -q "Error: Scenario name 'scenario-invalid' not found"; then
     echogrn "✓ PASSED: Script exited with an error for invalid scenario."
 else
     echored "✗ FAILED: Script did not fail as expected for invalid scenario."
-    echo "$error_output"
+    echo "$STDERR_OUTPUT"
     exit 1
 fi
 
 # Test Case 5: Mix of valid and invalid scenarios
 echo "--- Test Case 5: Mix of valid and invalid scenarios ---"
-error_output=$(./test/test-builds.sh --scenarios-file "$TEST_DIR/scenarios.json" --scenarios scenario-A scenario-invalid 2>&1 >/dev/null)
+STDERR_FILE=$(mktemp)
+./test/test-builds.sh --scenarios-file "$TEST_DIR/scenarios.json" --scenarios scenario-A scenario-invalid 2> "$STDERR_FILE"
 exit_code=$?
-if [ $exit_code -ne 0 ] && echo "$error_output" | grep -q "Error: Scenario name 'scenario-invalid' not found"; then
+STDERR_OUTPUT=$(cat "$STDERR_FILE")
+rm "$STDERR_FILE"
+if [ $exit_code -ne 0 ] && echo "$STDERR_OUTPUT" | grep -q "Error: Scenario name 'scenario-invalid' not found"; then
     echogrn "✓ PASSED: Script exited with an error for mixed validity scenarios."
 else
     echored "✗ FAILED: Script did not fail as expected for mixed validity scenarios."
-    echo "$error_output"
+    echo "$STDERR_OUTPUT"
     exit 1
 fi
 
