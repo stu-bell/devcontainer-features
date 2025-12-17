@@ -88,12 +88,12 @@ fi
 
 # Test Case 4: Invalid scenario name
 echo "--- Test Case 4: Invalid scenario name ---"
-STDERR_FILE=$(mktemp)
-./test/test-builds.sh --scenarios-file "$TEST_DIR/scenarios.json" --scenarios scenario-invalid 2> "$STDERR_FILE"
+# Allow errors and capture error output
+set +e
+output=$(./test/test-builds.sh --scenarios-file "$TEST_DIR/scenarios.json" --scenarios scenario-invalid 2>&1)
 exit_code=$?
-STDERR_OUTPUT=$(cat "$STDERR_FILE")
-rm "$STDERR_FILE"
-if [ $exit_code -ne 0 ] && echo "$STDERR_OUTPUT" | grep -q "Error: Scenario name 'scenario-invalid' not found"; then
+set -e
+if [ $exit_code -ne 0 ] && echo "$output" | grep -q "Error: Scenario name 'scenario-invalid' not found"; then
     echogrn "✓ PASSED: Script exited with an error for invalid scenario."
 else
     echored "✗ FAILED: Script did not fail as expected for invalid scenario."
@@ -101,18 +101,25 @@ else
     exit 1
 fi
 
+
+
 # Test Case 5: Mix of valid and invalid scenarios
 echo "--- Test Case 5: Mix of valid and invalid scenarios ---"
-STDERR_FILE=$(mktemp)
-./test/test-builds.sh --scenarios-file "$TEST_DIR/scenarios.json" --scenarios scenario-A scenario-invalid 2> "$STDERR_FILE"
+# Allow errors and capture error output
+set +e
+output=$(./test/test-builds.sh --scenarios-file "$TEST_DIR/scenarios.json" --scenarios scenario-A scenario-invalid 2>&1)
 exit_code=$?
-STDERR_OUTPUT=$(cat "$STDERR_FILE")
-rm "$STDERR_FILE"
-if [ $exit_code -ne 0 ] && echo "$STDERR_OUTPUT" | grep -q "Error: Scenario name 'scenario-invalid' not found"; then
+set -e
+if [ $exit_code -ne 0 ] && echo "$output" | grep -q "Error: Scenario name 'scenario-invalid' not found"; then
     echogrn "✓ PASSED: Script exited with an error for mixed validity scenarios."
 else
     echored "✗ FAILED: Script did not fail as expected for mixed validity scenarios."
-    echo "$STDERR_OUTPUT"
+    echo "---"
+    echo "EXIT CODE: $exit_code"
+    echo "---"
+    echo "OUTPUT:"
+    echo "$output"
+    echo "---"
     exit 1
 fi
 
