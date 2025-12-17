@@ -588,6 +588,7 @@ main() {
     
     if [ -z "$SCENARIOS_FILE" ]; then
         echored "Error: --scenarios-file is a required argument." >&2
+        echo "Run $(basename "$0") --help for usage information." >&2
         exit 1
     fi
 
