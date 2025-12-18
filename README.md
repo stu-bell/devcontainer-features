@@ -2,9 +2,10 @@
 
 This repo is a collection of dev container features:
 
-- [Gemini CLI](./src/geminicli/README.md)
-- [Neovim](./src/neovim/README.md)
-- [Node.js](./src/node/README.md)
+- [Cursor CLI](./src/cursorcli/README.md) - AI code assistant [cursor.com/cli](https://cursor.com/cli)
+- [Gemini CLI](./src/geminicli/README.md) - AI code assistant [geminicli.com](https://geminicli.com)
+- [Neovim](./src/neovim/README.md) - Neovim editor, with config via Git [neovim.io](https://neovim.io)
+- [Node.js](./src/node/README.md) - Node.js - this is a dependency feature only
 
 # Licence
 

@@ -1,0 +1,24 @@
+[
+  {
+    "name": "ubuntu",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+      "features": {
+        "../../src/cursorcli": { }
+      }
+    }
+  },
+  {
+    "name": "debian",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:debian",
+      "features": {
+        "../../src/cursorcli": { }
+      }
+    }
+  }
+]
