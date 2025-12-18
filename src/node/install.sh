@@ -2,21 +2,23 @@
 # Copyright (c) Stuart Bell 
 # Licensed under the MIT License. See https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE for license information.
 set -e
+# has_command, is_root_user, semver_major
+. ./util.sh
 
 # Default env vars
 export NODE_MIN_MAJOR_VERSION="${NODE_MIN_MAJOR_VERSION:-22}"
 
 # Check for root 
-if [ "$(id -u)" -ne 0 ]; then
+is_root_user || {
     echo -e 'Script must be run as root. Use sudo, su, or add "USER root" to your Dockerfile before running this script.'
     exit 1
-fi
+  }
 
 # Check if sufficient version of node already installed
-if command -v node > /dev/null 2>&1 ; then
-  CURRENT_VERSION=$(node -v)
-  CURRENT_MAJOR=$(echo "$CURRENT_VERSION" | cut -c2- | cut -d. -f1)
-  if [ "$CURRENT_MAJOR" -ge "$NODE_MIN_MAJOR_VERSION" ]; then
+if has_command node ; then
+ CURRENT_VERSION=$(node -v)
+ CURRENT_MAJOR=$(semver_major "$CURRENT_VERSION") 
+ if [ "$CURRENT_MAJOR" -ge "$NODE_MIN_MAJOR_VERSION" ]; then
     echo "Found already installed: Node.js $CURRENT_VERSION"
     exit 0
   else
@@ -41,9 +43,9 @@ else
 fi
 
 # validate node install
-if node -v > /dev/null 2>&1 ; then
+if has_command node ; then
   CURRENT_VERSION=$(node -v)
-  CURRENT_MAJOR=$(echo "$CURRENT_VERSION" | cut -c2- | cut -d. -f1)
+  CURRENT_MAJOR=$(semver_major "$CURRENT_VERSION") 
   if [ "$CURRENT_MAJOR" -ge "$NODE_MIN_MAJOR_VERSION" ]; then
     echo "Installation complete: Node.js $CURRENT_VERSION"
   else
@@ -51,6 +53,7 @@ if node -v > /dev/null 2>&1 ; then
   fi
 else
     echo "ERROR: Could not install Node.js."
+    # attempt at error output
     node -v
     exit 1
 fi

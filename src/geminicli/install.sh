@@ -1,14 +1,7 @@
 #!/bin/sh
 set -e
-
-# Configuration
-NODE_MIN_MAJOR_VERSION=${NODE_MIN_MAJOR_VERSION:-18}
-
-# Function to check if a command exists
-# Returns 0 if found, 1 if not found
-has_command() {
-    command -v "$1" > /dev/null 2>&1
-}
+# has_command, semver_major
+. ./util.sh
 
 # Make sure there isn't already an installation of the tool
 has_command gemini && {
@@ -16,10 +9,11 @@ has_command gemini && {
     exit 0
 }
 
+# Check node is installed
+NODE_MIN_MAJOR_VERSION=${NODE_MIN_MAJOR_VERSION:-18}
 MSG_NODE_MISSING="Ensure Node.js (minimum v${NODE_MIN_MAJOR_VERSION}.x) and npm are installed before this feature installs, using an appropriate base image or feature.
 FAILED TO INSTALL Gemini CLI"
 
-# Check node is installed
 has_command node || {
     echo "ERROR: could not find node. $MSG_NODE_MISSING"
     exit 1
@@ -27,8 +21,7 @@ has_command node || {
 
 # Check minimum node version
 CURRENT_VERSION=$(node -v)
-CURRENT_MAJOR=$(echo "$CURRENT_VERSION" | cut -c2- | cut -d. -f1)
-
+CURRENT_MAJOR=$(semver_major "$CURRENT_VERSION") 
 if [ "$CURRENT_MAJOR" -ge "$NODE_MIN_MAJOR_VERSION" ]; then
     echo "Found Node.js $CURRENT_VERSION"
 else
