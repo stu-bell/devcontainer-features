@@ -283,7 +283,10 @@ setup_test_workspace() {
             feature_name=$(basename "$real_feature_path")
             local new_feature_path="./$feature_name"
             
-            modified_json_content=$(echo "$modified_json_content" | jq --arg old "$feature_path" --arg new "$new_feature_path" '(.features[$new] = .features[$old]) | del(.features[$old])')
+            # Using 'with_entries' to safely update feature keys.
+            # This ensures that feature configuration (like options) is preserved
+            # even when the old and new paths are identical.
+            modified_json_content=$(echo "$modified_json_content" | jq --arg old "$feature_path" --arg new "$new_feature_path" '.features |= with_entries(if .key == $old then .key = $new else . end)')
             echogrn "✓ Copied feature from '$feature_path' and updated path to '$new_feature_path'"
         done
         devcontainer_json_content="$modified_json_content"
@@ -494,9 +497,23 @@ run_scenarios() {
         echo "*****************************************"
         
         # Setup test workspace for each scenario
+        local setup_output_file
+        setup_output_file=$(mktemp)
+        local setup_exit_code
+
+        if [ "$VERBOSE" = true ]; then
+            setup_test_workspace "$DEVCONTAINER_JSON_CONTENT" "$scenarios_file" 2>&1 | tee "$setup_output_file"
+            setup_exit_code=${PIPESTATUS[0]}
+        else
+            setup_test_workspace "$DEVCONTAINER_JSON_CONTENT" "$scenarios_file" > "$setup_output_file" 2>&1
+            setup_exit_code=$?
+        fi
+        
         local setup_output
-        setup_output=$(setup_test_workspace "$DEVCONTAINER_JSON_CONTENT" "$scenarios_file" 2>&1)
-        if [ $? -ne 0 ]; then
+        setup_output=$(cat "$setup_output_file")
+        rm "$setup_output_file"
+
+        if [ $setup_exit_code -ne 0 ]; then
             run_test \
                 "$TEST_NAME" \
                 "1" \

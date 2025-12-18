@@ -22,6 +22,13 @@ fi
 
 echo "Running scenarios_fail.json..."
 # FIXME this succeeds if at least one scenario errors, we need to test that all scenarios fail
+# TODO the output of a test includesthe following lines:
+# Total Tests: N
+# Passed: 0
+# Failed: N
+#
+# We should be able to test that all tests failed by grepping for Passed: 0. Even better, grepping for Totaltest and comparing it to the number of failed tests
+# That and confirming that exit code 1 should be sufficient
 if ! "$TEST_BUILDS_SCRIPT" --scenarios-file "$SCRIPT_DIR/scenarios_fail.json"; then # Note the '!' here
     echo -e "${GREEN}✅ Success: test-builds.sh exited with a non-zero status as expected.${NC}"
 else
