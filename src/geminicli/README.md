@@ -1,5 +1,5 @@
 
-# Google Gemini CLI (gemini-cli)
+# Google Gemini CLI (geminicli)
 
 Installs Google Gemini CLI for AI code assistance https://geminicli.com
 
@@ -7,7 +7,7 @@ Installs Google Gemini CLI for AI code assistance https://geminicli.com
 
 ```json
 "features": {
-    "ghcr.io/stu-bell/devcontainer-features/gemini-cli:0": {}
+    "ghcr.io/stu-bell/devcontainer-features/geminicli:0": {}
 }
 ```
 
