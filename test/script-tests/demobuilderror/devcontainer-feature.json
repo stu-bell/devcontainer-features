@@ -1,0 +1,16 @@
+{
+    "name": "Demo Build Error",
+    "id": "demobuilderror",
+    "version": "1.0.0",
+    "description": "Feature that throws a build error during installation, for testing test scripts",
+    "options": {
+        "forceBuildError": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, forces a build error"
+        }
+    },
+    "installsAfter": [
+        "ghcr.io/devcontainers/features/common-utils"
+    ]
+}
