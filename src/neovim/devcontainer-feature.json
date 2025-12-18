@@ -14,7 +14,8 @@
         },
         "CONFIG_LOCATION": {
             "type": "string",
-            "default": "/config"
+            "default": "/config",
+            "description": "Path git clones config to. Should match environment variable XDG_CONGIG_HOME."
         }
     },
     "containerEnv": {
