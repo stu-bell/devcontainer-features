@@ -31,8 +31,8 @@ show_help() {
   echo ""
   echo "Options:"
   echo "  -s, --scenarios-file <path>      Path to a JSON file containing multiple test scenarios"
-  echo "  -g, --generate-example            Output example scenarios.json"
-  echo "  -i, --scenarios <names...>         Space-separated list of scenario names to run. If not specified, all scenarios are run."
+  echo "  -g, --generate-example           Output example scenarios.json"
+  echo "  -i, --include <names...>         Space-separated list of scenario names to run. If not specified, all scenarios are run."
   echo "  --test-workspace-path <path>     Test workspace path (default: /tmp/devcontainer_test_builds)"
   echo "  --quiet                          Suppress build outputs unless a test fails"
   echo "  --blank-docker-config            Use a blank Docker configuration: {"auths":{}}"
@@ -128,7 +128,7 @@ parse_arguments() {
         fi
         shift 2
         ;;
-      -i|--scenarios)
+      -i|--include)
         shift
         while [ $# -gt 0 ] && ! [[ "$1" =~ ^- ]]; do
           SCENARIO_NAMES_TO_RUN+=("$1")
