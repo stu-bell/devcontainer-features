@@ -16,7 +16,7 @@ Installs Neovim Editor. See neovim.io
 | Options Id | Description | Type | Default Value |
 |-----|-----|-----|-----|
 | CONFIG_GIT_URL | Optional URL to a public Git repository for Neovim config, cloned during feature install to ${CONFIG_LOCATION}/nvim. | string | - |
-| CONFIG_LOCATION | - | string | /config |
+| CONFIG_LOCATION | Path git clones config to. Should match environment variable XDG_CONFIG_HOME. | string | /config |
 
 # OS Support
 
