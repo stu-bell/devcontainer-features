@@ -87,6 +87,10 @@ This feature sets `XDG_CONFIG_HOME` in feature containerEnv to `/config`. So the
 }
 ```
 
+# Get Started
+
+Add the feature config to your devcontainer.json.
+Start your devcontainer, ssh in, and run: `nvim`
 
 
 
