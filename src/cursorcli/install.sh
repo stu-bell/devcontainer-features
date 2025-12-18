@@ -23,24 +23,27 @@ ensure_bash_on_alpine
 echo "Installing Cursor CLI via https://cursor.com/install"
 # curl https://cursor.com/install -fsS | bash
 
+
+run_as_remote_user() {
 # Use _REMOTE_USER if available, otherwise use the devcontainer.json option USER_NAME
-USER_OPTION="${USER_NAME:-automatic}"
-_REMOTE_USER="${_REMOTE_USER:-${USER_OPTION}}"
-if [ "${_REMOTE_USER}" = "auto" ] || [ "${_REMOTE_USER}" = "automatic" ]; then
-    _REMOTE_USER="$(id -un 1000 2>/dev/null || echo "vscode")" # fallback to vscode, but devcontainer.json can override
-fi
-echo "Running command as: $_REMOTE_USER"
-# Run the install as the user
-su - "${_REMOTE_USER}" -c 'curl https://cursor.com/install -fsS | bash'
+    command_to_run="$1"
+    USER_OPTION="${REMOTE_USER_NAME:-automatic}"
+    _REMOTE_USER="${_REMOTE_USER:-${USER_OPTION}}"
+    if [ "${_REMOTE_USER}" = "auto" ] || [ "${_REMOTE_USER}" = "automatic" ]; then
+        _REMOTE_USER="$(id -un 1000 2>/dev/null || echo "vscode")"
+    fi
+    echo "Running as: $_REMOTE_USER, command: $command_to_run"
+    su - "${_REMOTE_USER}" -c "$command_to_run"
+}
+
+# Run the install as the user as it installs locally
+run_as_remote_user 'curl https://cursor.com/install -fsS | bash'
 
 echo verify
-su - "${_REMOTE_USER}" -c '~/.local/bin/cursor-agent'
-
-# Verify installation
-# if has_command cursor-agent; then
-#     echo "Cursor CLI $(cursor-agent --version) installed successfully"
-#     exit 0
-# else
-#     echo "ERROR: Failed to install Cursor CLI"
-#     exit 1
-# fi
+if run_as_remote_user '~/.local/bin/cursor-agent -v' > /dev/null 2>&1; then
+    version=$(run_as_remote_user '~/.local/bin/cursor-agent -v')
+    echo "Cursor CLI ${version} installed successfully"
+else
+    echo "ERROR: Failed to install Cursor CLI"
+    exit 1
+fi
