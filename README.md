@@ -2,6 +2,7 @@
 
 This repo is a collection of dev container features:
 
+- [Cursor CLI](./src/cursorcli/README.md)
 - [Gemini CLI](./src/geminicli/README.md)
 - [Neovim](./src/neovim/README.md)
 - [Node.js](./src/node/README.md)

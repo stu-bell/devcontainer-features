@@ -17,7 +17,10 @@ has_command curl || {
 }
 
 # Note: cursor doesn't run on Alpine at the time of writing
-ensure_bash_on_alpine
+if os_alpine; then 
+    echo "NOTE: At the time of writing, Cursor does NOT WORK on Alpine Linux. This may be fixed by the time you're installing this feature."
+    ensure_bash_on_alpine
+fi
 
 # install cursor
 echo "Installing Cursor CLI via https://cursor.com/install"
