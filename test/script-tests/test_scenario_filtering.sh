@@ -62,7 +62,7 @@ fi
 
 # Test Case 2: Run a single scenario
 echo "--- Test Case 2: Run a single scenario ---"
-output=$(./test/test-builds.sh --scenarios-file "$TEST_DIR/scenarios.json" --scenarios scenario-B --quiet)
+output=$(./test/test-builds.sh --scenarios-file "$TEST_DIR/scenarios.json" --only scenario-B --quiet)
 if echo "$output" | grep -q "Running Scenario: scenario-B" && \
    ! echo "$output" | grep -q "Running Scenario: scenario-A" && \
    ! echo "$output" | grep -q "Running Scenario: scenario-C"; then
@@ -75,7 +75,7 @@ fi
 
 # Test Case 3: Run multiple scenarios
 echo "--- Test Case 3: Run multiple scenarios ---"
-output=$(./test/test-builds.sh --scenarios-file "$TEST_DIR/scenarios.json" --scenarios scenario-A scenario-C --quiet)
+output=$(./test/test-builds.sh --scenarios-file "$TEST_DIR/scenarios.json" --only scenario-A scenario-C --quiet)
 if echo "$output" | grep -q "Running Scenario: scenario-A" && \
    echo "$output" | grep -q "Running Scenario: scenario-C" && \
    ! echo "$output" | grep -q "Running Scenario: scenario-B"; then
@@ -90,7 +90,7 @@ fi
 echo "--- Test Case 4: Invalid scenario name ---"
 # Allow errors and capture error output
 set +e
-output=$(./test/test-builds.sh --scenarios-file "$TEST_DIR/scenarios.json" --scenarios scenario-invalid 2>&1)
+output=$(./test/test-builds.sh --scenarios-file "$TEST_DIR/scenarios.json" --only scenario-invalid 2>&1)
 exit_code=$?
 set -e
 if [ $exit_code -ne 0 ] && echo "$output" | grep -q "Error: Scenario name 'scenario-invalid' not found"; then
@@ -105,7 +105,7 @@ fi
 echo "--- Test Case 5: Mix of valid and invalid scenarios ---"
 # Allow errors and capture error output
 set +e
-output=$(./test/test-builds.sh --scenarios-file "$TEST_DIR/scenarios.json" --scenarios scenario-A scenario-invalid 2>&1)
+output=$(./test/test-builds.sh --scenarios-file "$TEST_DIR/scenarios.json" --only scenario-A scenario-invalid 2>&1)
 exit_code=$?
 set -e
 if [ $exit_code -ne 0 ] && echo "$output" | grep -q "Error: Scenario name 'scenario-invalid' not found"; then
