@@ -26,16 +26,13 @@ if has_command node ; then
   fi
 fi
 
-# OS detection. Populates ID, ID_LIKE, VERSION
-. /etc/os-release
 # Alpine
-if [ "${ID}" = "alpine" ]; then
+if os_alpine; then
      /bin/sh "$(dirname "$0")/install-alp.sh" "$@"
-# Debian, Ubuntu
-elif [ "${ID}" = "debian" ] || \
-     [ "${ID_LIKE}" = "debian" ];  then
-     /bin/bash "$(dirname $0)/install-deb.sh" "$@"
 
+# Debian, Ubuntu
+elif os_debian_like ; then 
+     /bin/bash "$(dirname $0)/install-deb.sh" "$@"
 else
 # this script does not install for the current distro
   feature="Node.js"

@@ -2,7 +2,7 @@
 # Copyright (c) Stuart Bell 
 # Licensed under the MIT License. See https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE for license information.
 set -e
-# has_command, is_root_user, semver_major, echored
+# os_debian_like os_alpine ensure_bash_on_alpine echoyel echogrn echored semver_major s_root_user has_command
 . ./util.sh
 
 # make sure there isn't already an installation of the tool
@@ -21,11 +21,10 @@ is_root_user || {
 # OS detection. Populates ID, ID_LIKE, VERSION
 . /etc/os-release
 # Alpine
-if [ "${ID}" = "alpine" ]; then
+if os_alpine; then
 	/bin/sh "$(dirname "$0")/install-alp.sh" "$@"
 # Debian, Ubuntu
-elif [ "${ID}" = "debian" ] || \
-     [ "${ID_LIKE}" = "debian" ];  then
+elif os_debian_like ; then 
 	/bin/bash "$(dirname $0)/install-appimage.sh" "$@"
 else
 # this script does not install for the current distro
