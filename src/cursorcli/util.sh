@@ -2,8 +2,8 @@
 # Copyright (c) Stuart Bell 
 # Licensed under the MIT License. See https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE for license information.
 
-# v0.1.0
-# os_debian_like os_alpine ensure_bash_on_alpine echoyel echogrn echored semver_major s_root_user has_command
+# v0.1.1
+# os_debian_like os_alpine ensure_bash_on_alpine echoyel echogrn echored semver_major s_root_user has_command run_as_remote_user
 
 # check if a command exists
 has_command() {
@@ -62,3 +62,17 @@ os_debian_like() {
     . /etc/os-release
     [ "${ID}" = "debian" ] || [ "${ID_LIKE}" = "debian" ]
 }
+
+# Run a command as the remote user for the devcontainer. 
+run_as_remote_user() {
+# Use _REMOTE_USER if available, otherwise use the devcontainer.json option USER_NAME
+    command_to_run="$1"
+    USER_OPTION="${REMOTE_USER_NAME:-automatic}"
+    _REMOTE_USER="${_REMOTE_USER:-${USER_OPTION}}"
+    if [ "${_REMOTE_USER}" = "auto" ] || [ "${_REMOTE_USER}" = "automatic" ]; then
+        _REMOTE_USER="$(id -un 1000 2>/dev/null || echo "vscode")" # vscode fallback
+    fi
+    echo "Running as: $_REMOTE_USER, command: $command_to_run"
+    su - "${_REMOTE_USER}" -c "$command_to_run"
+}
+

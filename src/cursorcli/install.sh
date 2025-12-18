@@ -21,25 +21,10 @@ ensure_bash_on_alpine
 
 # install cursor
 echo "Installing Cursor CLI via https://cursor.com/install"
-# curl https://cursor.com/install -fsS | bash
-
-
-run_as_remote_user() {
-# Use _REMOTE_USER if available, otherwise use the devcontainer.json option USER_NAME
-    command_to_run="$1"
-    USER_OPTION="${REMOTE_USER_NAME:-automatic}"
-    _REMOTE_USER="${_REMOTE_USER:-${USER_OPTION}}"
-    if [ "${_REMOTE_USER}" = "auto" ] || [ "${_REMOTE_USER}" = "automatic" ]; then
-        _REMOTE_USER="$(id -un 1000 2>/dev/null || echo "vscode")"
-    fi
-    echo "Running as: $_REMOTE_USER, command: $command_to_run"
-    su - "${_REMOTE_USER}" -c "$command_to_run"
-}
-
-# Run the install as the user as it installs locally
+# Run the install as the remote user, as script installs locally
 run_as_remote_user 'curl https://cursor.com/install -fsS | bash'
 
-echo verify
+# Verify installation
 if run_as_remote_user '~/.local/bin/cursor-agent -v' > /dev/null 2>&1; then
     version=$(run_as_remote_user '~/.local/bin/cursor-agent -v')
     echo "Cursor CLI ${version} installed successfully"
