@@ -1,4 +1,6 @@
 #!/bin/sh
+# Copyright (c) Stuart Bell 
+# Licensed under the MIT License. See https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE for license information.
 set -e
 # has_command, semver_major
 . ./util.sh
