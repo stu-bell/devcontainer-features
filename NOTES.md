@@ -3,7 +3,8 @@
 
 1. Add a folder in test for your feature
 1. Start the devcontainer for the repo
-1. Make sure the test works (fails!) with
+1. Make sure the test works (fails!)
+2. Add the feature folder name to the test workflow yaml matrix
 1. Build out your feature until your tests pass
 1. Use your feature locally in your .devcontainer projects
 1. Or [disbribute it](./README-template.md#distributing-features)
