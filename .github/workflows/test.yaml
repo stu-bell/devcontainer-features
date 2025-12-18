@@ -16,7 +16,6 @@ jobs:
           - cursorcli
           - node
           - neovim
-          - hello
     steps:
       - name: 'Checkout correct SHA'
         uses: actions/checkout@v4
