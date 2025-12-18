@@ -1,6 +1,6 @@
 {
   "id": "node",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "name": "Node.js",
   "description": "Installs Node.js, if the minimum requested major version is not already installed.",
   "options": {
