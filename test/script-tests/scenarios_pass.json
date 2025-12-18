@@ -1,6 +1,6 @@
 [
    {
-    "name": "Demo build success",
+    "name": "Demo build success - test should pass",
     "expected_exit_code": 0,
     "expected_output": "",
     "devcontainer": {
@@ -11,7 +11,7 @@
     }
   },
   {
-    "name": "Demo build error",
+    "name": "Demo build error - test should pass",
     "expected_exit_code": 1,
     "expected_output": "demonstrate a build error",
     "devcontainer": {
