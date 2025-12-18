@@ -1,15 +1,25 @@
-
-# ISSUES
-
-TODO Node v20 seems to be installed correctly, however, for node18 scenarios, the wrong version of node (ie the v18) is being called. How do we call the correct version?
-
 # Supported OS
+
+Tested on Alpine, Debian or Ubuntu.
 
 Gemini CLI runs off Node.js, so it *should* run on any container with Node.js v 20 or higher.
 
-This feature checks for Node and attempts to install it if the OS is Alpine, Debian or Ubuntu. For other OS versions, ensure Node.js and npm are installed before this feature is installed (see [overrideFeatureInstallOrder](https://containers.dev/implementors/json_reference/#general-properties)).
+For other OS versions, ensure Node.js and npm are installed before this feature is installed (see [overrideFeatureInstallOrder](https://containers.dev/implementors/json_reference/#general-properties)).
 
-# PATH variable for node
+# Get Started
 
-devcontainer-feature.json adds `/usr/bin` to PATH. See install-node.sh for more details.
+Add the feature to your devcontainer.json: 
+
+```devcontainer.json
+{
+  "image": "mcr.microsoft.com/devcontainers/typescript-node",
+  "features": {
+    "ghcr.io/stu-bell/devcontainer-features/geminicli": {
+      "node_min_major_version": "20"
+    }
+  }
+}
+```
+
+Start your devcontainer, ssh in, and run: `gemini`
 

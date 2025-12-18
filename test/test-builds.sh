@@ -8,12 +8,11 @@
 #
 # Run with flag --help for help message
 
-# NOTE this test script just builds a devcontainer image and installs the feature. It does not start and execute any feature command.
+# NOTE this test script just runs devcontainer build, to install the feature. It does not start the container or execute any feature command.
 # To test that a feature command works, a lightweight validation step can be added at the end of the feature install.sh that test runs the command, eg by invoking the command with a --version flag.
 # This will cause the build step to fail if the command has not installed correctly and can be used for testing. 
 # However, this approach will not necessarily catch issues where the installation is only accessible to the root user.
 
-# TODO option to provide a list of one or more scenario names to run. Other scenarios in the json should be skipped for this run. --include <list of scenario names> error if an included scenario name is not found in scenarios.json
 # TODO when loading scenarios.json, ensure that there are no objects in the array with matching name keys, error if so
 # TODO add optional scenario description to scenarios.json, to print alongside tests that fail, if the description is provided
 # TODO if scenarios.json param is blank, or resolves to a non existant, or invalid file, output a message explaining where the file should be and rerun with --generate-example to see an example
@@ -31,7 +30,8 @@ show_help() {
   echo ""
   echo "Options:"
   echo "  -s, --scenarios-file <path>      Path to a JSON file containing multiple test scenarios"
-  echo "  -g, --generate-example            Output example scenarios.json"
+  echo "  -g, --generate-example           Output example scenarios.json"
+  echo "  -i, --include <names...>         Space-separated list of scenario names to run. If not specified, all scenarios are run."
   echo "  --test-workspace-path <path>     Test workspace path (default: /tmp/devcontainer_test_builds)"
   echo "  --quiet                          Suppress build outputs unless a test fails"
   echo "  --blank-docker-config            Use a blank Docker configuration: {"auths":{}}"
@@ -91,6 +91,7 @@ TOTAL_TESTS=0
 PASSED_TESTS=0
 FAILED_TESTS=0
 declare -a TEST_RESULTS=()
+declare -a SCENARIO_NAMES_TO_RUN=()
 
 # Colors for output
 RED='\033[0;31m'
@@ -125,6 +126,13 @@ parse_arguments() {
           exit 1
         fi
         shift 2
+        ;;
+      -i|--include)
+        shift
+        while [ $# -gt 0 ] && ! [[ "$1" =~ ^- ]]; do
+          SCENARIO_NAMES_TO_RUN+=("$1")
+          shift
+        done
         ;;
       --quiet)
         VERBOSE=false
@@ -193,6 +201,32 @@ load_scenarios() {
     echogrn "✓ Scenarios loaded successfully." >&2
     return 0
 }
+
+validate_scenario_names() {
+    local scenarios_json="$1"
+    if [ ${#SCENARIO_NAMES_TO_RUN[@]} -eq 0 ]; then
+        return 0
+    fi
+
+    local all_scenario_names
+    mapfile -t all_scenario_names < <(echo "$scenarios_json" | jq -r '.[].name')
+
+    for scenario_name in "${SCENARIO_NAMES_TO_RUN[@]}"; do
+        local found=false
+        for name in "${all_scenario_names[@]}"; do
+            if [ "$scenario_name" == "$name" ]; then
+                found=true
+                break
+            fi
+        done
+
+        if [ "$found" == "false" ]; then
+            echored "Error: Scenario name '$scenario_name' not found in scenarios file." >&2
+            exit 1
+        fi
+    done
+}
+
 
 ignore_docker_config() {
    if [ "$IGNORE_DOCKER_CONFIG" = true ]; then
@@ -286,18 +320,24 @@ build_devcontainer() {
     echo ""
     echoyel "Running devcontainer build..."
     
-    # Capture build output and exit code
-    BUILD_OUTPUT=$(devcontainer build --no-cache --image-name "$id_label" --workspace-folder "$workspace_folder" 2>&1)
-    BUILD_EXIT_CODE=$?
+    # Create a temporary file to store build output
+    local build_output_file
+    build_output_file=$(mktemp)
     
-    # Show output if verbose or if build failed
-    if [ "$VERBOSE" = true ] || [ $BUILD_EXIT_CODE -ne 0 ]; then
-        echo "Build output:"
-        echo "----------------------------------------"
-        echo "$BUILD_OUTPUT"
-        echo "----------------------------------------"
-        echo ""
+    # Run devcontainer build and handle output
+    if [ "$VERBOSE" = true ]; then
+        # In verbose mode, show output as it's generated and save to file
+        devcontainer build --no-cache --image-name "$id_label" --workspace-folder "$workspace_folder" 2>&1 | tee "$build_output_file"
+        BUILD_EXIT_CODE=${PIPESTATUS[0]}
+    else
+        # In quiet mode, save output to file but don't display it
+        devcontainer build --no-cache --image-name "$id_label" --workspace-folder "$workspace_folder" > "$build_output_file" 2>&1
+        BUILD_EXIT_CODE=$?
     fi
+    
+    # Read the output from the file into a variable
+    BUILD_OUTPUT=$(cat "$build_output_file")
+    rm "$build_output_file"
     
     # Clean up container image
     echoyel "Cleaning up test image..."
@@ -342,6 +382,8 @@ run_test() {
         # Expecting failure
         if [ "$exit_code" -eq 0 ]; then
             echored "✗ Build should have failed but succeeded" >&2
+            echo "Build output:"
+            echo "$output"
             test_result="unexpected_success"
         else
             echogrn "✓ Build failed as expected (exit code: $exit_code)"
@@ -401,6 +443,8 @@ run_scenarios() {
         exit 1
     fi
 
+    validate_scenario_names "$SCENARIOS_JSON"
+
     # Get the number of scenarios
     local NUM_SCENARIOS
     NUM_SCENARIOS=$(echo "$SCENARIOS_JSON" | jq '. | length')
@@ -422,10 +466,26 @@ run_scenarios() {
             exit 1
         fi
 
+        local scenario_name
+        scenario_name=$(echo "$SCENARIO" | jq -r '.name // "Unnamed Scenario"')
+
+        if [ ${#SCENARIO_NAMES_TO_RUN[@]} -gt 0 ]; then
+            local found=false
+            for name in "${SCENARIO_NAMES_TO_RUN[@]}"; do
+                if [ "$scenario_name" == "$name" ]; then
+                    found=true
+                    break
+                fi
+            done
+            if [ "$found" == "false" ]; then
+                continue
+            fi
+        fi
+
         EXPECTED_EXIT_CODE=$(echo "$SCENARIO" | jq -r '.expected_exit_code // 0')
         EXPECTED_MESSAGE=$(echo "$SCENARIO" | jq -r '.expected_output // ""')
         DEVCONTAINER_JSON_CONTENT=$(echo "$SCENARIO" | jq -c '.devcontainer // {}')
-        local TEST_NAME="Scenario: $(echo "$SCENARIO" | jq -r '.name // "Unnamed Scenario"')"
+        local TEST_NAME="Scenario: $scenario_name"
         
         echo ""
         echo "*****************************************"
@@ -535,6 +595,7 @@ main() {
     
     if [ -z "$SCENARIOS_FILE" ]; then
         echored "Error: --scenarios-file is a required argument." >&2
+        echo "Run $(basename "$0") --help for usage information." >&2
         exit 1
     fi
 

@@ -1,6 +1,6 @@
 {
   "id": "geminicli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "name": "Google Gemini CLI",
   "description": "Installs Google Gemini CLI for AI code assistance https://geminicli.com",
   "options": {
@@ -24,6 +24,10 @@
     "ghcr.io/stu-bell/devcontainer-features/node": {
       "node_min_major_version": "20"
     }
-  }
+  },
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/node",
+    "ghcr.io/stu-bell/devcontainer-features/node"
+  ]
 }
 
