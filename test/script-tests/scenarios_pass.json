@@ -1,23 +1,23 @@
 [
    {
-    "name": "Demo build success but expect to fail - test fail",
-    "expected_exit_code": 1,
+    "name": "Demo build success",
+    "expected_exit_code": 0,
     "expected_output": "",
     "devcontainer": {
       "image": "mcr.microsoft.com/devcontainers/base:alpine",
       "features": {
-        "../demobuilderror": {}
+        "./demobuilderror": {}
       }
     }
   },
   {
-    "name": "Demo build error but expect to succeed - test fail",
-    "expected_exit_code": 0,
+    "name": "Demo build error",
+    "expected_exit_code": 1,
     "expected_output": "demonstrate a build error",
     "devcontainer": {
       "image": "mcr.microsoft.com/devcontainers/base:alpine",
       "features": {
-        "../demobuilderror": {
+        "./demobuilderror": {
           "forceBuildError": true
         }
       }
