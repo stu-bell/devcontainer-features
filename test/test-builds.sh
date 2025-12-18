@@ -321,18 +321,24 @@ build_devcontainer() {
     echo ""
     echoyel "Running devcontainer build..."
     
-    # Capture build output and exit code
-    BUILD_OUTPUT=$(devcontainer build --no-cache --image-name "$id_label" --workspace-folder "$workspace_folder" 2>&1)
-    BUILD_EXIT_CODE=$?
+    # Create a temporary file to store build output
+    local build_output_file
+    build_output_file=$(mktemp)
     
-    # Show output if verbose or if build failed
-    if [ "$VERBOSE" = true ] || [ $BUILD_EXIT_CODE -ne 0 ]; then
-        echo "Build output:"
-        echo "----------------------------------------"
-        echo "$BUILD_OUTPUT"
-        echo "----------------------------------------"
-        echo ""
+    # Run devcontainer build and handle output
+    if [ "$VERBOSE" = true ]; then
+        # In verbose mode, show output as it's generated and save to file
+        devcontainer build --no-cache --image-name "$id_label" --workspace-folder "$workspace_folder" 2>&1 | tee "$build_output_file"
+        BUILD_EXIT_CODE=${PIPESTATUS[0]}
+    else
+        # In quiet mode, save output to file but don't display it
+        devcontainer build --no-cache --image-name "$id_label" --workspace-folder "$workspace_folder" > "$build_output_file" 2>&1
+        BUILD_EXIT_CODE=$?
     fi
+    
+    # Read the output from the file into a variable
+    BUILD_OUTPUT=$(cat "$build_output_file")
+    rm "$build_output_file"
     
     # Clean up container image
     echoyel "Cleaning up test image..."
@@ -377,6 +383,8 @@ run_test() {
         # Expecting failure
         if [ "$exit_code" -eq 0 ]; then
             echored "✗ Build should have failed but succeeded" >&2
+            echo "Build output:"
+            echo "$output"
             test_result="unexpected_success"
         else
             echogrn "✓ Build failed as expected (exit code: $exit_code)"
