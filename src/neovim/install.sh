@@ -18,8 +18,6 @@ is_root_user || {
 	exit 1
 }
 
-# OS detection. Populates ID, ID_LIKE, VERSION
-. /etc/os-release
 # Alpine
 if os_alpine; then
 	/bin/sh "$(dirname "$0")/install-alp.sh" "$@"
