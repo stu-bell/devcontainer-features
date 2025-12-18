@@ -13,6 +13,7 @@ jobs:
       matrix:
         features:
           - geminicli
+          - cursorcli
           - node
           - neovim
           - hello
