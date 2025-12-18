@@ -8,12 +8,11 @@
 #
 # Run with flag --help for help message
 
-# NOTE this test script just builds a devcontainer image and installs the feature. It does not start and execute any feature command.
+# NOTE this test script just runs devcontainer build, to install the feature. It does not start the container or execute any feature command.
 # To test that a feature command works, a lightweight validation step can be added at the end of the feature install.sh that test runs the command, eg by invoking the command with a --version flag.
 # This will cause the build step to fail if the command has not installed correctly and can be used for testing. 
 # However, this approach will not necessarily catch issues where the installation is only accessible to the root user.
 
-# TODO option to provide a list of one or more scenario names to run. Other scenarios in the json should be skipped for this run. --include <list of scenario names> error if an included scenario name is not found in scenarios.json
 # TODO when loading scenarios.json, ensure that there are no objects in the array with matching name keys, error if so
 # TODO add optional scenario description to scenarios.json, to print alongside tests that fail, if the description is provided
 # TODO if scenarios.json param is blank, or resolves to a non existant, or invalid file, output a message explaining where the file should be and rerun with --generate-example to see an example
