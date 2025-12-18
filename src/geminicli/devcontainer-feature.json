@@ -24,6 +24,10 @@
     "ghcr.io/stu-bell/devcontainer-features/node": {
       "node_min_major_version": "20"
     }
-  }
+  },
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/node",
+    "ghcr.io/stu-bell/devcontainer-features/node"
+  ]
 }
 
