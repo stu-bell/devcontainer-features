@@ -101,8 +101,6 @@ else
     exit 1
 fi
 
-
-
 # Test Case 5: Mix of valid and invalid scenarios
 echo "--- Test Case 5: Mix of valid and invalid scenarios ---"
 # Allow errors and capture error output
