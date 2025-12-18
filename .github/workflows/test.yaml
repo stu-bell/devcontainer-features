@@ -9,7 +9,6 @@ jobs:
   test-scenarios:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
-    continue-on-error: true
     strategy:
       matrix:
         features:

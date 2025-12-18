@@ -6,7 +6,7 @@
     "devcontainer": {
       "image": "mcr.microsoft.com/devcontainers/base:alpine",
       "features": {
-        "../../src/nvim": {}
+        "../../src/neovim": {}
       }
     }
   },
@@ -17,7 +17,7 @@
     "devcontainer": {
       "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
       "features": {
-        "../../src/nvim": {}
+        "../../src/neovim": {}
       }
     }
   },
@@ -28,7 +28,7 @@
     "devcontainer": {
       "image": "mcr.microsoft.com/devcontainers/base:debian",
       "features": {
-        "../../src/nvim": {}
+        "../../src/neovim": {}
       }
     }
   }
