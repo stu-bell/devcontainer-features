@@ -7,7 +7,6 @@
     },
     "updateContentCommand": "npm install -g @devcontainers/cli",
     "remoteUser": "node",
-    "workspaceFolder": "/workspace",
     "customizations": {
         // JSON schema validation in VSCode
         "vscode": {
