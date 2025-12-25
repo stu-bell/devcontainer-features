@@ -3,7 +3,13 @@ set -e
 
 VERSION="${VERSION:-"latest"}"
 
+# Todo sh for alpine?
+
+# Todo check if ttyd already installed
+
 echo "Installing ttyd..."
+
+#Todo check for dependency curl
 
 # Detect architecture
 ARCH=$(uname -m)
