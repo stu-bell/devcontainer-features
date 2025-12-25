@@ -1,0 +1,16 @@
+{
+  "id": "ttyd",
+  "version": "0.1.0",
+  "name": "ttyd",
+  "description": "Installs ttyd - Share your terminal over the web",
+  "options": {
+    "version": {
+      "type": "string",
+      "default": "latest",
+      "description": "Version of ttyd to install (e.g., '1.7.4' or 'latest')"
+    }
+  },
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/common-utils"
+  ]
+}
