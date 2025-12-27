@@ -6,7 +6,9 @@
     "devcontainer": {
       "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
       "features": {
-        "../../src/ttyd": { }
+        "../../src/ttyd": {
+          "fontSize": 50
+        }
       }
     }
   }
