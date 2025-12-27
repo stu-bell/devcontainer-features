@@ -25,5 +25,14 @@
                 "mads-hartmann.bash-ide-vscode"
             ]
         }
+    },
+
+"forwardPorts": [7681],
+
+  "portsAttributes": {
+    "7681": {
+      "label": "ttyd",
+      "onAutoForward": "notify"
     }
+  }
 }
