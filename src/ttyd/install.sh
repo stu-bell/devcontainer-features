@@ -3,7 +3,9 @@ set -e
 
 VERSION="${VERSION:-"latest"}"
 
-# Todo sh for alpine?
+# Todo make sh compatible for alpine
+# Todo install bash on alpine
+# Todo make default command bash an option
 
 # Todo check if ttyd already installed
 
@@ -54,3 +56,41 @@ else
   echo "Failed to install ttyd"
   exit 1
 fi
+
+create_ttyd_sh() {
+    # Create ttyd.sh if it doesn't exist
+    TTYD_SCRIPT_PATH="${_REMOTE_WORKSPACE_FOLDER}/.devcontainer/ttyd.sh"
+    if [ ! -f "$TTYD_SCRIPT_PATH" ]; then
+      echo "Creating ttyd.sh..."
+      # Create the directory if it doesn't exist
+      mkdir -p "$(dirname "$TTYD_SCRIPT_PATH")"
+
+      # Set default values from feature options, or hardcoded defaults
+      _PORT="${PORT:-7681}"
+      _COLS="${COLS:-80}"
+      _FONTSIZE="${FONTSIZE:-20}"
+      _READONLY="${READONLY:-false}"
+
+      TTYD_FLAGS=""
+      if [ "$_READONLY" = "true" ]; then
+        TTYD_FLAGS="" # No -W flag for read-only
+      else
+        TTYD_FLAGS="-W" # Keep -W flag for writable terminal
+      fi
+
+      TTYD_ARGS="-p $_PORT $TTYD_FLAGS -t fontSize=$_FONTSIZE -t cols=$_COLS"
+
+      cat <<EOF > "$TTYD_SCRIPT_PATH"
+#!/usr/bin/env bash
+nohup ttyd $TTYD_ARGS bash > /tmp/ttyd.log 2>&1 &
+echo "ttyd logs at /tmp/ttyd
+log"
+EOF
+    fi
+
+    # Make ttyd.sh executable
+    chmod a+x "$TTYD_SCRIPT_PATH"
+    echo "ttyd.sh configured and executable."
+}
+
+create_ttyd_sh
