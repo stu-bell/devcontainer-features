@@ -34,5 +34,6 @@
       "label": "ttyd",
       "onAutoForward": "notify"
     }
-  }
+  },
+  "postCreateCommand": "./devcontainer/postCreate.sh"
 }
