@@ -3,7 +3,7 @@
     "features": {
         "ghcr.io/devcontainers/features/docker-in-docker:2": {},
         "../src/geminicli": {},
-        "../src/nvim": { "CONFIG_GIT_URL": "https://github.com/stu-bell/nvim.git" }
+        "../src/neovim": { "CONFIG_GIT_URL": "https://github.com/stu-bell/nvim.git" }
     },
     "updateContentCommand": "npm install -g @devcontainers/cli",
     "remoteUser": "node",
