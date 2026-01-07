@@ -27,14 +27,5 @@
             ]
         }
     },
-
-"forwardPorts": [7681],
-
-  "portsAttributes": {
-    "7681": {
-      "label": "ttyd",
-      "onAutoForward": "notify"
-    }
-  },
-  "postCreateCommand": "./.devcontainer/postCreate.sh"
+    "postCreateCommand": "./.devcontainer/postCreate.sh"
 }
