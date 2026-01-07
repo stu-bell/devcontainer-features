@@ -2,10 +2,10 @@
     "image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bookworm",
     "features": {
         "ghcr.io/devcontainers/features/docker-in-docker:2": {},
- //       "../src/geminicli": {},
- //       "../src/nvim": { "CONFIG_GIT_URL": "https://github.com/stu-bell/nvim.git" }
-        "./features/ttyd": {},
-        "ghcr.io/stu-bell/devcontainer-features/geminicli": {}
+        "ghcr.io/stu-bell/devcontainer-features/geminicli": {},
+        "ghcr.io/stu-bell/devcontainer-features/neovim": {
+            "CONFIG_GIT_URL": "https://github.com/stu-bell/nvim.git"
+        }
     },
     "updateContentCommand": "npm install -g @devcontainers/cli",
     "remoteUser": "node",
@@ -26,5 +26,15 @@
                 "mads-hartmann.bash-ide-vscode"
             ]
         }
+    },
+
+"forwardPorts": [7681],
+
+  "portsAttributes": {
+    "7681": {
+      "label": "ttyd",
+      "onAutoForward": "notify"
     }
+  },
+  "postCreateCommand": "./.devcontainer/postCreate.sh"
 }

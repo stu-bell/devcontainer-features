@@ -91,6 +91,7 @@ EOF
     # Make ttyd.sh executable
     chmod a+x "$TTYD_SCRIPT_PATH"
     echo "ttyd.sh configured and executable."
+    cat "$TTYD_SCRIPT_PATH"
 }
 
 create_ttyd_sh
