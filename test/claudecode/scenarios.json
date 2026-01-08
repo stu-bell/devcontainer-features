@@ -1,5 +1,16 @@
 [
   {
+    "name": "alpine",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:alpine",
+      "features": {
+        "../../src/claudecode": { }
+      }
+    }
+  },
+  {
     "name": "ubuntu",
     "expected_exit_code": 0,
     "expected_output": "",
