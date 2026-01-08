@@ -8,13 +8,12 @@ set -e
 
 # Make sure there isn't already an installation of the tool
 has_command claude && {
-    echo "Claude Code $(claude --version) is already installed"
+    echo "Claude Code $(claude -v) is already installed"
     exit 0
 }
 
 # dependencies
 ensure_bash_on_alpine
-
 has_command curl || {
     echored "ERROR: This feature requires curl to be installed. Install with devcontainer feature ghcr.io/devcontainers/features/common-utils"
     exit 1

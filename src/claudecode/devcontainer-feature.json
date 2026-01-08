@@ -5,6 +5,9 @@
   "description": "Installs Claude Code for AI code assistance https://code.claude.com",
   "installsAfter": [
     "ghcr.io/devcontainers/features/common-utils"
-  ]
+  ],
+  "containerEnv": {
+    "PATH": "$HOME/.local/bin:$PATH"
+  }
 }
 
