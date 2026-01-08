@@ -3,7 +3,6 @@
 # Licensed under the MIT License. See https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE for license information.
 
 # v0.1.1
-
 # os_debian_like os_alpine ensure_bash_on_alpine echoyel echogrn echored semver_major s_root_user has_command run_as_remote_user
 
 # check if a command exists
@@ -59,6 +58,7 @@ os_alpine() {
     . /etc/os-release
     [ "${ID}" = "alpine" ]
 }
+
 os_debian_like() {
     . /etc/os-release
     [ "${ID}" = "debian" ] || [ "${ID_LIKE}" = "debian" ]

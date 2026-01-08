@@ -1,0 +1,10 @@
+{
+  "id": "claudecode",
+  "version": "0.1.0",
+  "name": "Claude Code",
+  "description": "Installs Claude Code for AI code assistance https://code.claude.com",
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/common-utils"
+  ]
+}
+
