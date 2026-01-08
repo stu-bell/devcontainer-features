@@ -1,24 +1,13 @@
 #!/bin/sh
-# Copyright (c) Stuart Bell 
+# Copyright (c) 2026 Stuart Bell 
 # Licensed under the MIT License. See https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE for license information.
 
 # v0.1.2
-# os_debian_like os_alpine ensure_bash_on_alpine echoyel echogrn echored semver_major s_root_user has_command remote_user_run
 
 # check if a command exists
 has_command() {
     command -v "$1" > /dev/null 2>&1
 }
-# MISSING_DEPS=""
-# for cmd in git node npm; do
-#     if ! assert_dependency "$cmd"; then
-#         MISSING_DEPS="$MISSING_DEPS $cmd"
-#     fi
-# done
-# if [ -n "$MISSING_DEPS" ]; then
-#     echo "ERROR: Missing:$MISSING_DEPS"
-#     exit 1
-# fi
 
 # check if user is root user
 is_root_user() {
@@ -81,3 +70,4 @@ remote_user_run() {
 remote_user_has_command() {
     remote_user_run "command -v \"$1\" > /dev/null 2>&1"
 }
+
