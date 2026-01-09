@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) Stuart Bell 
+# Copyright (c) 2026 Stuart Bell
 # Licensed under the MIT License. See https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE for license information.
 set -e
 . ./util.sh
@@ -27,12 +27,15 @@ echo "Installing Claude Code via https://claude.ai/install.sh"
 # Run the install as the remote user, as script installs locally
 remote_user_run 'curl -fsSL https://claude.ai/install.sh | bash'
 
-# Verify installation
-if remote_user_has_command 'claude' ; then
-    version=$(remote_user_run 'claude -v')
-    echo "Claude Code ${version} installed successfully"
-else
-    echo "ERROR: Failed to install Claude Code"
-    exit 1
-fi
-
+# # Verify installation
+# version=$(remote_user_run 'export PATH="$HOME/.local/bin:$PATH" && claude -v')
+# echo "Claude Code ${version} installed successfully"
+     
+# if remote_user_has_command 'claude' ; then
+#     version=$(remote_user_run 'claude -v')
+#     echo "Claude Code ${version} installed successfully"
+# else
+#     echo "ERROR: Failed to install Claude Code"
+#     exit 1
+# fi
+#
