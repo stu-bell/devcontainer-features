@@ -24,6 +24,8 @@ fi
 
 # install Claude Code
 echo "Installing Claude Code via https://claude.ai/install.sh"
+echo ""
+echo "Note install script does not output progress..."
 # Run the install as the remote user, as script installs locally
 remote_user_run 'curl -fsSL https://claude.ai/install.sh | bash'
 
