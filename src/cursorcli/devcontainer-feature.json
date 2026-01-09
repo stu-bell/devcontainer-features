@@ -7,7 +7,7 @@
     "ghcr.io/devcontainers/features/common-utils"
   ],
   "containerEnv": {
-    "PATH": "$HOME/.local/bin:$PATH"
+    "PATH": "$_REMOTE_USER_HOME/.local/bin:$PATH"
   }
 }
 
