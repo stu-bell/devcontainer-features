@@ -1,24 +1,13 @@
 #!/bin/sh
-# Copyright (c) Stuart Bell 
+# Copyright (c) 2026 Stuart Bell 
 # Licensed under the MIT License. See https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE for license information.
 
-# v0.1.1
-# os_debian_like os_alpine ensure_bash_on_alpine echoyel echogrn echored semver_major s_root_user has_command run_as_remote_user
+# v0.1.2
 
 # check if a command exists
 has_command() {
     command -v "$1" > /dev/null 2>&1
 }
-# MISSING_DEPS=""
-# for cmd in git node npm; do
-#     if ! assert_dependency "$cmd"; then
-#         MISSING_DEPS="$MISSING_DEPS $cmd"
-#     fi
-# done
-# if [ -n "$MISSING_DEPS" ]; then
-#     echo "ERROR: Missing:$MISSING_DEPS"
-#     exit 1
-# fi
 
 # check if user is root user
 is_root_user() {
@@ -58,13 +47,14 @@ os_alpine() {
     . /etc/os-release
     [ "${ID}" = "alpine" ]
 }
+
 os_debian_like() {
     . /etc/os-release
     [ "${ID}" = "debian" ] || [ "${ID_LIKE}" = "debian" ]
 }
 
 # Run a command as the remote user for the devcontainer. 
-run_as_remote_user() {
+remote_user_run() {
 # Use _REMOTE_USER if available, otherwise use the devcontainer.json option USER_NAME
     command_to_run="$1"
     USER_OPTION="${REMOTE_USER_NAME:-automatic}"
@@ -74,5 +64,10 @@ run_as_remote_user() {
     fi
     echo "Running as: $_REMOTE_USER, command: $command_to_run"
     su - "${_REMOTE_USER}" -c "$command_to_run"
+}
+
+# check if a command exists for remote user
+remote_user_has_command() {
+    remote_user_run "command -v \"$1\" > /dev/null 2>&1"
 }
 

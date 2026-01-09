@@ -12,10 +12,12 @@ jobs:
     strategy:
       matrix:
         features:
+          - claudecode
           - cursorcli
           - geminicli
           - node
           - neovim
+          - ttyd
     steps:
       - name: 'Checkout correct SHA'
         uses: actions/checkout@v4
