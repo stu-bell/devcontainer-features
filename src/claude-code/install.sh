@@ -5,7 +5,8 @@ set -e
 . ./util.sh
 
 # Make sure there isn't already an installation of the tool
-has_command claude && {
+remote_user_has_command claude && {
+    version=$(remote_user_run 'export PATH="$_REMOTE_USER_HOME/.local/bin:$PATH" && claude -v')
     echo "Claude Code $(claude -v) is already installed"
     exit 0
 }
@@ -25,19 +26,11 @@ fi
 # install Claude Code
 echo "Installing Claude Code via https://claude.ai/install.sh"
 echo ""
-echo "Note install script does not output progress..."
+echo "Note: Claude install script does not output progress..."
 # Run the install as the remote user, as script installs locally
 remote_user_run 'curl -fsSL https://claude.ai/install.sh | bash'
 
-# # Verify installation
-# version=$(remote_user_run 'export PATH="$HOME/.local/bin:$PATH" && claude -v')
-# echo "Claude Code ${version} installed successfully"
-     
-# if remote_user_has_command 'claude' ; then
-#     version=$(remote_user_run 'claude -v')
-#     echo "Claude Code ${version} installed successfully"
-# else
-#     echo "ERROR: Failed to install Claude Code"
-#     exit 1
-# fi
-#
+# Verify installation
+version=$(remote_user_run 'export PATH="$_REMOTE_USER_HOME/.local/bin:$PATH" && claude -v')
+echo "Claude Code ${version} installed successfully"
+
