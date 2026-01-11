@@ -2,7 +2,7 @@
   "id": "ttyd",
   "version": "0.1.0",
   "name": "ttyd",
-  "description": "Installs ttyd - Share your terminal over the web. The ttyd options (port, cols, fontSize, readOnly) control the auto-generated .devcontainer/ttyd.sh script, but are ignored if a .devcontainer/ttyd.sh file already exists.",
+  "description": "Installs ttyd - Share your terminal over the web. https://tsl0922.github.io/ttyd The ttyd options (port, cols, fontSize, readOnly) control the auto-generated .devcontainer/ttyd.sh script, but are ignored if a .devcontainer/ttyd.sh file already exists.",
   "options": {
     "version": {
       "type": "string",

@@ -1,5 +1,5 @@
 {
-    "name": "Neovim",
+    "name": "Neovim (via AppImage)",
     "id": "neovim",
     "version": "0.1.2",
     "description": "Installs Neovim Editor. See neovim.io",

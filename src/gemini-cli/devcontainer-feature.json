@@ -1,7 +1,7 @@
 {
   "id": "gemini-cli",
   "version": "0.1.1",
-  "name": "Google Gemini CLI",
+  "name": "Google Gemini CLI (via npm)",
   "description": "Installs Google Gemini CLI for AI code assistance https://geminicli.com",
   "options": {
     "version": {
