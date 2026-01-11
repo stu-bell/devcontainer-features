@@ -1,7 +1,7 @@
 {
   // Copyright (c) 2026 Stuart Bell
   // Licensed under the MIT License. See https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE for license information.
-  "id": "claudecode",
+  "id": "claude-code",
   "version": "0.1.0",
   "name": "Claude Code",
   "description": "Installs Claude Code for AI code assistance https://code.claude.com",
