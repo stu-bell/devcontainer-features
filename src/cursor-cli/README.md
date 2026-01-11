@@ -1,5 +1,5 @@
 
-# Cursor CLI (cursorcli)
+# Cursor CLI (cursor-cli)
 
 Installs Cursor CLI for AI code assistance https://cursor.com/cli
 
@@ -7,7 +7,7 @@ Installs Cursor CLI for AI code assistance https://cursor.com/cli
 
 ```json
 "features": {
-    "ghcr.io/stu-bell/devcontainer-features/cursorcli:0": {}
+    "ghcr.io/stu-bell/devcontainer-features/cursor-cli:0": {}
 }
 ```
 
@@ -39,4 +39,4 @@ Start your devcontainer, ssh in, and run: `cursor-agent`
 
 ---
 
-_Note: This file was auto-generated from the [devcontainer-feature.json](https://github.com/stu-bell/devcontainer-features/blob/main/src/cursorcli/devcontainer-feature.json).  Add additional notes to a `NOTES.md`._
+_Note: This file was auto-generated from the [devcontainer-feature.json](https://github.com/stu-bell/devcontainer-features/blob/main/src/cursor-cli/devcontainer-feature.json).  Add additional notes to a `NOTES.md`._
