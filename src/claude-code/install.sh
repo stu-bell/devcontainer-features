@@ -31,6 +31,8 @@ echo "Note: Claude install script does not output progress..."
 remote_user_run 'curl -fsSL https://claude.ai/install.sh | bash'
 
 # Verify installation
-version=$(remote_user_run 'export PATH="$_REMOTE_USER_HOME/.local/bin:$PATH" && claude -v')
-echo "Claude Code ${version} installed successfully"
+remote_user_has_command claude && {
+    version=$(remote_user_run 'export PATH="$_REMOTE_USER_HOME/.local/bin:$PATH" && claude -v')
+    echo "Claude Code ${version} installed successfully"
+}
 
