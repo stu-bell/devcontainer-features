@@ -25,7 +25,7 @@ fi
 # install cursor
 echo "Installing Cursor CLI via https://cursor.com/install"
 # Run the install as the remote user, as script installs locally
-run_as_remote_user 'curl https://cursor.com/install -fsS | bash'
+run_as_remote_user 'curl https://cursor.com/install -fsSL | bash'
 
 # Verify installation
 if run_as_remote_user '~/.local/bin/cursor-agent -v' > /dev/null 2>&1; then

@@ -1,7 +1,7 @@
 {
   "id": "cursor-cli",
   "version": "0.1.0",
-  "name": "Cursor CLI",
+  "name": "Cursor CLI (via cursor.com/install)",
   "description": "Installs Cursor CLI for AI code assistance https://cursor.com/cli",
   "installsAfter": [
     "ghcr.io/devcontainers/features/common-utils"

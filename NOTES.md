@@ -6,9 +6,15 @@
 1. Use ./test/test-builds.sh to test duplicate installs and combinations of features (like the devconainer test --global option?)
 1. test-build.sh to start container and execute a test.sh script referenced by the scenario
 
+# Update Documentation
+
+```
+devcontainer features generate-docs -p src -n stu-bell/devcontainer-features
+```
+
 # Tests
 
-see [test/README](./test/README.md)
+See [test/README](./test/README.md)
 
 # To add a feature
 
@@ -17,12 +23,7 @@ see [test/README](./test/README.md)
 1. Make sure the test works (fails!)
 2. Add the feature folder name to the test workflow yaml matrix
 1. Build out your feature until your tests pass
+1. Update feature docs
 1. Use your feature locally in your .devcontainer projects
 1. Or [disbribute it](./README-template.md#distributing-features)
-
-
-# Docs generation
-
-From the src directory (devcontainer cli command is available in the devcontainer for this project)
-`devcontainer features generate-docs -n stu-bell/devcontainer-features`
 

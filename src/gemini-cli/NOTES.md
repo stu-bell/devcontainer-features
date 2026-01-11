@@ -14,7 +14,7 @@ Add the feature to your devcontainer.json:
 {
   "image": "mcr.microsoft.com/devcontainers/typescript-node",
   "features": {
-    "ghcr.io/stu-bell/devcontainer-features/geminicli": {
+    "ghcr.io/stu-bell/devcontainer-features/gemini-cli": {
       "node_min_major_version": "20"
     }
   }
