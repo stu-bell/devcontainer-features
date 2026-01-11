@@ -1,5 +1,5 @@
 
-# Google Gemini CLI (geminicli)
+# Google Gemini CLI (gemini-cli)
 
 Installs Google Gemini CLI for AI code assistance https://geminicli.com
 
@@ -7,7 +7,7 @@ Installs Google Gemini CLI for AI code assistance https://geminicli.com
 
 ```json
 "features": {
-    "ghcr.io/stu-bell/devcontainer-features/geminicli:0": {}
+    "ghcr.io/stu-bell/devcontainer-features/gemini-cli:0": {}
 }
 ```
 
@@ -47,4 +47,4 @@ Start your devcontainer, ssh in, and run: `gemini`
 
 ---
 
-_Note: This file was auto-generated from the [devcontainer-feature.json](https://github.com/stu-bell/devcontainer-features/blob/main/src/geminicli/devcontainer-feature.json).  Add additional notes to a `NOTES.md`._
+_Note: This file was auto-generated from the [devcontainer-feature.json](https://github.com/stu-bell/devcontainer-features/blob/main/src/gemini-cli/devcontainer-feature.json).  Add additional notes to a `NOTES.md`._
