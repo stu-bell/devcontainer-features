@@ -6,7 +6,7 @@
     "devcontainer": {
       "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
       "features": {
-        "../../src/cursorcli": { }
+        "../../src/cursor-cli": { }
       }
     }
   },
@@ -17,7 +17,7 @@
     "devcontainer": {
       "image": "mcr.microsoft.com/devcontainers/base:debian",
       "features": {
-        "../../src/cursorcli": { }
+        "../../src/cursor-cli": { }
       }
     }
   }

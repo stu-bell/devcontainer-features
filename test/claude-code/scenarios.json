@@ -6,7 +6,7 @@
     "devcontainer": {
       "image": "mcr.microsoft.com/devcontainers/base:alpine",
       "features": {
-        "../../src/claudecode": { }
+        "../../src/claude-code": { }
       }
     }
   },
@@ -17,7 +17,7 @@
     "devcontainer": {
       "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
       "features": {
-        "../../src/claudecode": { }
+        "../../src/claude-code": { }
       }
     }
   },
@@ -28,7 +28,7 @@
     "devcontainer": {
       "image": "mcr.microsoft.com/devcontainers/base:debian",
       "features": {
-        "../../src/claudecode": { }
+        "../../src/claude-code": { }
       }
     }
   }
