@@ -12,9 +12,9 @@ jobs:
     strategy:
       matrix:
         features:
-          - claudecode
-          - cursorcli
-          - geminicli
+          - claude-code
+          - cursor-cli
+          - gemini-cli
           - node
           - neovim
           - ttyd

@@ -6,7 +6,7 @@
     "devcontainer": {
       "image": "mcr.microsoft.com/devcontainers/base:alpine",
       "features": {
-        "../../src/geminicli": {
+        "../../src/gemini-cli": {
           "node_min_major_version": "20"
         }
       }
@@ -19,7 +19,7 @@
     "devcontainer": {
       "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
       "features": {
-        "../../src/geminicli": {
+        "../../src/gemini-cli": {
           "node_min_major_version": "20"
         }
       }
@@ -32,7 +32,7 @@
     "devcontainer": {
       "image": "mcr.microsoft.com/devcontainers/base:debian",
       "features": {
-        "../../src/geminicli": {
+        "../../src/gemini-cli": {
           "node_min_major_version": "20"
         }
       }
@@ -45,7 +45,7 @@
     "devcontainer": {
       "image": "mcr.microsoft.com/devcontainers/javascript-node:1-18-bookworm",
       "features": {
-        "../../src/geminicli": {
+        "../../src/gemini-cli": {
           "node_min_major_version": "20"
         }
       }
