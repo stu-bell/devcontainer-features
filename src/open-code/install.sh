@@ -6,7 +6,7 @@ set -e
 
 # Make sure there isn't already an installation of the tool
 remote_user_has_command opencode && {
-    version=$(remote_user_run 'export PATH=~/.opencode/bin:$PATH && opencode -v')
+    version=$(remote_user_run 'opencode -v')
     echo "Open Code $version is already installed"
     exit 0
 }
@@ -29,13 +29,11 @@ if [ "${OPEN_CODE_VERSION-latest}" = "latest" ] ; then
 else
     remote_user_run "curl -fsSL https://opencode.ai/install | bash -s -- --no-modify-path --version $OPEN_CODE_VERSION"
 fi
+add_to_user_profiles 'export PATH="$HOME/.opencode/bin:$PATH"'
 
-# # Verify installation
-# # if ! os_alpine ; then
-# # FIXME: verification not working on alpine
-#     remote_user_has_command '~/.opencode/bin/opencode' && {
-#         version=$(remote_user_run 'export PATH=~/.opencode/bin:$PATH && opencode -v')
-#         echo "Open Code ${version} installed successfully"
-#     }
-# # fi
+# Verify installation
+remote_user_has_command 'opencode' && {
+    version=$(remote_user_run 'opencode -v')
+    echo "Open Code ${version} installed successfully"
+}
 

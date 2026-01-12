@@ -7,9 +7,6 @@
   "description": "Installs Cursor CLI for AI code assistance https://cursor.com/cli",
   "installsAfter": [
     "ghcr.io/devcontainers/features/common-utils"
-  ],
-  "containerEnv": {
-    "PATH": "$_REMOTE_USER_HOME/.local/bin:$PATH"
-  }
+  ]
 }
 

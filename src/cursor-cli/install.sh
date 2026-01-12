@@ -7,7 +7,7 @@ set -e
 
 # Make sure there isn't already an installation of the tool
 remote_user_has_command cursor-agent && {
-    version=$(remote_user_run 'export PATH=~/.local/bin:$PATH && cursor-agent --version')
+    version=$(remote_user_run 'cursor-agent --version')
     echo "Cursor CLI $version is already installed"
     exit 0
 }
@@ -27,12 +27,10 @@ fi
 echo "Installing Cursor CLI via https://cursor.com/install"
 # Run the install as the remote user, as script installs locally
 run_as_remote_user 'curl https://cursor.com/install -fsSL | bash'
+add_to_user_profiles 'export PATH="$HOME/.local/bin:$PATH"'
 
 # Verify installation
-if run_as_remote_user '~/.local/bin/cursor-agent -v' > /dev/null 2>&1; then
-    version=$(run_as_remote_user '~/.local/bin/cursor-agent -v')
+remote_user_has_command cursor-agent && {
+    version=$(run_as_remote_user 'cursor-agent -v')
     echo "Cursor CLI $version installed successfully"
-else
-    echo "ERROR: Failed to install Cursor CLI"
-    exit 1
-fi
+}
