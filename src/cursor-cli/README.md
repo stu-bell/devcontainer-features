@@ -1,5 +1,5 @@
 
-# Cursor CLI (cursor-cli)
+# Cursor CLI (via cursor.com/install) (cursor-cli)
 
 Installs Cursor CLI for AI code assistance https://cursor.com/cli
 
