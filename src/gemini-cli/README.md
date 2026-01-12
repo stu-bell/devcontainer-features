@@ -1,5 +1,5 @@
 
-# Google Gemini CLI (gemini-cli)
+# Google Gemini CLI (via npm) (gemini-cli)
 
 Installs Google Gemini CLI for AI code assistance https://geminicli.com
 

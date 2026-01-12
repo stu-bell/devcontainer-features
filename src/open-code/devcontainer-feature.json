@@ -1,0 +1,19 @@
+{
+  // Copyright (c) 2026 Stuart Bell
+  // Licensed under the MIT License. See https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE for license information.
+  "id": "open-code",
+  "version": "0.1.0",
+  "name": "Open Code (via opencode.ai/install)",
+  "description": "Installs Open Code for AI code assistance https://opencode.ai",
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/common-utils"
+  ],
+  "options": {
+    "open_code_version": {
+      "type": "string",
+      "default": "latest",
+      "description": "Specific version number to install, eg: 1.1.13"
+    }
+  }
+}
+

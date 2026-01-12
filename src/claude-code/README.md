@@ -1,5 +1,5 @@
 
-# Claude Code (claude-code)
+# Claude Code (via claude.ai/install.sh) (claude-code)
 
 Installs Claude Code for AI code assistance https://code.claude.com
 

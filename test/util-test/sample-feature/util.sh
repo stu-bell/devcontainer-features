@@ -84,3 +84,4 @@ add_to_user_profiles() {
     # set user as owner of the files we've just created as root
     [ "$(id -u)" -eq 0 ] && chown -R "$_REMOTE_USER:$_REMOTE_USER" "$_REMOTE_USER_HOME"
 }
+
