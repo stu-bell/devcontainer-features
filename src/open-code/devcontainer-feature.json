@@ -7,7 +7,7 @@
   "description": "Installs Open Code for AI code assistance https://opencode.ai",
   "installsAfter": [
     "ghcr.io/devcontainers/features/common-utils"
-  ]
+  ],
   "options": {
     "open_code_version": {
       "type": "string",
