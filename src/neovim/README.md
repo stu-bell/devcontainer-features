@@ -1,5 +1,5 @@
 
-# Neovim (neovim)
+# Neovim (via AppImage) (neovim)
 
 Installs Neovim Editor. See neovim.io
 

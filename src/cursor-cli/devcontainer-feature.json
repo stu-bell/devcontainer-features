@@ -1,13 +1,12 @@
 {
+  // Copyright (c) 2026 Stuart Bell
+  // Licensed under the MIT License. See https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE for license information.
   "id": "cursor-cli",
   "version": "0.1.0",
   "name": "Cursor CLI (via cursor.com/install)",
   "description": "Installs Cursor CLI for AI code assistance https://cursor.com/cli",
   "installsAfter": [
     "ghcr.io/devcontainers/features/common-utils"
-  ],
-  "containerEnv": {
-    "PATH": "$_REMOTE_USER_HOME/.local/bin:$PATH"
-  }
+  ]
 }
 

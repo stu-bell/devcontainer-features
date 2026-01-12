@@ -1,4 +1,6 @@
 {
+  // Copyright (c) 2026 Stuart Bell
+  // Licensed under the MIT License. See https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE for license information.
   "id": "node",
   "version": "0.1.2",
   "name": "Node.js",
