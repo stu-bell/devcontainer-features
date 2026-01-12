@@ -71,4 +71,3 @@ remote_user_has_command() {
     remote_user_run "command -v \"$1\" > /dev/null 2>&1"
 }
 
-

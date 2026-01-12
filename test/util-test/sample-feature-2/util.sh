@@ -2,8 +2,7 @@
 # Copyright (c) 2026 Stuart Bell 
 # Licensed under the MIT License. See https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE for license information.
 
-# v0.1.2
-
+# v0.1.3
 # check if a command exists
 has_command() {
     command -v "$1" > /dev/null 2>&1
@@ -62,8 +61,8 @@ remote_user_run() {
     if [ "${_REMOTE_USER}" = "auto" ] || [ "${_REMOTE_USER}" = "automatic" ]; then
         _REMOTE_USER="$(id -un 1000 2>/dev/null || echo "vscode")" # vscode fallback
     fi
-    echo "Running as: $_REMOTE_USER, command: $command_to_run"
-    su - "${_REMOTE_USER}" -c "$command_to_run"
+    echo "Running as: $_REMOTE_USER, command: $command_to_run" >&2
+    su - "${_REMOTE_USER}" -c "sh -lc '$command_to_run'"
 }
 
 # check if a command exists for remote user
@@ -71,4 +70,18 @@ remote_user_has_command() {
     remote_user_run "command -v \"$1\" > /dev/null 2>&1"
 }
 
+# append line to common user profile files. eg:
+# add_to_user_profiles 'export PATH="$HOME/.local/bin:$PATH"'
+add_to_user_profiles() {
+    echo "$1" | tee -a \
+  "$_REMOTE_USER_HOME/.profile" \
+        "$_REMOTE_USER_HOME/.ashrc" \
+        "$_REMOTE_USER_HOME/.bashrc" \
+        "$_REMOTE_USER_HOME/.bash_profile" \
+        "$_REMOTE_USER_HOME/.zshrc" \
+        "$_REMOTE_USER_HOME/.zprofile" \
+        > /dev/null
+    # set user as owner of the files we've just created as root
+    [ "$(id -u)" -eq 0 ] && chown -R "$_REMOTE_USER:$_REMOTE_USER" "$_REMOTE_USER_HOME"
+}
 

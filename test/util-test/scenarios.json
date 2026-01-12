@@ -1,0 +1,49 @@
+[
+  {
+    "name": "duplicate",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:debian",
+      "features": {
+        "./sample-feature-2": {
+          "a": "bar"
+        },
+        "./sample-feature": { }
+      }
+    }
+  },
+  {
+    "name": "debian",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:debian",
+      "features": {
+        "./sample-feature": { }
+      }
+    }
+  },
+  {
+    "name": "ubuntu",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+      "features": {
+        "./sample-feature": { }
+      }
+    }
+  },
+  {
+    "name": "alpine",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:alpine",
+      "features": {
+        "./sample-feature": { }
+      }
+    }
+  }
+]

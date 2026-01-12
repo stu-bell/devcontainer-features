@@ -6,8 +6,8 @@ set -e
 
 # Make sure there isn't already an installation of the tool
 remote_user_has_command claude && {
-    version=$(remote_user_run 'export PATH="$_REMOTE_USER_HOME/.local/bin:$PATH" && claude -v')
-    echo "Claude Code $(claude -v) is already installed"
+    version=$(remote_user_run 'export PATH=~/.local/bin:$PATH && claude -v')
+    echo "Claude Code $version is already installed"
     exit 0
 }
 
@@ -34,8 +34,8 @@ remote_user_run 'curl -fsSL https://claude.ai/install.sh | bash'
 if ! os_alpine ; then
 # FIXME: verification not working on alpine
     remote_user_has_command claude && {
-        version=$(remote_user_run 'export PATH="$_REMOTE_USER_HOME/.local/bin:$PATH" && claude -v')
-        echo "Claude Code ${version} installed successfully"
+        version=$(remote_user_run 'export PATH=~/.local/bin:$PATH && claude -v')
+        echo "Claude Code $version installed successfully"
     }
 fi
 
