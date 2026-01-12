@@ -3,6 +3,21 @@
 # Licensed under the MIT License. See https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE for license information.
 
 # v0.1.4
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+echored() {
+    echo -e "${RED}$@${NC}"
+}
+echogrn() {
+    echo -e "${GREEN}$@${NC}"
+}
+echoyel() {
+    echo -e "${YELLOW}$@${NC}"
+}
 # check if a command exists
 has_command() {
     command -v "$1" > /dev/null 2>&1
@@ -18,19 +33,26 @@ semver_major() {
     echo "${1#v}" | cut -d'.' -f1
 }
 
-# Colors for output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-NC='\033[0m'
-echored() {
-    echo -e "${RED}$@${NC}"
+# parse minor version from a semantic version string
+semver_minor() {
+    echo "${1#v}" | cut -d'.' -f2
 }
-echogrn() {
-    echo -e "${GREEN}$@${NC}"
-}
-echoyel() {
-    echo -e "${YELLOW}$@${NC}"
+
+# return 0 if semver $1 is greater than or equal to $2 (ignores patch)
+semver_gte() {
+    v1maj=$(semver_major "$1")
+    v1min=$(semver_minor "$1")
+
+    v2maj=$(semver_major "$2")
+    v2min=$(semver_minor "$2")
+
+    if [ "$v1maj" -gt "$v2maj" ] ||
+       { [ "$v1maj" -eq "$v2maj" ] && [ "$v1min" -ge "$v2min" ]; }
+    then
+        return 0
+    else
+        return 1
+    fi
 }
 
 # If we're using Alpine, install bash before executing
