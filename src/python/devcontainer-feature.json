@@ -1,0 +1,18 @@
+{
+  // Copyright (c) 2026 Stuart Bell
+  // Licensed under the MIT License. See https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE for license information.
+  "id": "python",
+  "version": "0.1.0",
+  "name": "Python",
+  "description": "Installs Python, unless a version greater or equal to the minimum required version is found. Extends official Python feature to support Alpine.",
+  "options": {
+    "python_min_version": {
+      "type": "string",
+      "default": "3.14",
+      "description": "Minimum version of Python required."
+    }
+  },
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/common-utils"
+  ]
+}
