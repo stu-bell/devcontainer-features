@@ -18,11 +18,6 @@ echogrn() {
 echoyel() {
     echo -e "${YELLOW}$@${NC}"
 }
-# check if a command exists
-has_command() {
-    command -v "$1" > /dev/null 2>&1
-}
-
 # check if user is root user
 is_root_user() {
     [ "$(id -u)" -eq 0 ]
@@ -84,7 +79,15 @@ remote_user_run() {
         _REMOTE_USER="$(id -un 1000 2>/dev/null || echo "vscode")" # vscode fallback
     fi
     echo "Running as: $_REMOTE_USER, command: $command_to_run" >&2
-    su - "${_REMOTE_USER}" -c "sh -lc '$command_to_run'"
+    # Escape single quotes in command_to_run for the inner sh -lc call
+    escaped_command_to_run=$(echo "$command_to_run" | sed "s/'/'\\\\''/g")
+
+    su - "${_REMOTE_USER}" -c "sh -lc '$escaped_command_to_run'"
+}
+
+# check if a command exists
+has_command() {
+    command -v "$1" > /dev/null 2>&1
 }
 
 # check if a command exists for remote user
