@@ -50,7 +50,7 @@ else
 fi
 
 # verify version 
-echo "Python installed: $(get_python_version)"
+echoyel "Python installed: $(get_python_version)"
 # Error if we couldn't install the required version
-semver_gte "$(get_python_version)" "$min_req_ver" || echo "Could not install $min_req_ver" && exit 1
+semver_gte "$(get_python_version)" "$min_req_ver" || echored "Could not install $min_req_ver" && exit 1
 
