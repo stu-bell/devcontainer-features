@@ -4,10 +4,6 @@
 set -e
 . ./util.sh
 
-# Check if sufficient version already installed
-# TODO min req version from config
-min_req_ver="3.13"
-
 # get semver of installed python
 get_python_version() {
     set -e
@@ -27,8 +23,10 @@ get_python_version() {
     fi
 }
 
-# check if required version or greater already installed
-if installed_version=$(get_python_version); then
+# Check if sufficient version already installed
+min_req_ver="${MIN_PYTHON_VERSION:-3.12}"
+installed_version=$(get_python_version)
+if [ "$min_req_ver" != "latest" ] && [ -n "$installed_version" ]; then
 	if semver_gte "$installed_version" "$min_req_ver"; then
 		echo "Python $installed_version already installed"
 		exit 0
@@ -43,10 +41,18 @@ if os_alpine ; then
 	apk update 
 	apk --no-cache add python3 py3-pip
 else
-	# install from official feature
-	# TODO pass feature options
-    # TODO get feature version from options
-	install_oci_feature "ghcr.io/devcontainers/features/python:1.8.0"
+	# install from official feature. omit version tag if requesting 'latest'
+    install_oci_feature \
+        "ghcr.io/devcontainers/features/python$(echo ":$OFFICIAL_PYTHON_FEATURE_VERSION" | sed 's/:latest//')" \
+        "VERSION=${min_req_ver}" \
+        "INSTALLTOOLS=$INSTALLTOOLS" \
+        "TOOLSTOINSTALL=$TOOLSTOINSTALL" \
+        "OPTIMIZE=$OPTIMIZE" \
+        "ENABLESHARED=$ENABLESHARED" \
+        "INSTALLPATH=$INSTALLPATH" \
+        "INSTALLJUPYTERLAB=$INSTALLJUPYTERLAB" \
+        "CONFIGUREJUPYTERLABALLOWORIGIN=$CONFIGUREJUPYTERLABALLOWORIGIN" \
+        "HTTPPROXY=$HTTPPROXY"
 fi
 
 # verify version 
