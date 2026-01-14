@@ -20,7 +20,21 @@
       "image": "mcr.microsoft.com/devcontainers/base:alpine",
       "features": {
         "../../src/python": {
-          "min_python_version": "3.15"
+          "min_python_version": "3.14"
+        }
+      }
+    }
+  },
+  {
+    "name": "ubuntu_apt_get",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+      "features": {
+        "../../src/python": {
+          "min_python_version": "3.12",
+          "apt_get": true
         }
       }
     }
@@ -33,7 +47,8 @@
       "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
       "features": {
         "../../src/python": {
-          "min_python_version": "3.15"
+          "min_python_version": "3.12",
+          "apt_get": false
         }
       }
     }

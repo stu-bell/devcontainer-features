@@ -20,6 +20,11 @@
         "3.12"
       ]
     },
+    "apt_get": {
+      "type": "boolean",
+      "default": true,
+      "description": "If true, uses apt_get on Debian like distros, instead of building from source. Other options in this feature are ignored."
+    },
     "official_python_feature_version": {
       "type": "string",
       "default": "latest",

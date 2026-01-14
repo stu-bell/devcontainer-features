@@ -33,6 +33,18 @@ semver_minor() {
     echo "${1#v}" | cut -d'.' -f2
 }
 
+semver_pad() {
+    version="$1"
+    # Count the number of dots
+    dots=$(echo "$version" | tr -cd '.' | wc -c)
+    # If only one dot (major.minor), add .0
+    if [ "$dots" -eq 1 ]; then
+        echo "${version}.0"
+    else
+        echo "$version"
+    fi
+}
+
 # return 0 if semver $1 is greater than or equal to $2 (ignores patch)
 semver_gte() {
     v1maj=$(semver_major "$1")
@@ -109,6 +121,24 @@ add_to_user_profiles() {
     # set user as owner of the files we've just created as root
     [ "$(id -u)" -eq 0 ] && chown -R "$_REMOTE_USER:$_REMOTE_USER" "$_REMOTE_USER_HOME"
 }
+
+# Utility function for installing apk packages with minimal image size
+apk_install() {
+    echo "Installing packages via apk: $* ..."
+    apk update 
+    apk add --no-cache "$@"
+}
+
+# Utility function for installing apt packages with minimal image size
+apt_get_install() {
+    echo "Installing packages via apt-get: $* ..."
+    export DEBIAN_FRONTEND=noninteractive
+    apt-get update
+    apt-get install -y --no-install-recommends "$@"
+    apt-get clean
+    rm -rf /var/lib/apt/lists/*
+}
+
 
 # Download and install an OCI feature
 #     install_oci_feature "ghcr.io/devcontainers/features/python:1.8.0" \

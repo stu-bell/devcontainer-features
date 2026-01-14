@@ -1,5 +1,6 @@
 # TODO
 
+1. tests for latest util.sh
 1. TODOs in test/test-builds.sh
 1. release pipeline triggering too often?
 1. Can we move documentation generation to a pipeline before release?

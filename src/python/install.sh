@@ -24,8 +24,8 @@ get_python_version() {
 }
 
 # Check if sufficient version already installed
-min_req_ver="${MIN_PYTHON_VERSION:-3.12}"
-installed_version=$(get_python_version)
+min_req_ver="$(semver_pad ${MIN_PYTHON_VERSION:-3.12})"
+installed_version=$(get_python_version) || echo "No Python installation found."
 if [ "$min_req_ver" != "latest" ] && [ -n "$installed_version" ]; then
 	if semver_gte "$installed_version" "$min_req_ver"; then
 		echo "Python $installed_version already installed"
@@ -37,9 +37,9 @@ fi
 
 # OS detection
 if os_alpine ; then
-	echo "Installing Python3 and pip on Alpine Linux via apk..."
-	apk update 
-	apk --no-cache add python3 py3-pip
+	apk_install python3 py3-pip
+elif os_debian_like && [ "${apt_get:-true}" = "true" ] ; then
+    apt_get_install python3 python3-pip
 else
 	# install from official feature. omit version tag if requesting 'latest'
     install_oci_feature \
