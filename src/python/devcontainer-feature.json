@@ -28,7 +28,7 @@
     "official_python_feature_version": {
       "type": "string",
       "default": "latest",
-      "description": "Version of the official python devcontainer feature to use for non-alpine distros."
+      "description": "Version of the official python DEVCONTAINER FEATURE to use for non-alpine distros."
     },
     "installTools": {
       "type": "boolean",
