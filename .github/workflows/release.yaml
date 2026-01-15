@@ -36,7 +36,8 @@ jobs:
         with:
           publish-features: "true"
           base-path-to-features: "./src"
-          generate-docs: "true"
+          # gen docs by running: devcontainer features generate-docs -p src -n stu-bell/devcontainer-features
+          generate-docs: "false"
           
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
