@@ -27,4 +27,4 @@ ttyd: [tsl0922.github.io/ttyd](https://tsl0922.github.io/ttyd)
 
 ---
 
-_Note: This file was auto-generated from the [devcontainer-feature.json](devcontainer-feature.json).  Add additional notes to a `NOTES.md`._
+_Note: This file was auto-generated from the [devcontainer-feature.json](https://github.com/stu-bell/devcontainer-features/blob/main/src/ttyd/devcontainer-feature.json).  Add additional notes to a `NOTES.md`._
