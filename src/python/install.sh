@@ -60,6 +60,10 @@ else
         echo PATH: "$PATH"
 fi
 
+echo "Installing pip with ensurepip"
+python3 -m ensurepip --upgrade || true 
+python3 -m pip install --upgrade pip || true 
+
 # verify version
 if ! installed_ver=$(get_python_version); then
     echored "Could not find python installation"
