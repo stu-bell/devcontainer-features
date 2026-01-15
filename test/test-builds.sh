@@ -264,31 +264,30 @@ setup_test_workspace() {
         for feature_path in $feature_paths; do
             # Resolve the real path of the feature source
             local real_feature_path
-            real_feature_path=$(realpath "$scenarios_dir/$feature_path")
-            
-            if [ ! -d "$real_feature_path" ]; then
-                echored "✗ Error: Feature source not found for '$feature_path' (resolved to '$real_feature_path')" >&2
-                echo "Feature path is the path to the local feature src folder, relative to the scenarios.json file. eg: ../../src/myfeature" >&2
-                return 1
+            if [[ "$feature_path" == /* ]]; then # Checks if path starts with /
+                real_feature_path="$feature_path"
+            else
+                real_feature_path=$(realpath "$scenarios_dir/$feature_path")
             fi
             
-            # Copy feature source to the temp .devcontainer folder
-            echoyel "cp -r $real_feature_path" "$devcontainer_dir/ ..."
-            cp -r "$real_feature_path" "$devcontainer_dir/"
-            
-            # Get the feature's directory name and update the json
-            # in the devcontainer json provided by scenarios.json, the feature path is relative to the scenarios.json file
-            # in the devcontainer.json of the temporary workspace, we need the feature path to be relative to the 
-            # copy of the feature in the temp workspace
-            local feature_name
-            feature_name=$(basename "$real_feature_path")
-            local new_feature_path="./$feature_name"
-            
-            # Using 'with_entries' to safely update feature keys.
-            # This ensures that feature configuration (like options) is preserved
-            # even when the old and new paths are identical.
-            modified_json_content=$(echo "$modified_json_content" | jq --arg old "$feature_path" --arg new "$new_feature_path" '.features |= with_entries(if .key == $old then .key = $new else . end)')
-            echogrn "✓ Copied feature from '$feature_path' and updated path to '$new_feature_path'"
+            # Check if the resolved path is a directory that exists.
+            if [ -d "$real_feature_path" ]; then
+                # It's a local feature, copy it
+                echoyel "cp -r $real_feature_path" "$devcontainer_dir/ ..."
+                cp -r "$real_feature_path" "$devcontainer_dir/"
+                
+                local feature_name
+                feature_name=$(basename "$real_feature_path")
+                local new_feature_path="./$feature_name"
+                
+                modified_json_content=$(echo "$modified_json_content" | jq --arg old "$feature_path" --arg new "$new_feature_path" '.features |= with_entries(if .key == $old then .key = $new else . end)')
+                echogrn "✓ Copied local feature from '$feature_path' and updated path to '$new_feature_path'"
+            else
+                # Assume it's an OCI URI or remote feature, do not copy or modify path
+                echoyel "Skipping local copy for feature '$feature_path' (not a local directory)."
+                echogrn "✓ Retained OCI/remote feature path: '$feature_path'"
+            fi
+
         done
         devcontainer_json_content="$modified_json_content"
     fi
