@@ -1,0 +1,56 @@
+[
+  {
+    "name": "alpine",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:alpine",
+      "features": {
+        "ghcr.io/stu-bell/devcontainer-features/claude-code": { },
+        "ghcr.io/stu-bell/devcontainer-features/cursor-cli": { },
+        "ghcr.io/stu-bell/devcontainer-features/gemini-cli": { },
+        "ghcr.io/stu-bell/devcontainer-features/neovim": { },
+        "ghcr.io/stu-bell/devcontainer-features/node": { },
+        "ghcr.io/stu-bell/devcontainer-features/open-code": { },
+        "ghcr.io/stu-bell/devcontainer-features/python": { },
+        "ghcr.io/stu-bell/devcontainer-features/ttyd": { }
+      }
+    }
+  },
+  {
+    "name": "ubuntu",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+      "features": {
+        "ghcr.io/stu-bell/devcontainer-features/claude-code": { },
+        "ghcr.io/stu-bell/devcontainer-features/cursor-cli": { },
+        "ghcr.io/stu-bell/devcontainer-features/gemini-cli": { },
+        "ghcr.io/stu-bell/devcontainer-features/neovim": { },
+        "ghcr.io/stu-bell/devcontainer-features/node": { },
+        "ghcr.io/stu-bell/devcontainer-features/open-code": { },
+        "ghcr.io/stu-bell/devcontainer-features/python": { },
+        "ghcr.io/stu-bell/devcontainer-features/ttyd": { }
+      }
+    }
+  },
+  {
+    "name": "debian",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:debian",
+      "features": {
+        "ghcr.io/stu-bell/devcontainer-features/claude-code": { },
+        "ghcr.io/stu-bell/devcontainer-features/cursor-cli": { },
+        "ghcr.io/stu-bell/devcontainer-features/gemini-cli": { },
+        "ghcr.io/stu-bell/devcontainer-features/neovim": { },
+        "ghcr.io/stu-bell/devcontainer-features/node": { },
+        "ghcr.io/stu-bell/devcontainer-features/open-code": { },
+        "ghcr.io/stu-bell/devcontainer-features/python": { },
+        "ghcr.io/stu-bell/devcontainer-features/ttyd": { }
+      }
+    }
+  }
+]
