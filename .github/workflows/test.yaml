@@ -15,8 +15,10 @@ jobs:
           - claude-code
           - cursor-cli
           - gemini-cli
-          - node
           - neovim
+          - node
+          - open-code
+          - python
           - ttyd
     steps:
       - name: 'Checkout correct SHA'
