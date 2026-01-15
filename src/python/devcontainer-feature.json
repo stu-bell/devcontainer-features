@@ -1,0 +1,77 @@
+{
+  // Copyright (c) 2026 Stuart Bell
+  // Licensed under the MIT License. See https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE for license information.
+  "id": "python",
+  "version": "0.1.0",
+  "name": "Python",
+  "description": "Installs Python, unless a version greater or equal to the minimum required version is found. Extends official Python feature (ghcr.io/devcontainers/features/python) to support Alpine.",
+  "options": {
+    "min_python_version": {
+      "type": "string",
+      "default": "latest",
+      "description": "Feature exits early if this version or greater is already installed.",
+      "proposals": [
+        "latest",
+        // "os-provided",
+        // "none",
+        "3.15",
+        "3.14",
+        "3.13",
+        "3.12"
+      ]
+    },
+    "apt_get": {
+      "type": "boolean",
+      "default": true,
+      "description": "If true, uses apt_get on Debian like distros, instead of building from source. Other options in this feature are ignored."
+    },
+    "official_python_feature_version": {
+      "type": "string",
+      "default": "latest",
+      "description": "Version of the official python DEVCONTAINER FEATURE to use for non-alpine distros."
+    },
+    "installTools": {
+      "type": "boolean",
+      "default": true,
+      "description": "Flag indicating whether or not to install the tools specified via the 'toolsToInstall' option. Default is 'true'. Option ignored on Alpine."
+    },
+    "toolsToInstall": {
+      "type": "string",
+      "default": "flake8,autopep8,black,yapf,mypy,pydocstyle,pycodestyle,bandit,pipenv,virtualenv,pytest,pylint",
+      "description": "Comma-separated list of tools to install when 'installTools' is true. Defaults to a set of common Python tools like pylint. Option ignored on Alpine."
+    },
+    "optimize": {
+      "type": "boolean",
+      "default": false,
+      "description": "Optimize Python for performance when compiled (slow). Option ignored on Alpine."
+    },
+    "enableShared": {
+      "type": "boolean",
+      "default": false,
+      "description": "Enable building a shared Python library. Option ignored on Alpine."
+    },
+    "installPath": {
+      "type": "string",
+      "default": "/usr/local/python",
+      "description": "The path where python will be installed. Option ignored on Alpine."
+    },
+    "installJupyterlab": {
+      "type": "boolean",
+      "default": false,
+      "description": "Install JupyterLab, a web-based interactive development environment for notebooks. Option ignored on Alpine."
+    },
+    "configureJupyterlabAllowOrigin": {
+      "type": "string",
+      "default": "",
+      "description": "Configure JupyterLab to accept HTTP requests from the specified origin. Option ignored on Alpine."
+    },
+    "httpProxy": {
+      "type": "string",
+      "default": "",
+      "description": "Connect to GPG keyservers using a proxy for fetching source code signatures by configuring this option. Option ignored on Alpine."
+    }
+  },
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/common-utils"
+  ]
+}

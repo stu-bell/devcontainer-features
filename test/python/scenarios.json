@@ -1,0 +1,56 @@
+[
+  {
+    "name": "alpine",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:alpine",
+      "features": {
+        "../../src/python": {
+          "min_python_version": "3.12"
+        }
+      }
+    }
+  },
+  {
+    "name": "alpine_too_high",
+    "expected_exit_code": 1,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:alpine",
+      "features": {
+        "../../src/python": {
+          "min_python_version": "3.14"
+        }
+      }
+    }
+  },
+  {
+    "name": "ubuntu_apt_get",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+      "features": {
+        "../../src/python": {
+          "min_python_version": "3.12",
+          "apt_get": true
+        }
+      }
+    }
+  },
+  {
+    "name": "ubuntu",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+      "features": {
+        "../../src/python": {
+          "min_python_version": "3.12",
+          "apt_get": false
+        }
+      }
+    }
+  }
+]
