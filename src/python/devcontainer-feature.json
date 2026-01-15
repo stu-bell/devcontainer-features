@@ -7,7 +7,7 @@
   "description": "Installs Python, unless a version greater or equal to the minimum required version is found. Extends official Python feature (ghcr.io/devcontainers/features/python) to support Alpine.",
   "keywords": ["python"],
   "documentationURL": "https://github.com/stu-bell/devcontainer-features/tree/main/src/python",
-  "licenceURL": "https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE",
+  "licenseURL": "https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE",
   "options": {
     "min_python_version": {
       "type": "string",

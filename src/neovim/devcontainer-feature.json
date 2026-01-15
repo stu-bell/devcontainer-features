@@ -7,7 +7,7 @@
     "description": "Installs Neovim Editor. See neovim.io",
     "keywords": ["IDE", "code editor", "editor"],
     "documentationURL": "https://github.com/stu-bell/devcontainer-features/tree/main/src/neovim",
-    "licenceURL": "https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE",
+    "licenseURL": "https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE",
     "installsAfter": [
         "ghcr.io/devcontainers/features/common-utils"
     ],

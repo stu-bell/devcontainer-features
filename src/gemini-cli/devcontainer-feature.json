@@ -7,7 +7,7 @@
   "description": "Installs Google Gemini CLI for AI code assistance https://geminicli.com",
   "keywords": ["AI", "agent", "code", "coding"],
   "documentationURL": "https://github.com/stu-bell/devcontainer-features/tree/main/src/gemini-cli",
-  "licenceURL": "https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE",
+  "licenseURL": "https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE",
   "options": {
     "version": {
       "type": "string",
