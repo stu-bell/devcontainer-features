@@ -10,7 +10,7 @@ install_oci_feature "ghcr.io/stu-bell/devcontainer-features/python" \
     "VERSION=${min_py_ver}"
 
 # run install
-remote_user_run 'python -m pip install aider-install'
+remote_user_run 'python3 -m pip install aider-install'
 remote_user_run 'aider-install'
 
 # verify version
