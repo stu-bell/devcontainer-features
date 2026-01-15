@@ -12,7 +12,7 @@ has_command gemini && {
 }
 
 # Check node is installed
-NODE_MIN_MAJOR_VERSION=${NODE_MIN_MAJOR_VERSION:-18}
+NODE_MIN_MAJOR_VERSION=${NODE_MIN_MAJOR_VERSION:-20}
 MSG_NODE_MISSING="Ensure Node.js (minimum v${NODE_MIN_MAJOR_VERSION}.x) and npm are installed before this feature installs, using an appropriate base image or feature.
 FAILED TO INSTALL Gemini CLI"
 
