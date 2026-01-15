@@ -1,6 +1,4 @@
 #!/bin/sh
-# Copyright (c) 2026 Stuart Bell 
-# Licensed under the MIT License. See https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE for license information.
 set -e
 . ./util.sh
 
@@ -9,21 +7,11 @@ min_py_ver=${MIN_PYTHON_VERSION:-"3.12.0"}
 install_oci_feature "ghcr.io/stu-bell/devcontainer-features/python" \
     "VERSION=${min_py_ver}"
 
-# FIXME: pip not found despite installing pip with the dependency feature and confirming with `which pip`
+# The python feature installs pip to /usr/local/python/current/bin
+# This path needs to be added to the current session's PATH for 'pip' to found.
+export PATH="/usr/local/python/current/bin:$PATH"
 
-# run install
-INSTALL_CMD=""
-if remote_user_has_command pip3; then
-    INSTALL_CMD="pip3 install aider-install"
-elif remote_user_has_command python3; then
-    INSTALL_CMD="python3 -m pip install aider-install"
-elif remote_user_has_command python; then
-    INSTALL_CMD="python -m pip install aider-install"
-else
-    echored "ERROR: Python or Pip not found."
-    exit 1
-fi
-remote_user_run "$INSTALL_CMD"
+remote_user_run "pip install aider-install"
 remote_user_run 'aider-install'
 
 # verify version

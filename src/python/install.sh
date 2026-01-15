@@ -38,7 +38,7 @@ fi
 # OS detection
 if os_alpine ; then
 	apk_install python3 py3-pip
-elif os_debian_like && [ "${APT_GET:-true}" = "true" ] ; then
+elif os_debian_like && [ "${APT_GET:-"true"}" = "true" ] ; then
     apt_get_install python3 python3-pip
 else
 	# install from official feature. omit version tag if requesting 'latest'
