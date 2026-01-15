@@ -38,7 +38,7 @@ fi
 # OS detection
 if os_alpine ; then
 	apk_install python3 py3-pip
-elif os_debian_like && [ "${apt_get:-true}" = "true" ] ; then
+elif os_debian_like && [ "${APT_GET:-true}" = "true" ] ; then
     apt_get_install python3 python3-pip
 else
 	# install from official feature. omit version tag if requesting 'latest'
@@ -53,10 +53,21 @@ else
         "INSTALLJUPYTERLAB=$INSTALLJUPYTERLAB" \
         "CONFIGUREJUPYTERLABALLOWORIGIN=$CONFIGUREJUPYTERLABALLOWORIGIN" \
         "HTTPPROXY=$HTTPPROXY"
+
+        # Add Python to PATH for verification
+        add_to_user_profiles "export PATH=$INSTALLPATH/current/bin:/usr/local/bin:\$PATH"
+        export PATH="$INSTALLPATH/current/bin:/usr/local/bin:$PATH"
+        echo PATH: "$PATH"
 fi
 
-# verify version 
-echoyel "Python installed: $(get_python_version)"
-# Error if we couldn't install the required version
-semver_gte "$(get_python_version)" "$min_req_ver" || echored "Could not install $min_req_ver" && exit 1
+# verify version
+if ! installed_ver=$(get_python_version); then
+    echored "Could not find python installation"
+    exit 1
+fi
+echoyel "Python installed: $installed_ver"
+if ! semver_gte "$installed_ver" "$min_req_ver"; then
+    echored "Could not find version $min_req_ver"
+    exit 1
+fi
 
