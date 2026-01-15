@@ -20,7 +20,6 @@
 
 ## TODO maybe
 
-- test-builds.sh: accept non-local features, ie from ghcr.io (current behaviour is to treat feature as a local path and copy the folder)
 - test-builds.sh: when loading scenarios.json, ensure that there are no objects in the array with matching name keys, error if so
 - test-builds.sh: add optional scenario description to scenarios.json, to print alongside tests that fail, if the description is provided
 - test-builds.sh: if scenarios.json param is blank, or resolves to a non existant, or invalid file, output a message explaining where the file should be and rerun with --generate-example to see an example
