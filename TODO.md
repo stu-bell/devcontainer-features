@@ -1,1 +1,0 @@
-test/_global/scenarios.json combines all features into a single devcontainer. Separate these out into many devcontainer scenarios within the _global/scenarios.json, with one feature per scenario, and all 3 base images per feature in the collection. Leave other feature scenarios.json files untouched. 
