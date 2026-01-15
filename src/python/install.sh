@@ -38,7 +38,7 @@ fi
 # OS detection
 if os_alpine ; then
 	apk_install python3 py3-pip
-elif os_debian_like && [ "${APT_GET:-true}" = "true" ] ; then
+elif os_debian_like && [ "${APT_GET:-"true"}" = "true" ] ; then
     apt_get_install python3 python3-pip
 else
 	# install from official feature. omit version tag if requesting 'latest'
@@ -56,8 +56,10 @@ else
 
         # Add Python to PATH for verification
         add_to_user_profiles "export PATH=$INSTALLPATH/current/bin:/usr/local/bin:\$PATH"
-        export PATH="$INSTALLPATH/current/bin:/usr/local/bin:$PATH"
+        export PATH="$INSTALLPATH/current/bin:/usr/local/bin:/usr/local/python/current/bin:$PATH"
         echo PATH: "$PATH"
+
+
 fi
 
 # verify version
