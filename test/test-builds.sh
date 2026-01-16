@@ -13,17 +13,6 @@
 # This will cause the build step to fail if the command has not installed correctly and can be used for testing. 
 # However, this approach will not necessarily catch issues where the installation is only accessible to the root user.
 
-# TODO accept non-local features, ie from ghcr.io (current behaviour is to treat feature as a local path and copy the folder)
-# TODO when loading scenarios.json, ensure that there are no objects in the array with matching name keys, error if so
-# TODO add optional scenario description to scenarios.json, to print alongside tests that fail, if the description is provided
-# TODO if scenarios.json param is blank, or resolves to a non existant, or invalid file, output a message explaining where the file should be and rerun with --generate-example to see an example
-# TODO accept an array of expected output strings to test for, all should be present
-# TODO pass grep options for testing expected output
-# TODO option to test starting and executing a test script in the started dev container (rather than just building the image). start container after build, provide a command on scenarios.json to exec after container starts. Can still use the expected output and return codes on the entire build/start/exec process? will need to stop and clean up container after use. Could we also mount local .sh files to allow the exec to execute a test file, which could also report results? similar to the way devcontainer cli feature tests work? Or you could just add your validation command to exec and check for exit code and expected output, eg "exec": "mytool --version". include a test-script property on each scenario which includes a path to a test script for that scenario. Multiple scenarios might share the same test. Script should exit 0 to pass, 1 to fail
-# TODO include other .devcontainer/* artifacts (eg docker compose or docker file), for testing .devcontainer config, not just devcontainer features
-# TODO can we run some builds concurrently? How do we keep within resource limits?
-# TODO validate scenarios schema?
-
 show_help() {
   echo "Usage: $(basename "$0") [OPTIONS]"
   echo ""
@@ -264,31 +253,29 @@ setup_test_workspace() {
         for feature_path in $feature_paths; do
             # Resolve the real path of the feature source
             local real_feature_path
-            real_feature_path=$(realpath "$scenarios_dir/$feature_path")
-            
-            if [ ! -d "$real_feature_path" ]; then
-                echored "✗ Error: Feature source not found for '$feature_path' (resolved to '$real_feature_path')" >&2
-                echo "Feature path is the path to the local feature src folder, relative to the scenarios.json file. eg: ../../src/myfeature" >&2
-                return 1
+            if [[ "$feature_path" == /* ]]; then # Checks if path starts with /
+                real_feature_path="$feature_path"
+            else
+                real_feature_path=$(realpath "$scenarios_dir/$feature_path")
             fi
             
-            # Copy feature source to the temp .devcontainer folder
-            echoyel "cp -r $real_feature_path" "$devcontainer_dir/ ..."
-            cp -r "$real_feature_path" "$devcontainer_dir/"
-            
-            # Get the feature's directory name and update the json
-            # in the devcontainer json provided by scenarios.json, the feature path is relative to the scenarios.json file
-            # in the devcontainer.json of the temporary workspace, we need the feature path to be relative to the 
-            # copy of the feature in the temp workspace
-            local feature_name
-            feature_name=$(basename "$real_feature_path")
-            local new_feature_path="./$feature_name"
-            
-            # Using 'with_entries' to safely update feature keys.
-            # This ensures that feature configuration (like options) is preserved
-            # even when the old and new paths are identical.
-            modified_json_content=$(echo "$modified_json_content" | jq --arg old "$feature_path" --arg new "$new_feature_path" '.features |= with_entries(if .key == $old then .key = $new else . end)')
-            echogrn "✓ Copied feature from '$feature_path' and updated path to '$new_feature_path'"
+            # Check if the resolved path is a directory that exists.
+            if [ -d "$real_feature_path" ]; then
+                # It's a local feature, copy it
+                echoyel "cp -r $real_feature_path" "$devcontainer_dir/ ..."
+                cp -r "$real_feature_path" "$devcontainer_dir/"
+                
+                local feature_name
+                feature_name=$(basename "$real_feature_path")
+                local new_feature_path="./$feature_name"
+                
+                modified_json_content=$(echo "$modified_json_content" | jq --arg old "$feature_path" --arg new "$new_feature_path" '.features |= with_entries(if .key == $old then .key = $new else . end)')
+                echogrn "✓ Copied local feature from '$feature_path' and updated path to '$new_feature_path'"
+            else
+                # Assume it's an OCI URI or remote feature, do not copy or modify path
+                echoyel "Skipping local copy for feature '$feature_path' (not a local directory)."
+            fi
+
         done
         devcontainer_json_content="$modified_json_content"
     fi

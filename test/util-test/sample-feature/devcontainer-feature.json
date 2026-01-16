@@ -4,12 +4,6 @@
   "id": "sample-feature",
   "version": "0.1.0",
   "name": "sample feature",
-  "description": "For testing util.sh",
-  "options": {
-    "a": {
-      "type": "string",
-      "default": "foo"
-    }
-  }
+  "description": "For testing util.sh"
 }
 

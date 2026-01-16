@@ -20,3 +20,9 @@ The --only flag allows a list of scenario names to run (other scenarios in the f
 
 Scripts for verifying test-build.sh behaviour are in test/script-tests
 
+# Long running test scripts
+
+heartbeat.sh: A wrapper function to execute a long-running command with a "heartbeat".
+It runs the command in the background, redirecting its output to a temporary file.
+While the command is running, it periodically prints the line count of the
+output file to provide a heartbeat, preventing timeouts in CI/CD environments.

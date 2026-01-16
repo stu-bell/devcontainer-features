@@ -1,0 +1,266 @@
+[
+  {
+    "name": "claude-code-alpine",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:alpine",
+      "features": {
+        "ghcr.io/stu-bell/devcontainer-features/claude-code": {}
+      }
+    }
+  },
+  {
+    "name": "claude-code-ubuntu",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+      "features": {
+        "ghcr.io/stu-bell/devcontainer-features/claude-code": {}
+      }
+    }
+  },
+  {
+    "name": "claude-code-debian",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:debian",
+      "features": {
+        "ghcr.io/stu-bell/devcontainer-features/claude-code": {}
+      }
+    }
+  },
+  {
+    "name": "cursor-cli-alpine",
+    "expected_exit_code": 1,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:alpine",
+      "features": {
+        "ghcr.io/stu-bell/devcontainer-features/cursor-cli": {}
+      }
+    }
+  },
+  {
+    "name": "cursor-cli-ubuntu",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+      "features": {
+        "ghcr.io/stu-bell/devcontainer-features/cursor-cli": {}
+      }
+    }
+  },
+  {
+    "name": "cursor-cli-debian",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:debian",
+      "features": {
+        "ghcr.io/stu-bell/devcontainer-features/cursor-cli": {}
+      }
+    }
+  },
+  {
+    "name": "gemini-cli-alpine",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:alpine",
+      "features": {
+        "ghcr.io/stu-bell/devcontainer-features/gemini-cli": {}
+      }
+    }
+  },
+  {
+    "name": "gemini-cli-ubuntu",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+      "features": {
+        "ghcr.io/stu-bell/devcontainer-features/gemini-cli": {}
+      }
+    }
+  },
+  {
+    "name": "gemini-cli-debian",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:debian",
+      "features": {
+        "ghcr.io/stu-bell/devcontainer-features/gemini-cli": {}
+      }
+    }
+  },
+  {
+    "name": "neovim-alpine",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:alpine",
+      "features": {
+        "ghcr.io/stu-bell/devcontainer-features/neovim": {}
+      }
+    }
+  },
+  {
+    "name": "neovim-ubuntu",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+      "features": {
+        "ghcr.io/stu-bell/devcontainer-features/neovim": {}
+      }
+    }
+  },
+  {
+    "name": "neovim-debian",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:debian",
+      "features": {
+        "ghcr.io/stu-bell/devcontainer-features/neovim": {}
+      }
+    }
+  },
+  {
+    "name": "node-alpine",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:alpine",
+      "features": {
+        "ghcr.io/stu-bell/devcontainer-features/node": {}
+      }
+    }
+  },
+  {
+    "name": "node-ubuntu",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+      "features": {
+        "ghcr.io/stu-bell/devcontainer-features/node": {}
+      }
+    }
+  },
+  {
+    "name": "node-debian",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:debian",
+      "features": {
+        "ghcr.io/stu-bell/devcontainer-features/node": {}
+      }
+    }
+  },
+  {
+    "name": "open-code-alpine",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:alpine",
+      "features": {
+        "ghcr.io/stu-bell/devcontainer-features/open-code": {}
+      }
+    }
+  },
+  {
+    "name": "open-code-ubuntu",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+      "features": {
+        "ghcr.io/stu-bell/devcontainer-features/open-code": {}
+      }
+    }
+  },
+  {
+    "name": "open-code-debian",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:debian",
+      "features": {
+        "ghcr.io/stu-bell/devcontainer-features/open-code": {}
+      }
+    }
+  },
+  {
+    "name": "python-alpine",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:alpine",
+      "features": {
+        "ghcr.io/stu-bell/devcontainer-features/python": {}
+      }
+    }
+  },
+  {
+    "name": "python-ubuntu",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+      "features": {
+        "ghcr.io/stu-bell/devcontainer-features/python": {}
+      }
+    }
+  },
+  {
+    "name": "python-debian",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:debian",
+      "features": {
+        "ghcr.io/stu-bell/devcontainer-features/python": {}
+      }
+    }
+  },
+  {
+    "name": "ttyd-alpine",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:alpine",
+      "features": {
+        "ghcr.io/stu-bell/devcontainer-features/ttyd": {}
+      }
+    }
+  },
+  {
+    "name": "ttyd-ubuntu",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+      "features": {
+        "ghcr.io/stu-bell/devcontainer-features/ttyd": {}
+      }
+    }
+  },
+  {
+    "name": "ttyd-debian",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:debian",
+      "features": {
+        "ghcr.io/stu-bell/devcontainer-features/ttyd": {}
+      }
+    }
+  }
+]

@@ -28,13 +28,12 @@
   {
     "name": "ubuntu_apt_get",
     "expected_exit_code": 0,
-    "expected_output": "",
+    "expected_output": "Installing packages via apt-get: python3 python3-pip",
     "devcontainer": {
       "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
       "features": {
         "../../src/python": {
-          "min_python_version": "3.12",
-          "apt_get": true
+          "min_python_version": "3.12"
         }
       }
     }
@@ -42,12 +41,26 @@
   {
     "name": "ubuntu",
     "expected_exit_code": 0,
-    "expected_output": "",
+    "expected_output": "Installing OCI feature: ghcr.io/devcontainers/features/python",
     "devcontainer": {
       "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
       "features": {
         "../../src/python": {
           "min_python_version": "3.12",
+          "apt_get": false
+        }
+      }
+    }
+  },
+  {
+    "name": "ubuntu_latest",
+    "expected_exit_code": 0,
+    "expected_output": "Installing OCI feature: ghcr.io/devcontainers/features/python",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+      "features": {
+        "../../src/python": {
+          "min_python_version": "latest",
           "apt_get": false
         }
       }

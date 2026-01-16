@@ -2,9 +2,12 @@
   // Copyright (c) 2026 Stuart Bell
   // Licensed under the MIT License. See https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE for license information.
   "id": "gemini-cli",
-  "version": "0.1.1",
+  "version": "0.1.3",
   "name": "Google Gemini CLI (via npm)",
   "description": "Installs Google Gemini CLI for AI code assistance https://geminicli.com",
+  "keywords": ["AI", "agent", "code", "coding"],
+  "documentationURL": "https://github.com/stu-bell/devcontainer-features/tree/main/src/gemini-cli",
+  "licenseURL": "https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE",
   "options": {
     "version": {
       "type": "string",
@@ -16,15 +19,15 @@
       ],
       "description": "Version of Gemini CLI to install https://www.npmjs.com/package/@google/gemini-cli#release-cadence-and-tags"
     },
-    "node_min_major_version": {
+    "node_min_semver": {
       "type": "string",
-      "default": "20",
-      "description": "Minimum major version of Node.js required."
+      "default": "18.0.0",
+      "description": "Minimum semantic version of Node.js required. (e.g. 18.0.0)"
     }
   },
   "dependsOn": {
     "ghcr.io/stu-bell/devcontainer-features/node": {
-      "node_min_major_version": "20"
+      "version": "lts"
     }
   },
   "installsAfter": [

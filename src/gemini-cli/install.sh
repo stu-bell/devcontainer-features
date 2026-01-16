@@ -1,8 +1,8 @@
 #!/bin/sh
-# Copyright (c) Stuart Bell 
+# Copyright (c) Stuart Bell
 # Licensed under the MIT License. See https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE for license information.
 set -e
-# has_command, semver_major
+# has_command, semver_major, semver_gte
 . ./util.sh
 
 # Make sure there isn't already an installation of the tool
@@ -11,9 +11,12 @@ has_command gemini && {
     exit 0
 }
 
+# Install node feature
+install_oci_feature "ghcr.io/stu-bell/devcontainer-features/node" "VERSION=${NODE_VERSION:-"lts"}"
+
 # Check node is installed
-NODE_MIN_MAJOR_VERSION=${NODE_MIN_MAJOR_VERSION:-18}
-MSG_NODE_MISSING="Ensure Node.js (minimum v${NODE_MIN_MAJOR_VERSION}.x) and npm are installed before this feature installs, using an appropriate base image or feature.
+NODE_MIN_SEMVER=${NODE_MIN_SEMVER:-"18.0.0"}
+MSG_NODE_MISSING="Ensure Node.js (minimum v${NODE_MIN_SEMVER}) and npm are installed before this feature installs, using an appropriate base image or feature.
 FAILED TO INSTALL Gemini CLI"
 
 has_command node || {
@@ -23,11 +26,10 @@ has_command node || {
 
 # Check minimum node version
 CURRENT_VERSION=$(node -v)
-CURRENT_MAJOR=$(semver_major "$CURRENT_VERSION") 
-if [ "$CURRENT_MAJOR" -ge "$NODE_MIN_MAJOR_VERSION" ]; then
+if semver_gte "$CURRENT_VERSION" "$NODE_MIN_SEMVER"; then
     echo "Found Node.js $CURRENT_VERSION"
 else
-    echo "ERROR: Insufficient version of Node.js $CURRENT_VERSION is installed. $MSG_NODE_MISSING"
+    echo "ERROR: Insufficient version of Node.js $CURRENT_VERSION is installed. Minimum required: $NODE_MIN_SEMVER. $MSG_NODE_MISSING"
     exit 1
 fi
 

@@ -1,6 +1,16 @@
+# New Feature Checklist
+
+1. Tests exist and pass. See [test/README](./test/README.md)
+1. Feature listed in github workflow/test
+1. Docs generated
+    devcontainer features generate-docs -p src -n stu-bell/devcontainer-features
+1. Manual test on example devcontainer
+
 # TODO
 
 # TODO next
+- gemini use install from oci feature util function
+- node add install from oci feature util function for other distros. pass through options
 - util-test tests for latest util.sh (python)
 - test-builds.sh include other .devcontainer/* artifacts (eg docker compose or docker file), for testing .devcontainer config, not just devcontainer features. scenarios.json entry may name a folder of .devcontainer config to copy to the test workspace
 - Use ./test/test-builds.sh to test duplicate installs and combinations of features (like the devconainer test --global option?)
@@ -9,7 +19,6 @@
 
 ## TODO maybe
 
-- test-builds.sh: accept non-local features, ie from ghcr.io (current behaviour is to treat feature as a local path and copy the folder)
 - test-builds.sh: when loading scenarios.json, ensure that there are no objects in the array with matching name keys, error if so
 - test-builds.sh: add optional scenario description to scenarios.json, to print alongside tests that fail, if the description is provided
 - test-builds.sh: if scenarios.json param is blank, or resolves to a non existant, or invalid file, output a message explaining where the file should be and rerun with --generate-example to see an example
@@ -19,25 +28,4 @@
 - test-builds.sh: can we run some builds concurrently? How do we keep within resource limits?
 - test-builds.sh: validate scenarios schema?
 
-
-# Update Documentation
-
-```
-devcontainer features generate-docs -p src -n stu-bell/devcontainer-features
-```
-
-# Tests
-
-See [test/README](./test/README.md)
-
-# To add a feature
-
-1. Add a folder in test for your feature
-1. Start the devcontainer for the repo
-1. Make sure the test works (fails!)
-2. Add the feature folder name to the test workflow yaml matrix
-1. Build out your feature until your tests pass
-1. Update feature docs
-1. Use your feature locally in your .devcontainer projects
-1. Or [disbribute it](./README-template.md#distributing-features)
 

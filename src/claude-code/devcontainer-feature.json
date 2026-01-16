@@ -5,6 +5,9 @@
   "version": "0.1.0",
   "name": "Claude Code (via claude.ai/install.sh)",
   "description": "Installs Claude Code for AI code assistance https://code.claude.com",
+  "keywords": ["AI", "agent", "code", "coding"],
+  "documentationURL": "https://github.com/stu-bell/devcontainer-features/tree/main/src/claude-code",
+  "licenseURL": "https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE",
   "installsAfter": [
     "ghcr.io/devcontainers/features/common-utils"
   ]

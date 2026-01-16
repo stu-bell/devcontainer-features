@@ -276,7 +276,9 @@ install_oci_feature() {
         
         # Export all provided options as environment variables and run with bash
         for opt in "$@"; do
-            export "$opt"
+            if [ -n "$opt" ]; then # Only export if the option is not empty
+                export "$opt"
+            fi
         done
         
         bash ./install.sh

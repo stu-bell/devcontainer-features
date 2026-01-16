@@ -38,13 +38,25 @@ fi
 # OS detection
 if os_alpine ; then
 	apk_install python3 py3-pip
-elif os_debian_like && [ "${APT_GET:-true}" = "true" ] ; then
+elif os_debian_like && [ "${APT_GET:-"true"}" = "true" ] ; then
     apt_get_install python3 python3-pip
 else
 	# install from official feature. omit version tag if requesting 'latest'
+    if [ "$OFFICIAL_PYTHON_FEATURE_VERSION" = "latest" ]; then
+        feature_version=""
+    else 
+        feature_version=":$OFFICIAL_PYTHON_FEATURE_VERSION"
+    fi
+
+    if [ "$min_req_ver" != "latest" ]; then
+        min_req_ver_arg="VERSION=${min_req_ver}"
+    else
+        min_req_ver_arg=""
+    fi
+
     install_oci_feature \
-        "ghcr.io/devcontainers/features/python$(echo ":$OFFICIAL_PYTHON_FEATURE_VERSION" | sed 's/:latest//')" \
-        "VERSION=${min_req_ver}" \
+        "ghcr.io/devcontainers/features/python${feature_version}" \
+        "$min_req_ver_arg" \
         "INSTALLTOOLS=$INSTALLTOOLS" \
         "TOOLSTOINSTALL=$TOOLSTOINSTALL" \
         "OPTIMIZE=$OPTIMIZE" \
@@ -56,8 +68,9 @@ else
 
         # Add Python to PATH for verification
         add_to_user_profiles "export PATH=$INSTALLPATH/current/bin:/usr/local/bin:\$PATH"
-        export PATH="$INSTALLPATH/current/bin:/usr/local/bin:$PATH"
+        export PATH="$INSTALLPATH/current/bin:/usr/local/bin:/usr/local/python/current/bin:$PATH"
         echo PATH: "$PATH"
+
 fi
 
 # verify version
@@ -66,7 +79,7 @@ if ! installed_ver=$(get_python_version); then
     exit 1
 fi
 echoyel "Python installed: $installed_ver"
-if ! semver_gte "$installed_ver" "$min_req_ver"; then
+if [ "$min_req_ver" != "latest" ] && ! semver_gte "$installed_ver" "$min_req_ver"; then
     echored "Could not find version $min_req_ver"
     exit 1
 fi
