@@ -42,9 +42,19 @@ elif os_debian_like && [ "${APT_GET:-"true"}" = "true" ] ; then
     apt_get_install python3 python3-pip
 else
 	# install from official feature. omit version tag if requesting 'latest'
+    feature_version=":$OFFICIAL_PYTHON_FEATURE_VERSION"
+    if [ "$OFFICIAL_PYTHON_FEATURE_VERSION" = "latest" ]; then
+        feature_version=""
+    fi
+
+    min_req_ver_option=""
+    if [ "$min_req_ver" != "latest" ]; then
+        min_req_ver_option="VERSION=${min_req_ver}"
+    fi
+
     install_oci_feature \
-        "ghcr.io/devcontainers/features/python$(echo ":$OFFICIAL_PYTHON_FEATURE_VERSION" | sed 's/:latest//')" \
-        "VERSION=${min_req_ver}" \
+        "ghcr.io/devcontainers/features/python${feature_version}" \
+        "${min_req_ver_option:+${min_req_ver_option}}" \
         "INSTALLTOOLS=$INSTALLTOOLS" \
         "TOOLSTOINSTALL=$TOOLSTOINSTALL" \
         "OPTIMIZE=$OPTIMIZE" \
@@ -68,7 +78,7 @@ if ! installed_ver=$(get_python_version); then
     exit 1
 fi
 echoyel "Python installed: $installed_ver"
-if ! semver_gte "$installed_ver" "$min_req_ver"; then
+if [ "$min_req_ver" != "latest" ] && ! semver_gte "$installed_ver" "$min_req_ver"; then
     echored "Could not find version $min_req_ver"
     exit 1
 fi

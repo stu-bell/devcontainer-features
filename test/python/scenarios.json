@@ -51,5 +51,19 @@
         }
       }
     }
+  },
+  {
+    "name": "ubuntu_latest",
+    "expected_exit_code": 0,
+    "expected_output": "Installing OCI feature: ghcr.io/devcontainers/features/python",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+      "features": {
+        "../../src/python": {
+          "min_python_version": "latest",
+          "apt_get": false
+        }
+      }
+    }
   }
 ]

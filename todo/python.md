@@ -1,5 +1,6 @@
 # Progress
-Agent to replace this section when appropriate...
+- Fixed Python build failing when version 'latest' selected and added a test case.
+- All tests passed.
 
 # Intro
 - This document contains instructions for a task
@@ -11,4 +12,5 @@ Agent to replace this section when appropriate...
 # Task details...
 
 python build failing when version latest selected. This should be converted to a semver or ignored so that the latest possible python version is installed
+
 
