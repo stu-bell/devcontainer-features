@@ -274,7 +274,6 @@ setup_test_workspace() {
             else
                 # Assume it's an OCI URI or remote feature, do not copy or modify path
                 echoyel "Skipping local copy for feature '$feature_path' (not a local directory)."
-                echogrn "✓ Retained OCI/remote feature path: '$feature_path'"
             fi
 
         done
