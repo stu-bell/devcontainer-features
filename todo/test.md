@@ -1,5 +1,5 @@
 # Progress
-A reusable heartbeat script has been created at `test/utils/heartbeat.sh`. This script wraps long-running commands, providing periodic updates to prevent CI/CD timeouts, and handles output logging and error reporting. The test documentation in this file has been updated to use this new script, simplifying the test execution command.
+A reusable heartbeat script is now located at `test/heartbeat.sh`. Its calling convention has been simplified to not require quotes around the command, and it now provides a machine-readable output for the log file path. This script wraps long-running commands, providing periodic updates to prevent CI/CD timeouts, and handles output logging and error reporting. The test documentation in this file has been updated to reflect these changes.
 
 # Intro
 - This document contains instructions for a task
@@ -9,24 +9,28 @@ A reusable heartbeat script has been created at `test/utils/heartbeat.sh`. This 
 - Keep a note to, after completion of all tasks, prepend a summary of changes and any outstanding work to this todo doc for me to review
 
 - **New recommended test command structure:**
-  A wrapper script is now available at `test/utils/heartbeat.sh` to run long-running commands while providing a "heartbeat" to prevent CI/CD timeouts.
+  A wrapper script is now available at `test/heartbeat.sh` to run long-running commands while providing a "heartbeat" to prevent CI/CD timeouts.
 
   **Usage:**
 
   ```bash
-  ./test/utils/heartbeat.sh "test/test-builds.sh -s test/path/to/scenarios.json [other_args]"
+  ./test/heartbeat.sh test/test-builds.sh -s test/path/to/scenarios.json [other_args]
   ```
   
+  To get the log file path for scripting, you can parse the first line of the output:
+  `LOG_FILE=$(./test/heartbeat.sh ... | head -n 1 | cut -d'=' -f2)`
+
   Replace `test/path/to/scenarios.json` with the actual scenarios file, and `[other_args]` with any other necessary arguments (e.g., `-o "Scenario Name"`).
   
   **How it works:**
-  - The `heartbeat.sh` script takes a single string argument containing the command to execute.
-  - It runs the command in the background, redirecting all output (`stdout` and `stderr`) to a temporary file.
+  - The `heartbeat.sh` script takes the command to execute as direct arguments.
+  - The first line of output is a machine-readable path to the log file: `HEARTBEAT_LOG_PATH=/path/to/tempfile`.
+  - It runs the command in the background, redirecting all output (`stdout` and `stderr`) to this temporary file.
   - Every 30 seconds, it prints a "Heartbeat" message to the console, showing the process is still running and the current size of the output log.
   - When the command finishes, it checks the exit code:
     - On success, it reports completion.
     - On failure, it prints the last 100 lines of the output file to the console for quick debugging.
-  - The temporary file is automatically cleaned up.
+  - The temporary file is not automatically cleaned up, and its path is printed to the console for debugging purposes.
 
 - Test docs: `test/test-builds.sh --help`
 
