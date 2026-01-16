@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (c) Stuart Bell 
+# Copyright (c) Stuart Bell
 # Licensed under the MIT License. See https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE for license information.
 set -e
 # has_command, semver_major, semver_gte
@@ -31,7 +31,7 @@ if semver_gte "$CURRENT_VERSION" "$NODE_MIN_SEMVER"; then
 else
     echo "ERROR: Insufficient version of Node.js $CURRENT_VERSION is installed. Minimum required: $NODE_MIN_SEMVER. $MSG_NODE_MISSING"
     exit 1
-}
+fi
 
 # Check npm is installed
 has_command npm || {

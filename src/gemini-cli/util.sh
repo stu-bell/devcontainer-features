@@ -173,7 +173,7 @@ install_oci_feature() {
     
     # Check if tag or digest is present
     case "$REPO_AND_TAG" in
-        *:*|*@*)
+        *:*|*@*) 
             REPO=$(echo "$REPO_AND_TAG" | sed 's/[:@].*//')
             TAG=$(echo "$REPO_AND_TAG" | sed 's/.*[:@]//')
             ;;
@@ -221,9 +221,9 @@ install_oci_feature() {
     fi
     
     if [ -z "$MANIFEST" ] || echo "$MANIFEST" | grep -q "errors"; then
-        echo "Error: Failed to fetch manifest"
+        echored "Error: Failed to fetch manifest"
         echo "$MANIFEST"
-        cd - 
+        cd -
         rm -rf "$TEMP_DIR"
         return 1
     fi
@@ -233,7 +233,7 @@ install_oci_feature() {
     
     if [ -z "$LAYERS" ]; then
         echo "Error: No layers found in manifest"
-        cd - 
+        cd -
         rm -rf "$TEMP_DIR"
         return 1
     fi
@@ -269,7 +269,7 @@ install_oci_feature() {
         # Check if bash is available
         if ! command -v bash >/dev/null 2>&1; then
             echo "Error: bash is required but not found"
-            cd - 
+            cd -
             rm -rf "$TEMP_DIR"
             return 1
         fi
@@ -285,7 +285,7 @@ install_oci_feature() {
     fi
     
     # Cleanup
-    cd - 
+    cd -
     rm -rf "$TEMP_DIR"
     
     echo "Feature installation complete for $FEATURE_URI"
