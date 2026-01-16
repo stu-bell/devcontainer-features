@@ -15,5 +15,7 @@ Agent to update this section at relevant progress points...
 # Task details...
 
 python test scenario failing for scenario ubuntu-latest 
+option min_python_version when passed to install_oci_feature as "${min_req_ver_option:+${min_req_ver_option}}" is the problem I think. surely we should just pass VERSION=$min_python_version?
 
+The OCI feature should accecpt "latest" as an option. and the other $min_python_version != "latest" checks just prevent the semver checks. 
 
