@@ -200,7 +200,7 @@ install_oci_feature() {
     
     # Get anonymous token (works for most public registries)
     echo "Getting authentication token..."
-    TOKEN=$(curl -s "https://${REGISTRY}/token?scope=repository:${REPO}:pull" | sed -n 's/.*"token":"\([^"*]\)".*/\1/p')
+    TOKEN=$(curl -s "https://${REGISTRY}/token?scope=repository:${REPO}:pull" | sed -n 's/.*"token":"\([^"]*\)".*/\1/p')
     
     # If token endpoint fails, try without token first
     if [ -z "$TOKEN" ]; then
@@ -221,7 +221,7 @@ install_oci_feature() {
     fi
     
     if [ -z "$MANIFEST" ] || echo "$MANIFEST" | grep -q "errors"; then
-        echo "Error: Failed to fetch manifest"
+        echored "Error: Failed to fetch manifest"
         echo "$MANIFEST"
         cd - 
         rm -rf "$TEMP_DIR"
