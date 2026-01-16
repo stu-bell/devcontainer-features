@@ -1,0 +1,14 @@
+{
+  // for manual testing features
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+      "ghcr.io/stu-bell/devcontainer-features/claude-code": { },
+      "ghcr.io/stu-bell/devcontainer-features/cursor-cli": { },
+      "ghcr.io/stu-bell/devcontainer-features/gemini-cli": { },
+      "ghcr.io/stu-bell/devcontainer-features/neovim": { },
+      "ghcr.io/stu-bell/devcontainer-features/node": { },
+      "ghcr.io/stu-bell/devcontainer-features/open-code": { },
+      "ghcr.io/stu-bell/devcontainer-features/python": {},
+      "ghcr.io/stu-bell/devcontainer-features/ttyd": { }
+  }
+}
