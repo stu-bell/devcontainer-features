@@ -9,7 +9,7 @@ Agent to update this section at relevant progress points...
 - Keep a note to, after completion of all tasks, prepend a summary of changes to this todo doc for me to review
 
 - Run test commands by directing test output to a temp file, to save tokens. Grep (or read the tail lines of the file) for failure messages if the tests have a non-zero exit code, rather than reading the whole file.
-- Run tests: `tmp=$(mktemp) && test/test-builds.sh -s test/path/to/scenarios.json -o scenario names >"$tmp"`
+- Run tests: `test/heartbeat.sh "test/test-builds.sh -s test/path/to/scenarios.json -o scenario names"`
 - Test docs: `test/test-builds.sh --help`
 
 # Task details...
