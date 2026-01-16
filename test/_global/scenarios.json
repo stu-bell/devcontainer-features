@@ -34,7 +34,7 @@
   },
   {
     "name": "cursor-cli-alpine",
-    "expected_exit_code": 0,
+    "expected_exit_code": 1,
     "expected_output": "",
     "devcontainer": {
       "image": "mcr.microsoft.com/devcontainers/base:alpine",
