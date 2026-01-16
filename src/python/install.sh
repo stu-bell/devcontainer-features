@@ -42,19 +42,21 @@ elif os_debian_like && [ "${APT_GET:-"true"}" = "true" ] ; then
     apt_get_install python3 python3-pip
 else
 	# install from official feature. omit version tag if requesting 'latest'
-    feature_version=":$OFFICIAL_PYTHON_FEATURE_VERSION"
     if [ "$OFFICIAL_PYTHON_FEATURE_VERSION" = "latest" ]; then
         feature_version=""
+    else 
+        feature_version=":$OFFICIAL_PYTHON_FEATURE_VERSION"
     fi
 
-    min_req_ver_option=""
     if [ "$min_req_ver" != "latest" ]; then
-        min_req_ver_option="VERSION=${min_req_ver}"
+        min_req_ver_arg="VERSION=${min_req_ver}"
+    else
+        min_req_ver_arg=""
     fi
 
     install_oci_feature \
         "ghcr.io/devcontainers/features/python${feature_version}" \
-        "${min_req_ver_option:+${min_req_ver_option}}" \
+        "$min_req_ver_arg" \
         "INSTALLTOOLS=$INSTALLTOOLS" \
         "TOOLSTOINSTALL=$TOOLSTOINSTALL" \
         "OPTIMIZE=$OPTIMIZE" \
@@ -68,7 +70,6 @@ else
         add_to_user_profiles "export PATH=$INSTALLPATH/current/bin:/usr/local/bin:\$PATH"
         export PATH="$INSTALLPATH/current/bin:/usr/local/bin:/usr/local/python/current/bin:$PATH"
         echo PATH: "$PATH"
-
 
 fi
 
