@@ -15,6 +15,7 @@ Agent to update this section at relevant progress points...
 # Task details...
 
 - feature src/gemini-cli. 
+- rename VERSION env var as it's clobbered to lts from latest (by something, possibly node? or another feature)
 - in src/gemini-cli/install.sh, use the install_oci_feature function from the updated util.sh to install feature ghcr.io/stu-bell/devcontainer-features/node, (the source of which is also in this repo in src/node , in case you need to refer to it). we use this as well as dependsOn in the devcontainer-feature.json as some tools (devpod) don't support dependsOn yet.
 - update the min major node version logic to use a minimum semantic version and use the semver_gte function to check that a sufficient version of node is installed.
 - bump the geminicli feature version in devcontainer-feature.json

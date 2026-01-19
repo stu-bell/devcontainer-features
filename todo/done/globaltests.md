@@ -10,16 +10,16 @@ Agent to replace this section when appropriate...
 
 # Task details ...
 
-Following are outputs of `test/_global/scenarios.json`
+Following are outputs of `test/_global/local-scenarios.json`
 
 ✓ Scenario: claude-code-alpine           no_specific_output_expected_and_passed
 ✓ Scenario: claude-code-ubuntu           no_specific_output_expected_and_passed
 ✓ Scenario: claude-code-debian           no_specific_output_expected_and_passed
-✗ Scenario: cursor-cli-alpine            expected_fail
+✓ Scenario: cursor-cli-alpine            no_specific_output_expected_and_passed
 ✓ Scenario: cursor-cli-ubuntu            no_specific_output_expected_and_passed
 ✓ Scenario: cursor-cli-debian            no_specific_output_expected_and_passed
 ✓ Scenario: gemini-cli-alpine            no_specific_output_expected_and_passed
-✗ Scenario: gemini-cli-ubuntu            unexpected_fail
+✓ Scenario: gemini-cli-ubuntu            no_specific_output_expected_and_passed
 ✓ Scenario: gemini-cli-debian            no_specific_output_expected_and_passed
 ✓ Scenario: neovim-alpine                no_specific_output_expected_and_passed
 ✓ Scenario: neovim-ubuntu                no_specific_output_expected_and_passed
@@ -29,10 +29,10 @@ Following are outputs of `test/_global/scenarios.json`
 ✓ Scenario: node-debian                  no_specific_output_expected_and_passed
 ✓ Scenario: open-code-alpine             no_specific_output_expected_and_passed
 ✓ Scenario: open-code-ubuntu             no_specific_output_expected_and_passed
-✗ Scenario: open-code-debian             unexpected_fail
-✗ Scenario: python-alpine                unexpected_fail
-✗ Scenario: python-ubuntu                unexpected_fail
-✗ Scenario: python-debian                unexpected_fail
+✓ Scenario: open-code-debian             no_specific_output_expected_and_passed
+✓ Scenario: python-alpine                no_specific_output_expected_and_passed
+✓ Scenario: python-ubuntu                no_specific_output_expected_and_passed
+✓ Scenario: python-debian                no_specific_output_expected_and_passed
 ✓ Scenario: ttyd-alpine                  no_specific_output_expected_and_passed
 ✓ Scenario: ttyd-ubuntu                  no_specific_output_expected_and_passed
 ✓ Scenario: ttyd-debian                  no_specific_output_expected_and_passed

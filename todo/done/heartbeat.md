@@ -23,5 +23,4 @@ ro exit code, rather than reading the whole file.
 
 # Task details...
 
-once we have a test script writing to a temp file. how can a user cat that file in a streamable way that updates as the file is written to? this is in case a user wants to browse the file while the output is being written
 
