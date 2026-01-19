@@ -22,9 +22,12 @@ heartbeat() {
     # For scriptability, echo the temp file path in a parsable format
     echo "HEARTBEAT_LOG_PATH=${tmp_file}"
 
-    echo "Executing command with heartbeat. Full output will be logged to: $tmp_file"
+    echo "Executing command with heartbeat."
+    echo "Full output will be logged to: $tmp_file"
+    echo "Monitor command output in realtime:"
+    echo "tail -f $tmp_file"
     echo "Command: $cmd_to_run"
-    
+
     local start_time=$(date +%s)
 
     # Execute the command in the background
