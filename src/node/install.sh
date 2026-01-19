@@ -8,7 +8,9 @@ set -e
 export NODE_TARGET_VERSION="${NODE_TARGET_VERSION:-22}"
 
 if os_alpine; then
-    install_oci_feature "ghcr.io/cirolosapio/devcontainers-features/alpine-node:0.0.15" "version=$NODE_TARGET_VERSION"
+    echo "Installing Node.js on Alpine Linux via apk..."
+    apk update 
+    apk --no-cache add nodejs npm
 else
     install_oci_feature "ghcr.io/devcontainers/features/node:1" "VERSION=$NODE_TARGET_VERSION"
 fi
