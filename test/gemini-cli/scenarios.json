@@ -1,54 +1,46 @@
 [
-  {
-    "name": "Build on alpine",
-    "expected_exit_code": 0,
-    "expected_output": "",
-    "devcontainer": {
-      "image": "mcr.microsoft.com/devcontainers/base:alpine",
-      "features": {
-        "../../src/gemini-cli": {
-          "node_min_major_version": "20"
+    {
+        "name": "Build on alpine",
+        "expected_exit_code": 0,
+        "devcontainer": {
+            "image": "mcr.microsoft.com/devcontainers/base:alpine",
+            "features": {
+                "../../src/node": { "min_node_version": "20" },
+                "../../src/gemini-cli": {}
+            }
         }
-      }
-    }
-  },
-  {
-    "name": "Build on Ubuntu",
-    "expected_exit_code": 0,
-    "expected_output": "",
-    "devcontainer": {
-      "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
-      "features": {
-        "../../src/gemini-cli": {
-          "node_min_major_version": "20"
+    },
+    {
+        "name": "Build on Ubuntu",
+        "expected_exit_code": 0,
+        "devcontainer": {
+            "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+            "features": {
+                "../../src/node": { "min_node_version": "20" },
+                "../../src/gemini-cli": {}
+            }
         }
-      }
-    }
-  },
-  {
-    "name": "Build on Debian",
-    "expected_exit_code": 0,
-    "expected_output": "",
-    "devcontainer": {
-      "image": "mcr.microsoft.com/devcontainers/base:debian",
-      "features": {
-        "../../src/gemini-cli": {
-          "node_min_major_version": "20"
+    },
+    {
+        "name": "Build on Debian",
+        "expected_exit_code": 0,
+        "devcontainer": {
+            "image": "mcr.microsoft.com/devcontainers/base:debian",
+            "features": {
+                "../../src/node": { "min_node_version": "20" },
+                "../../src/gemini-cli": {}
+            }
         }
-      }
-    }
-  },
-  {
-    "name": "Build on debian - node upgrade required",
-    "expected_exit_code": 0,
-    "expected_output": "",
-    "devcontainer": {
-      "image": "mcr.microsoft.com/devcontainers/javascript-node:1-18-bookworm",
-      "features": {
-        "../../src/gemini-cli": {
-          "node_min_major_version": "20"
+    },
+    {
+        "name": "Build on debian - node upgrade required",
+        "expected_exit_code": 0,
+        "devcontainer": {
+            "image": "mcr.microsoft.com/devcontainers/javascript-node:1-18-bookworm",
+            "features": {
+                "../../src/node": { "min_node_version": "20" },
+                "../../src/gemini-cli": {}
+            }
         }
-      }
     }
-  }
 ]

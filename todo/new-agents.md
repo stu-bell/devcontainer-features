@@ -10,6 +10,7 @@ Agent to replace this section when appropriate...
 
 # Task details...
 
+- This task depends on the todo/node.md task being complete first
 - Add features for the following tools. Follow the similar patterns in gemini-cli for npm based installs, or claude-code for curl install scripts. 
 - Add test scenarios.json - examine other `test/*/scenarios.json` for the pattern to follow.
 - Create a new git branch for each feature to work on

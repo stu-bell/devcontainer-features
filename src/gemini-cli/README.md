@@ -15,8 +15,8 @@ Installs Google Gemini CLI for AI code assistance https://geminicli.com
 
 | Options Id | Description | Type | Default Value |
 |-----|-----|-----|-----|
-| version | Version of Gemini CLI to install https://www.npmjs.com/package/@google/gemini-cli#release-cadence-and-tags | string | latest |
-| node_min_major_version | Minimum major version of Node.js required. | string | 20 |
+| gemini_version | Version of Gemini CLI to install https://www.npmjs.com/package/@google/gemini-cli#release-cadence-and-tags | string | latest |
+| min_node_version | Minimum version of Node required to install Gemini CLI | string | 20 |
 
 # Supported OS
 

@@ -1,7 +1,7 @@
 
 # Node.js (node)
 
-Installs Node.js, if the minimum requested major version is not already installed.
+Checks if the system already includes a Node installation with version greater or equal to option min_node_version, and installs Node if not. For non-Alpine systems, uses ghcr.io/devcontainers/features/node
 
 ## Example Usage
 
@@ -15,20 +15,36 @@ Installs Node.js, if the minimum requested major version is not already installe
 
 | Options Id | Description | Type | Default Value |
 |-----|-----|-----|-----|
-| node_min_major_version | Minimum major version of Node.js required. | string | 22 |
+| min_node_version | Minimum version of Node required. | string | 22.0.0 |
+| nodeGypDependencies | Install dependencies to compile native node modules (node-gyp)? Ignore on Alpine. | boolean | true |
+| nvmInstallPath | The path where NVM will be installed. Ignore on Alpine. | string | /usr/local/share/nvm |
+| pnpmVersion | Select or enter the PNPM version to install. Ignored on Alpine. | string | latest |
+| nvmVersion | Version of NVM to install. Ignored on Alpine. | string | latest |
+| installYarnUsingApt | On Debian and Ubuntu systems, you have the option to install Yarn globally via APT. If you choose not to use this option, Yarn will be set up using Corepack instead. This choice is specific to Debian and Ubuntu; for other Linux distributions, Yarn is always installed using Corepack, with a fallback to installation via NPM if an error occurs. Ignored on Alpine. | boolean | true |
+
+# Usage
+
+`ghcr.io/stu-bell/devcontainer-features/node`
+
+## Options
+
+`node_target_version` - version of Node.js to install.
 
 # OS Support
 
-This is intended as a dependency for my features requiring Node.js. You should probably check out the official devcontainer Node.js feature: https://github.com/devcontainers/features/tree/main/src/node
+This feature acts as a wrapper around two other devcontainer features:
 
-Tested on Alpine, Debian, Ubuntu. 
+- Alpine: `ghcr.io/cirolosapio/devcontainers-features/alpine-node`
+- Other distros: `ghcr.io/devcontainers/features/node`
 
-- Alpine: installs from apk. Option `node_min_major_version` is not supported for apk install
-- Debian/ Ubuntu: from https://deb.nodesource.com 
+Refer to the documentation for these features for more information.
 
-# PATH variable for node
+# Dependencies
 
-devcontainer-feature.json adds `/usr/bin` to PATH
+This feature depends on the following features:
+
+- `ghcr.io/cirolosapio/devcontainers-features/alpine-node`
+- `ghcr.io/devcontainers/features/node`
 
 
 ---

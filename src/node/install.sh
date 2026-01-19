@@ -2,56 +2,42 @@
 # Copyright (c) Stuart Bell 
 # Licensed under the MIT License. See https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE for license information.
 set -e
-# has_command, is_root_user, semver_major
 . ./util.sh
 
-# Default env vars
-export NODE_MIN_MAJOR_VERSION="${NODE_MIN_MAJOR_VERSION:-22}"
 
-# Check for root 
-is_root_user || {
-    echo -e 'Script must be run as root. Use sudo, su, or add "USER root" to your Dockerfile before running this script.'
-    exit 1
-  }
-
-# Check if sufficient version of node already installed
-if has_command node ; then
- CURRENT_VERSION=$(node -v)
- CURRENT_MAJOR=$(semver_major "$CURRENT_VERSION") 
- if [ "$CURRENT_MAJOR" -ge "$NODE_MIN_MAJOR_VERSION" ]; then
-    echo "Found already installed: Node.js $CURRENT_VERSION"
-    exit 0
-  else
-    echo "Node.js version $CURRENT_VERSION is installed but version ${NODE_MIN_MAJOR_VERSION}.x or higher is required"
-  fi
+# Check if sufficient version already installed
+min_req_ver="$(semver_pad ${MIN_NODE_VERSION:-22})"
+installed_version=$(node -v) || echo "No Node installation found."
+if [ "$min_req_ver" != "latest" ] && [ -n "$installed_version" ]; then
+	if semver_gte "$installed_version" "$min_req_ver"; then
+        echo "Found Node version $installed_version"
+        exit 0
+    fi
 fi
 
-# Alpine
+# OS detection
 if os_alpine; then
-     /bin/sh "$(dirname "$0")/install-alp.sh" "$@"
-
-# Debian, Ubuntu
-elif os_debian_like ; then 
-     /bin/bash "$(dirname $0)/install-deb.sh" "$@"
+    echo "Installing Node.js on Alpine Linux via apk..."
+    apk update 
+    apk --no-cache add nodejs npm
 else
-# this script does not install for the current distro
-  feature="Node.js"
-  echo "ERROR: Unsupported Linux distribution (${ID}/${ID_LIKE}) for ${feature} installation via this feature. Please use an appropriate script or devcontainer feature to install ${feature} for your system."
+    install_oci_feature "ghcr.io/devcontainers/features/node:1" \
+        "VERSION=$MIN_NODE_VERSION" \
+        "NODEGYPDEPENDENCIES=$NODEGYPDEPENDENCIES" \
+        "NVMINSTALLPATH=$NVMINSTALLPATH" \
+        "PNPMVERSION=$PNPMVERSION" \
+        "NVMVERSION=$NVMVERSION" \
+        "INSTALLYARNUSINGAPT=$INSTALLYARNUSINGAPT"
 fi
 
-# validate node install
-if has_command node ; then
-  CURRENT_VERSION=$(node -v)
-  CURRENT_MAJOR=$(semver_major "$CURRENT_VERSION") 
-  if [ "$CURRENT_MAJOR" -ge "$NODE_MIN_MAJOR_VERSION" ]; then
-    echo "Installation complete: Node.js $CURRENT_VERSION"
-  else
-    echo "WARNING: Attempted to install Node.js v${NODE_MIN_MAJOR_VERSION} but installed version ${CURRENT_VERSION}."
-  fi
-else
-    echo "ERROR: Could not install Node.js."
-    # attempt at error output
-    node -v
+# verify version
+if ! installed_ver=$(node -v); then
+    echored "Could not install Node"
+    exit 1
+fi
+echoyel "Node installed: $installed_ver"
+if [ "$min_req_ver" != "latest" ] && [ "$min_req_ver" != "lts" ] && ! semver_gte "$installed_ver" "$min_req_ver"; then
+    echored "Could not find version $min_req_ver"
     exit 1
 fi
 

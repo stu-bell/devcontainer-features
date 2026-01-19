@@ -6,44 +6,34 @@ set -e
 . ./util.sh
 
 # Make sure there isn't already an installation of the tool
-has_command gemini && {
+if remote_user_has_command gemini; then
     echo "Gemini CLI $(gemini --version) is already installed"
     exit 0
-}
+fi
 
-# Install node feature
-install_oci_feature "ghcr.io/stu-bell/devcontainer-features/node" "VERSION=${NODE_VERSION:-"lts"}"
-
-# Check node is installed
-NODE_MIN_SEMVER=${NODE_MIN_SEMVER:-"18.0.0"}
-MSG_NODE_MISSING="Ensure Node.js (minimum v${NODE_MIN_SEMVER}) and npm are installed before this feature installs, using an appropriate base image or feature.
-FAILED TO INSTALL Gemini CLI"
-
-has_command node || {
-    echo "ERROR: could not find node. $MSG_NODE_MISSING"
-    exit 1
-}
-
-# Check minimum node version
-CURRENT_VERSION=$(node -v)
-if semver_gte "$CURRENT_VERSION" "$NODE_MIN_SEMVER"; then
-    echo "Found Node.js $CURRENT_VERSION"
-else
-    echo "ERROR: Insufficient version of Node.js $CURRENT_VERSION is installed. Minimum required: $NODE_MIN_SEMVER. $MSG_NODE_MISSING"
-    exit 1
+# Check if sufficient node version already installed
+# It *should* be, based on the dependsOn feature, but not all devcontainer implementing tools support dependsOn, at the time of writing
+min_req_ver="$(semver_pad ${MIN_NODE_VERSION:-20})"
+installed_version=$(node -v) || echo "No Node installation found."
+if semver_gte "$installed_version" "$min_req_ver"; then
+    echo "Found Node version $installed_version"
+else 
+    # Install node feature
+    install_oci_feature "ghcr.io/stu-bell/devcontainer-features/node" \
+        "MIN_NODE_VERSION=$min_req_ver" 
 fi
 
 # Check npm is installed
-has_command npm || {
+if ! has_command npm; then
     echo "ERROR: could not find npm. $MSG_NODE_MISSING"
     exit 1
-}
+fi
 echo "Using npm $(npm -v)"
 
 # Install Gemini CLI via npm
-GEMINI_V=${VERSION:-"latest"}
-echo "Installing Gemini CLI version ${GEMINI_V}..."
-npm install -g @google/gemini-cli@${GEMINI_V}
+GEMINI_VERSION=${GEMINI_VERSION:-"latest"}
+echo "Installing Gemini CLI version ${GEMINI_VERSION}..."
+npm install -g @google/gemini-cli@${GEMINI_VERSION}
 
 # Verify installation
 if has_command gemini; then

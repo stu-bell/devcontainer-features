@@ -176,11 +176,11 @@ install_oci_feature() {
         *:*|*@*) 
             REPO=$(echo "$REPO_AND_TAG" | sed 's/[:@].*//')
             TAG=$(echo "$REPO_AND_TAG" | sed 's/.*[:@]//')
-            ;;
+            ;; 
         *) 
             REPO="$REPO_AND_TAG"
             TAG="latest"
-            ;;
+            ;; 
     esac
     
     echo "Installing OCI feature: $FEATURE_URI"
@@ -221,7 +221,7 @@ install_oci_feature() {
     fi
     
     if [ -z "$MANIFEST" ] || echo "$MANIFEST" | grep -q "errors"; then
-        echored "Error: Failed to fetch manifest"
+        echo "Error: Failed to fetch manifest"
         echo "$MANIFEST"
         cd - 
         rm -rf "$TEMP_DIR"
@@ -276,7 +276,9 @@ install_oci_feature() {
         
         # Export all provided options as environment variables and run with bash
         for opt in "$@"; do
-            export "$opt"
+            if [ -n "$opt" ]; then # Only export if the option is not empty
+                export "$opt"
+            fi
         done
         
         bash ./install.sh

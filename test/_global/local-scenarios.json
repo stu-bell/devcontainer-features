@@ -1,0 +1,266 @@
+[
+  {
+    "name": "claude-code-alpine",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:alpine",
+      "features": {
+        "../../src/claude-code": {}
+      }
+    }
+  },
+  {
+    "name": "claude-code-ubuntu",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+      "features": {
+        "../../src/claude-code": {}
+      }
+    }
+  },
+  {
+    "name": "claude-code-debian",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:debian",
+      "features": {
+        "../../src/claude-code": {}
+      }
+    }
+  },
+  {
+    "name": "cursor-cli-alpine",
+    "expected_exit_code": 1,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:alpine",
+      "features": {
+        "../../src/cursor-cli": {}
+      }
+    }
+  },
+  {
+    "name": "cursor-cli-ubuntu",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+      "features": {
+        "../../src/cursor-cli": {}
+      }
+    }
+  },
+  {
+    "name": "cursor-cli-debian",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:debian",
+      "features": {
+        "../../src/cursor-cli": {}
+      }
+    }
+  },
+  {
+    "name": "gemini-cli-alpine",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:alpine",
+      "features": {
+        "../../src/gemini-cli": {}
+      }
+    }
+  },
+  {
+    "name": "gemini-cli-ubuntu",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+      "features": {
+        "../../src/gemini-cli": {}
+      }
+    }
+  },
+  {
+    "name": "gemini-cli-debian",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:debian",
+      "features": {
+        "../../src/gemini-cli": {}
+      }
+    }
+  },
+  {
+    "name": "neovim-alpine",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:alpine",
+      "features": {
+        "../../src/neovim": {}
+      }
+    }
+  },
+  {
+    "name": "neovim-ubuntu",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+      "features": {
+        "../../src/neovim": {}
+      }
+    }
+  },
+  {
+    "name": "neovim-debian",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:debian",
+      "features": {
+        "../../src/neovim": {}
+      }
+    }
+  },
+  {
+    "name": "node-alpine",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:alpine",
+      "features": {
+        "../../src/node": {}
+      }
+    }
+  },
+  {
+    "name": "node-ubuntu",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+      "features": {
+        "../../src/node": {}
+      }
+    }
+  },
+  {
+    "name": "node-debian",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:debian",
+      "features": {
+        "../../src/node": {}
+      }
+    }
+  },
+  {
+    "name": "open-code-alpine",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:alpine",
+      "features": {
+        "../../src/open-code": {}
+      }
+    }
+  },
+  {
+    "name": "open-code-ubuntu",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+      "features": {
+        "../../src/open-code": {}
+      }
+    }
+  },
+  {
+    "name": "open-code-debian",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:debian",
+      "features": {
+        "../../src/open-code": {}
+      }
+    }
+  },
+  {
+    "name": "python-alpine",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:alpine",
+      "features": {
+        "../../src/python": {}
+      }
+    }
+  },
+  {
+    "name": "python-ubuntu",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+      "features": {
+        "../../src/python": {}
+      }
+    }
+  },
+  {
+    "name": "python-debian",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:debian",
+      "features": {
+        "../../src/python": {}
+      }
+    }
+  },
+  {
+    "name": "ttyd-alpine",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:alpine",
+      "features": {
+        "../../src/ttyd": {}
+      }
+    }
+  },
+  {
+    "name": "ttyd-ubuntu",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+      "features": {
+        "../../src/ttyd": {}
+      }
+    }
+  },
+  {
+    "name": "ttyd-debian",
+    "expected_exit_code": 0,
+    "expected_output": "",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:debian",
+      "features": {
+        "../../src/ttyd": {}
+      }
+    }
+  }
+]
