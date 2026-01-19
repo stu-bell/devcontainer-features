@@ -5,7 +5,7 @@
         "devcontainer": {
             "image": "mcr.microsoft.com/devcontainers/base:alpine",
             "features": {
-                "../../src/node": {},
+                "../../src/node": { "min_node_version": "20" },
                 "../../src/gemini-cli": {}
             }
         }
@@ -16,7 +16,7 @@
         "devcontainer": {
             "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
             "features": {
-                "../../src/node": {},
+                "../../src/node": { "min_node_version": "20" },
                 "../../src/gemini-cli": {}
             }
         }
@@ -27,7 +27,7 @@
         "devcontainer": {
             "image": "mcr.microsoft.com/devcontainers/base:debian",
             "features": {
-                "../../src/node": {},
+                "../../src/node": { "min_node_version": "20" },
                 "../../src/gemini-cli": {}
             }
         }
@@ -38,9 +38,7 @@
         "devcontainer": {
             "image": "mcr.microsoft.com/devcontainers/javascript-node:1-18-bookworm",
             "features": {
-                "../../src/node": {
-                    "node_target_version": "20"
-                },
+                "../../src/node": { "min_node_version": "20" },
                 "../../src/gemini-cli": {}
             }
         }

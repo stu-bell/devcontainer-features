@@ -9,19 +9,26 @@
   "documentationURL": "https://github.com/stu-bell/devcontainer-features/tree/main/src/gemini-cli",
   "licenseURL": "https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE",
   "options": {
-    "version": {
-      "type": "string",
+    "gemini_version": {
       "default": "latest",
+      "description": "Version of Gemini CLI to install https://www.npmjs.com/package/@google/gemini-cli#release-cadence-and-tags",
+      "type": "string",
       "proposals":[
         "latest",
         "nightly",
         "preview"
-      ],
-      "description": "Version of Gemini CLI to install https://www.npmjs.com/package/@google/gemini-cli#release-cadence-and-tags"
+      ]
+    },
+    "min_node_version": {
+      "default": "20",
+      "description": "Minimum version of Node required to install Gemini CLI",
+      "type": "string"
     }
   },
   "dependsOn": {
-    "ghcr.io/stu-bell/devcontainer-features/node": "0.4.0"
+    "ghcr.io/stu-bell/devcontainer-features/node": {
+      "min_node_version": "20"
+    }
   }
 }
 

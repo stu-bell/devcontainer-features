@@ -2,7 +2,7 @@
 # Copyright (c) 2026 Stuart Bell 
 # Licensed under the MIT License. See https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE for license information.
 
-# v0.1.4
+# v0.1.5
 
 # Colors for output
 RED='\033[0;31m'
@@ -47,6 +47,11 @@ semver_pad() {
 
 # return 0 if semver $1 is greater than or equal to $2 (ignores patch)
 semver_gte() {
+    # Return false (1) if first argument is empty/unset
+    if [ -z "$1" ]; then
+        return 1
+    fi
+
     v1maj=$(semver_major "$1")
     v1min=$(semver_minor "$1")
 
