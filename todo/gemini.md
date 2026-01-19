@@ -1,3 +1,10 @@
+# Summary of changes
+- Replaced `src/gemini-cli/util.sh` and `test/util-test/sample-feature/util.sh` with the updated version from `src/python/util.sh`.
+- Fixed a bug in the `install_oci_feature` function in the new `util.sh`.
+- Updated `src/gemini-cli/install.sh` to use the `dependsOn` property in `devcontainer-feature.json` to install the `node` feature.
+- Updated `devcontainer-feature.json` to use the `dependsOn` property and bumped the version.
+- Updated tests to use the new implementation.
+
 # Progress
 Agent to update this section at relevant progress points...
 
@@ -22,4 +29,3 @@ Agent to update this section at relevant progress points...
 - update the min major node version logic to use a minimum semantic version and use the semver_gte function to check that a sufficient version of node is installed.
 - bump the geminicli feature version in devcontainer-feature.json
 - test with `test/heartbeat.sh test/test-builds.sh -s test/gemini-cli/scenarios.json`
-
