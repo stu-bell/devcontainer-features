@@ -15,7 +15,7 @@ Installs Python, unless a version greater or equal to the minimum required versi
 
 | Options Id | Description | Type | Default Value |
 |-----|-----|-----|-----|
-| min_python_version | Feature exits early if this version or greater is already installed. | string | latest |
+| min_python_version | Feature exits early if this version or greater is already installed. | string | 3.12 |
 | apt_get | If true, uses apt_get on Debian like distros, instead of building from source. Other options in this feature are ignored. | boolean | true |
 | official_python_feature_version | Version of the official python DEVCONTAINER FEATURE to use for non-alpine distros. | string | latest |
 | installTools | Flag indicating whether or not to install the tools specified via the 'toolsToInstall' option. Default is 'true'. Option ignored on Alpine. | boolean | true |
