@@ -5,10 +5,13 @@
       "ghcr.io/stu-bell/devcontainer-features/claude-code": { },
       "ghcr.io/stu-bell/devcontainer-features/cursor-cli": { },
       "ghcr.io/stu-bell/devcontainer-features/gemini-cli": { },
-      "ghcr.io/stu-bell/devcontainer-features/neovim": { },
+      // neovim feature sets XDG_CONFIG_HOME to /config, which clobbers open-code feature
+      // "ghcr.io/stu-bell/devcontainer-features/neovim": { },
       "ghcr.io/stu-bell/devcontainer-features/node": { },
-      "ghcr.io/stu-bell/devcontainer-features/open-code": { },
-      "ghcr.io/stu-bell/devcontainer-features/python": { },
-      "ghcr.io/stu-bell/devcontainer-features/ttyd": { }
+      "ghcr.io/stu-bell/devcontainer-features/python": { 
+        "min_python_version": "3.12"
+      },
+      "ghcr.io/stu-bell/devcontainer-features/ttyd": { },
+      "ghcr.io/stu-bell/devcontainer-features/open-code": { }
   }
 }
