@@ -14,9 +14,8 @@ Agent to update this section at relevant progress points...
 
 # Task details...
 
-remote user requires permission to manage /config/opencode for opencode to work. 
+- feature src/open-code works well by installing the open-code client. We need to add a command to the src/open-code/install.sh to add permission for the remote user to manage the /config/opencode. This is because the remote user will not have root privileges when running the installed open-code application.
+- bump minor open-code/devcontainer-feature.json version.
+- Leave the rest of the install.sh approach and util.sh unchanged. 
 
-Include this in src/open-code/install.sh
-
-bump minor open-code/devcontainer-feature.json version
-
+- Re-run the tests to confirm the installation works using: `test/heartbeat.sh "test/test-builds.sh -s test/open-code/scenarios.json"`
