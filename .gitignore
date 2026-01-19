@@ -1,5 +1,5 @@
 # Ignore .dev folder
 .dev/*
-
-.devcontainer/.devpod-internal/*
+# Devpod internal files
+**/.devcontainer/.devpod-internal/*
 
