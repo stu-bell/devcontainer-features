@@ -70,7 +70,6 @@ else
         add_to_user_profiles "export PATH=$INSTALLPATH/current/bin:/usr/local/bin:\$PATH"
         export PATH="$INSTALLPATH/current/bin:/usr/local/bin:/usr/local/python/current/bin:$PATH"
         echo PATH: "$PATH"
-
 fi
 
 # verify version

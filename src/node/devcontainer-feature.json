@@ -2,17 +2,63 @@
   // Copyright (c) 2026 Stuart Bell
   // Licensed under the MIT License. See https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE for license information.
   "id": "node",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "name": "Node.js",
-  "description": "Installs Node.js. If a qualifying version is not found, it installs a version of Node.js matching the provided target version, using nvm. For distros other than Alpine/Debian, it will install Node using the official devcontainer feature.",
+  "description": "Checks if the system already includes a Node installation with version greater or equal to option min_node_version, and installs Node if not. For non-Alpine systems, uses ghcr.io/devcontainers/features/node",
   "keywords": ["node", "Node.js", "javascript", "typescript", "alpine", "ubuntu", "debian"],
   "documentationURL": "https://github.com/stu-bell/devcontainer-features/tree/main/src/node",
   "licenseURL": "https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE",
   "options": {
-    "node_target_version": {
-      "type": "string",
-      "default": "22",
-      "description": "Target version of Node.js to install."
+    "min_node_version": {
+        "type": "string",
+        "default": "22.0.0",
+        "description": "Minimum version of Node required."
+    },
+    "nodeGypDependencies": {
+        "type": "boolean",
+        "default": true,
+        "description": "Install dependencies to compile native node modules (node-gyp)? Ignore on Alpine."
+    },
+    "nvmInstallPath": {
+        "type": "string",
+        "default": "/usr/local/share/nvm",
+        "description": "The path where NVM will be installed. Ignore on Alpine."
+    },
+    "pnpmVersion": {
+        "type": "string",
+        "proposals": [
+            "latest",
+            "8.8.0",
+            "8.0.0",
+            "7.30.0",
+            "6.14.8",
+            "5.18.10",
+            "none"
+        ],
+        "default": "latest",
+        "description": "Select or enter the PNPM version to install. Ignored on Alpine."
+    },
+    "nvmVersion": {
+        "type": "string",
+        "proposals": [
+            "latest",
+            "0.39"
+        ],
+        "default": "latest",
+        "description": "Version of NVM to install. Ignored on Alpine."
+    },
+    "installYarnUsingApt": {
+        "type": "boolean",
+        "default": true,
+        "description": "On Debian and Ubuntu systems, you have the option to install Yarn globally via APT. If you choose not to use this option, Yarn will be set up using Corepack instead. This choice is specific to Debian and Ubuntu; for other Linux distributions, Yarn is always installed using Corepack, with a fallback to installation via NPM if an error occurs. Ignored on Alpine."
     }
-  }
+  },
+  "containerEnv": {
+      "NVM_DIR": "/usr/local/share/nvm",
+      "NVM_SYMLINK_CURRENT": "true",
+      "PATH": "/usr/local/share/nvm/current/bin:${PATH}"
+  },
+  "installsAfter": [
+      "ghcr.io/devcontainers/features/common-utils"
+  ]
 }

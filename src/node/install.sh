@@ -4,13 +4,40 @@
 set -e
 . ./util.sh
 
-# Default env vars
-export NODE_TARGET_VERSION="${NODE_TARGET_VERSION:-22}"
 
+# Check if sufficient version already installed
+min_req_ver="$(semver_pad ${MIN_NODE_VERSION:-22})"
+installed_version=$(node -v) || echo "No Node installation found."
+if [ "$min_req_ver" != "latest" ] && [ -n "$installed_version" ]; then
+	if semver_gte "$installed_version" "$min_req_ver"; then
+        echo "Found Node version $installed_version"
+        exit 0
+    fi
+fi
+
+# OS detection
 if os_alpine; then
     echo "Installing Node.js on Alpine Linux via apk..."
     apk update 
     apk --no-cache add nodejs npm
 else
-    install_oci_feature "ghcr.io/devcontainers/features/node:1" "VERSION=$NODE_TARGET_VERSION"
+    install_oci_feature "ghcr.io/devcontainers/features/node:1" \
+        "VERSION=$MIN_NODE_VERSION" \
+        "NODEGYPDEPENDENCIES=$NODEGYPDEPENDENCIES" \
+        "NVMINSTALLPATH=$NVMINSTALLPATH" \
+        "PNPMVERSION=$PNPMVERSION" \
+        "NVMVERSION=$NVMVERSION" \
+        "INSTALLYARNUSINGAPT=$INSTALLYARNUSINGAPT"
 fi
+
+# verify version
+if ! installed_ver=$(node -v); then
+    echored "Could not install Node"
+    exit 1
+fi
+echoyel "Node installed: $installed_ver"
+if [ "$min_req_ver" != "latest" ] && [ "$min_req_ver" != "lts" ] && ! semver_gte "$installed_ver" "$min_req_ver"; then
+    echored "Could not find version $min_req_ver"
+    exit 1
+fi
+
