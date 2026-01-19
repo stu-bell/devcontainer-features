@@ -36,15 +36,19 @@ heartbeat() {
     local cmd_pid=$!
 
     echo -e "\n--- Heartbeat Monitoring Started ---"
-    printf "%-10s %-15s %s\n" "Elapsed (s)" "Lines in Log" "Status"
+    printf "%-10s %-15s %s\n" "Elapsed (h:m:s)" "Lines in Log" "Status"
     echo "------------------------------------"
 
     # Monitor the background process
     while ps -p $cmd_pid > /dev/null; do
         local current_time=$(date +%s)
         local elapsed=$((current_time - start_time))
+        local hours=$((elapsed / 3600))
+        local minutes=$(((elapsed % 3600) / 60))
+        local seconds=$((elapsed % 60))
+        local formatted_time=$(printf "%02d:%02d:%02d" $hours $minutes $seconds)
         local line_count=$(wc -l < "$tmp_file" 2>/dev/null || echo "0")
-        printf "%-10s %-15s %s\n" "$elapsed" "$line_count" "Running..."
+        printf "%-10s %-15s %s\n" "$formatted_time" "$line_count" "Running..."
         sleep 30
     done
 
