@@ -24,27 +24,20 @@ Checks if the system already includes a Node installation with version greater o
 
 # Usage
 
-`ghcr.io/stu-bell/devcontainer-features/node`
+Dependency feature for features requiring Node.
 
-## Options
+Installs Node unless a version equal or greater to feature option min_node_version is already found.
 
-`node_target_version` - version of Node.js to install.
+Errors if the installed version does not meet the min_node_version.
 
 # OS Support
 
-This feature acts as a wrapper around two other devcontainer features:
+Tested on Alpine, Ubuntu, Debian.
 
-- Alpine: `ghcr.io/cirolosapio/devcontainers-features/alpine-node`
-- Other distros: `ghcr.io/devcontainers/features/node`
+If OS is Alpine Linux, uses apk and ignores all other feature options.
 
-Refer to the documentation for these features for more information.
+Otherwise uses the official devcontainer Node feature: ghcr.io/devcontainers/features/node. Remaining options are passed to this feature.
 
-# Dependencies
-
-This feature depends on the following features:
-
-- `ghcr.io/cirolosapio/devcontainers-features/alpine-node`
-- `ghcr.io/devcontainers/features/node`
 
 
 ---

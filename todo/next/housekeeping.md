@@ -16,4 +16,3 @@ Agent to update this section at relevant progress points...
 
 - Sync all util.sh to the same version and re-run tests
 - increase test coverage for all features where appropriate.
-- move TODO's from notes to /todo
