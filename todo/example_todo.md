@@ -5,7 +5,7 @@ Agent to update this section at relevant progress points...
 - This document contains instructions for a task
 - Review the whole doc and ask me for more info if needed
 - Check for edge cases or design flaws or features that I may have missed and ask me for clarification if necessary
-- Keep a note to, at significant points during the task, replace the #Progress section with a progress update. Keep progress updates concise. They should only contain enough for me to decide if I need to assist or course-correct
+- Keep a note to, at significant points during the task, replace the #Progress section with a progress update. Keep progress updates concise. They should only contain enough for me to decide if I need to assist or course-correct. Include any decisions about removing functionality or changes that might break backward compatibility. Especially make sure to highlight any changes or removals to existing tests
 - Keep a note to, after completion of all tasks, prepend a summary of changes to this todo doc for me to review
 
 - Run test commands by directing test output to a temp file, to save tokens. Grep (or read the tail lines of the file) for failure messages if the tests have a non-zero exit code, rather than reading the whole file.
