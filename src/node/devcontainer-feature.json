@@ -2,20 +2,17 @@
   // Copyright (c) 2026 Stuart Bell
   // Licensed under the MIT License. See https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE for license information.
   "id": "node",
-  "version": "0.1.2",
+  "version": "0.4.0",
   "name": "Node.js",
-  "description": "Installs Node.js, if the minimum requested major version is not already installed.",
+  "description": "Installs Node.js. If a qualifying version is not found, it installs a version of Node.js matching the provided target version, using nvm. For distros other than Alpine/Debian, it will install Node using the official devcontainer feature.",
   "keywords": ["node", "Node.js", "javascript", "typescript"],
   "documentationURL": "https://github.com/stu-bell/devcontainer-features/tree/main/src/node",
   "licenseURL": "https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE",
   "options": {
-    "node_min_major_version": {
+    "node_target_version": {
       "type": "string",
       "default": "22",
-      "description": "Minimum major version of Node.js required."
+      "description": "Target version of Node.js to install."
     }
-  },
-  "containerEnv": {
-    "PATH": "/usr/bin:$PATH"
   }
 }

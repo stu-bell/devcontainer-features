@@ -1,12 +1,23 @@
+# Usage
+
+`ghcr.io/stu-bell/devcontainer-features/node`
+
+## Options
+
+`node_target_version` - version of Node.js to install.
+
 # OS Support
 
-This is intended as a dependency for my features requiring Node.js. You should probably check out the official devcontainer Node.js feature: https://github.com/devcontainers/features/tree/main/src/node
+This feature acts as a wrapper around two other devcontainer features:
 
-Tested on Alpine, Debian, Ubuntu. 
+- Alpine: `ghcr.io/cirolosapio/devcontainers-features/alpine-node`
+- Other distros: `ghcr.io/devcontainers/features/node`
 
-- Alpine: installs from apk. Option `node_min_major_version` is not supported for apk install
-- Debian/ Ubuntu: from https://deb.nodesource.com 
+Refer to the documentation for these features for more information.
 
-# PATH variable for node
+# Dependencies
 
-devcontainer-feature.json adds `/usr/bin` to PATH
+This feature depends on the following features:
+
+- `ghcr.io/cirolosapio/devcontainers-features/alpine-node`
+- `ghcr.io/devcontainers/features/node`

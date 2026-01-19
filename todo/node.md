@@ -1,3 +1,11 @@
+# Summary of changes
+- Replaced the OS-specific installation scripts (`install-alp.sh` and `install-deb.sh`) with a single `install.sh` that uses existing community and official features to install Node.js.
+- For Alpine, the feature now uses `ghcr.io/cirolosapio/devcontainers-features/alpine-node`.
+- For other distributions, it uses `ghcr.io/devcontainers/features/node`.
+- Updated `devcontainer-feature.json` to remove the `containerEnv` and bumped the version.
+- Updated `NOTES.md` to reflect the new implementation.
+- Updated tests to use the new implementation.
+
 # Progress
 Agent to update this section at relevant progress points...
 
@@ -15,10 +23,8 @@ Agent to update this section at relevant progress points...
 # Task details...
 
 - the goal of feature src/node is to make it easy for other features to install the minimum required version of node, on any distro (including alpine). If nodesource has the required version, that gets used as it's quicker than using the official oci feature to build from source. Otherwise, the offical node feature can be used to install any version of node using nvm. 
-- examine how python feature uses util.sh install oci feature function.
-- replace the node version of util.sh with the src/python/util.sh (should be v0.1.4)
 - in node/install.sh the OS detection if statement - in the else clause, instead of printing a message, use the install OCI feature to install node using ghcr.io/devcontainers/features/node and pass through devcontainer feature options in the same way the python feature in this repo passes through options to the ghcr.io/devcontainer-features/python feature 
 - update the min major version logic in src/node/install.sh to use the semver_gte function in the new util.sh version
 - test with `test/heartbeat.sh test/test-builds.sh -s test/node/scenarios.json`
 - bump the node devcontainer-feature.json version
-- update src/node/NOTES.md with instructions about how the dependency feature is used. 
+- update src/node/NOTES.md with instructions about how the dependency feature is used.
