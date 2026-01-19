@@ -29,9 +29,10 @@ See [LICENCE](./LICENSE)
 
 # Develop
 
-See [NOTES.md]
+See [NOTES.md](./NOTES.md)
 
 # Built with
 
 Started using https://github.com/devcontainers/feature-starter
+
 
