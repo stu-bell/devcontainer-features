@@ -36,7 +36,7 @@ heartbeat() {
     local cmd_pid=$!
 
     echo -e "\n--- Heartbeat Monitoring Started ---"
-    printf "%-10s %-15s %s\n" "Elapsed (h:m:s)" "Lines in Log" "Status"
+    printf "%-10s %-15s %s\n" "Elapsed (h:m:s)" "Lines in Log"
     echo "------------------------------------"
 
     # Monitor the background process
@@ -48,8 +48,8 @@ heartbeat() {
         local seconds=$((elapsed % 60))
         local formatted_time=$(printf "%02d:%02d:%02d" $hours $minutes $seconds)
         local line_count=$(wc -l < "$tmp_file" 2>/dev/null || echo "0")
-        printf "%-10s %-15s %s\n" "$formatted_time" "$line_count" "Running..."
-        sleep 30
+        printf "%-10s %-15s %s\n" "$formatted_time" "$line_count"
+        sleep 120
     done
 
     # Wait for the command to finish and get its exit code
