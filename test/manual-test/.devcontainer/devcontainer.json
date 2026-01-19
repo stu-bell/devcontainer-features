@@ -8,7 +8,7 @@
       "ghcr.io/stu-bell/devcontainer-features/neovim": { },
       "ghcr.io/stu-bell/devcontainer-features/node": { },
       "ghcr.io/stu-bell/devcontainer-features/open-code": { },
-      "ghcr.io/stu-bell/devcontainer-features/python": {},
+      "ghcr.io/stu-bell/devcontainer-features/python": { },
       "ghcr.io/stu-bell/devcontainer-features/ttyd": { }
   }
 }
