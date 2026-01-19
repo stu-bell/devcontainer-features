@@ -5,7 +5,7 @@
   "version": "0.1.0",
   "name": "Open Code (via opencode.ai/install)",
   "description": "Installs Open Code for AI code assistance https://opencode.ai",
-  "keywords": ["AI", "agent", "code", "coding"],
+  "keywords": ["AI", "agent", "code", "coding", "alpine", "ubuntu", "debian"],
   "documentationURL": "https://github.com/stu-bell/devcontainer-features/tree/main/src/open-code",
   "licenseURL": "https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE",
   "installsAfter": [

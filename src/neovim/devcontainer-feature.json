@@ -5,7 +5,7 @@
     "id": "neovim",
     "version": "0.1.2",
     "description": "Installs Neovim Editor. See neovim.io",
-    "keywords": ["IDE", "code editor", "editor"],
+    "keywords": ["IDE", "code editor", "editor", "alpine", "ubuntu", "debian"],
     "documentationURL": "https://github.com/stu-bell/devcontainer-features/tree/main/src/neovim",
     "licenseURL": "https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE",
     "installsAfter": [
