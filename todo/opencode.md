@@ -18,3 +18,5 @@ remote user requires permission to manage /config/opencode for opencode to work.
 
 Include this in src/open-code/install.sh
 
+bump minor open-code/devcontainer-feature.json version
+

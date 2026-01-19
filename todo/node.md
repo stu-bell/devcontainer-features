@@ -22,9 +22,55 @@ Agent to update this section at relevant progress points...
 
 # Task details...
 
-- the goal of feature src/node is to make it easy for other features to install the minimum required version of node, on any distro (including alpine). If nodesource has the required version, that gets used as it's quicker than using the official oci feature to build from source. Otherwise, the offical node feature can be used to install any version of node using nvm. 
-- in node/install.sh the OS detection if statement - in the else clause, instead of printing a message, use the install OCI feature to install node using ghcr.io/devcontainers/features/node and pass through devcontainer feature options in the same way the python feature in this repo passes through options to the ghcr.io/devcontainer-features/python feature 
+- for OS alpine cases, remove the dependency cirolosapio/.../alpine-node and instead use: 
+```
+echo "Installing Node.js on Alpine Linux via apk..."
+apk update 
+apk --no-cache add nodejs npm
+```
+
+- change the version option to min_node_version, which will be a semantic version. This will be passed to the install OCI feature $VERSION option. Before installation, min_node_version will be used to check if a sufficient version is already installed. After installation, the actual installed version of node should be tested against $MIN_NODE_VERSION and the feature install should exit 1 if the installed version is not greater than or equal to. 
 - update the min major version logic in src/node/install.sh to use the semver_gte function in the new util.sh version
 - test with `test/heartbeat.sh test/test-builds.sh -s test/node/scenarios.json`
-- bump the node devcontainer-feature.json version
-- update src/node/NOTES.md with instructions about how the dependency feature is used.
+
+- the ghcr.io/devcontainers/features/node feature includes the following options. Copy these options into this src/node feature and pass them through in install_oci_feature. Document that they are ignored on alpine:
+```
+        "nodeGypDependencies": {
+            "type": "boolean",
+            "default": true,
+            "description": "Install dependencies to compile native node modules (node-gyp)?"
+        },
+        "nvmInstallPath": {
+            "type": "string",
+            "default": "/usr/local/share/nvm",
+            "description": "The path where NVM will be installed."
+        },
+        "pnpmVersion": {
+            "type": "string",
+            "proposals": [
+                "latest",
+                "8.8.0",
+                "8.0.0",
+                "7.30.0",
+                "6.14.8",
+                "5.18.10",
+                "none"
+            ],
+            "default": "latest",
+            "description": "Select or enter the PNPM version to install"
+        },
+        "nvmVersion": {
+            "type": "string",
+            "proposals": [
+                "latest",
+                "0.39"
+            ],
+            "default": "latest",
+            "description": "Version of NVM to install."
+        },
+        "installYarnUsingApt": {
+            "type": "boolean",
+            "default": true,
+            "description": "On Debian and Ubuntu systems, you have the option to install Yarn globally via APT. If you choose not to use this option, Yarn will be set up using Corepack instead. This choice is specific to Debian and Ubuntu; for other Linux distributions, Yarn is always installed using Corepack, with a fallback to installation via NPM if an error occurs."
+        }
+```
