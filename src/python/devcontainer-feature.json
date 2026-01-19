@@ -11,12 +11,9 @@
   "options": {
     "min_python_version": {
       "type": "string",
-      "default": "latest",
+      "default": "",
       "description": "Feature exits early if this version or greater is already installed.",
       "proposals": [
-        "latest",
-        // "os-provided",
-        // "none",
         "3.15",
         "3.14",
         "3.13",
