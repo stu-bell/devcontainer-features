@@ -45,8 +45,7 @@ fi
 # Clone git repo for user Neovim config
 if [ -n "$CONFIG_GIT_URL" ]; then
 	# check git installed
-	has_command git || {
-
+	remote_user_has_command git || {
 		echored "ERROR: CONFIG_GIT_URL specified but git is not installed."
 		echored "Install git by including devcontainer feature: ghcr.io/devcontainers/features/common-utils"
 		exit 1
@@ -55,6 +54,6 @@ if [ -n "$CONFIG_GIT_URL" ]; then
 	# clone the config
 	echo "Cloning from $CONFIG_GIT_URL..."
 	mkdir -p $CONFIG_LOCATION
-	GIT_TERMINAL_PROMPT=0 git clone --depth 1 "$CONFIG_GIT_URL" "${CONFIG_LOCATION}/nvim"
+	remote_user_run GIT_TERMINAL_PROMPT=0 git clone --depth 1 "$CONFIG_GIT_URL" "${CONFIG_LOCATION}/nvim"
 fi
 
