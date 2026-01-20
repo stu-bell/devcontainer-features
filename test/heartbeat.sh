@@ -61,16 +61,10 @@ heartbeat() {
     echo "--- Monitoring Finished --"
 
     # Report result
-    if [ $exit_code -ne 0 ]; then
-        echo "Command failed with exit code $exit_code." >&2
-        echo "Full output log: $tmp_file" >&2
-        echo "Last lines of output from $tmp_file:" >&2
-        tail -n 50 "$tmp_file" >&2
-    else
-        echo "Command completed successfully."
-        # Optionally, you can echo the tmp_file path here for successful runs too
-        # echo "Full output log: $tmp_file"
-    fi
+    echo "Command exit code: $exit_code." >&2
+    echo "Full output log: $tmp_file" >&2
+    echo "Last lines of output from $tmp_file:" >&2
+    tail -n 50 "$tmp_file" >&2
 
     return $exit_code
 }
