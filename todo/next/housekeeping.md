@@ -14,5 +14,5 @@ Agent to update this section at relevant progress points...
 
 # Task details...
 
-- Sync all util.sh to the same version and re-run tests
+- Make main version of util in test, add tests, then in feature util, only use functions required
 - increase test coverage for all features where appropriate.
