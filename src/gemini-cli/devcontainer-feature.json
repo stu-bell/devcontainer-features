@@ -27,7 +27,9 @@
   },
   "dependsOn": {
     "ghcr.io/stu-bell/devcontainer-features/node": {
-      "min_node_version": "20"
+      "min_node_version": "20",
+      "installYarnUsingApt": false,
+      "nodeGypDependencies": false
     }
   }
 }
