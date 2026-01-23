@@ -78,8 +78,10 @@ if ! installed_ver=$(get_python_version); then
     exit 1
 fi
 echoyel "Python installed: $installed_ver"
-if [ "$min_req_ver" != "latest" ] && ! semver_gte "$installed_ver" "$min_req_ver"; then
-    echored "Could not find version $min_req_ver"
-    exit 1
+if [ "$min_req_ver" != "latest" ]; then
+    if ! semver_gte "$installed_ver" "$min_req_ver" ; then
+        echored "Could not find version $min_req_ver or greater"
+        exit 1
+    fi
 fi
 

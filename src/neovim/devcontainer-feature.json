@@ -19,13 +19,9 @@
         },
         "CONFIG_LOCATION": {
             "type": "string",
-            "default": "/config",
-            "description": "Path git clones config to. Should match environment variable XDG_CONFIG_HOME."
+            "default": "~/.config",
+            "description": "Path git clones config to."
         }
-    },
-    "containerEnv": {
-        // Path Neovim checks for config. Defaults to a shared location since feature installs as root, which isn't necessarily the devcontainer user.
-        "XDG_CONFIG_HOME": "/config"
     }
 }
 

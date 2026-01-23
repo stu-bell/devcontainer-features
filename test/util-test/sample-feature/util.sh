@@ -141,6 +141,7 @@ apt_get_install() {
 
 
 # Download and install an OCI feature
+# Explicitly add all args, don't rely on default values
 #     install_oci_feature "ghcr.io/devcontainers/features/python:1.8.0" \
 #         "VERSION=3.11" \
 #         "INSTALL_JUPYTERLAB=true" \

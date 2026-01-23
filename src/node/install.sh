@@ -22,12 +22,12 @@ if os_alpine; then
     apk --no-cache add nodejs npm
 else
     install_oci_feature "ghcr.io/devcontainers/features/node:1" \
-        "VERSION=$MIN_NODE_VERSION" \
-        "NODEGYPDEPENDENCIES=$NODEGYPDEPENDENCIES" \
-        "NVMINSTALLPATH=$NVMINSTALLPATH" \
-        "PNPMVERSION=$PNPMVERSION" \
-        "NVMVERSION=$NVMVERSION" \
-        "INSTALLYARNUSINGAPT=$INSTALLYARNUSINGAPT"
+        "VERSION=$min_req_ver" \
+        "NODEGYPDEPENDENCIES=${NODEGYPDEPENDENCIES:-'true'}" \
+        "NVMINSTALLPATH=${NVMINSTALLPATH:-'/usr/local/share/nvm'}" \
+        "PNPMVERSION=${PNPMVERSION:-'latest'}" \
+        "NVMVERSION=${NVMVERSION:-'latest'}" \
+        "INSTALLYARNUSINGAPT=${INSTALLYARNUSINGAPT:-'true'}"
 fi
 
 # verify version

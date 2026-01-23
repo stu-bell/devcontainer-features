@@ -20,12 +20,11 @@ heartbeat() {
     tmp_file=$(mktemp)
 
     # For scriptability, echo the temp file path in a parsable format
-    echo "HEARTBEAT_LOG_PATH=${tmp_file}"
+    echo "OUTPUT_LOGFILE=${tmp_file}"
 
-    echo "Executing command with heartbeat."
-    echo "Full output will be logged to: $tmp_file"
     echo "Monitor command output in realtime:"
     echo "tail -f $tmp_file"
+    echo ""
     echo "Command: $cmd_to_run"
 
     local start_time=$(date +%s)
@@ -34,9 +33,11 @@ heartbeat() {
     # We use eval to correctly handle commands with quotes and arguments
     eval "$cmd_to_run" > "$tmp_file" 2>&1 &
     local cmd_pid=$!
-
-    echo -e "\n--- Heartbeat Monitoring Started ---"
-    printf "%-10s %-15s %s\n" "Elapsed (h:m:s)" "Lines in Log"
+    
+    local interval=120
+    echo -e "\n--- Monitoring Started ---"
+    echo -e "Updates every $interval seconds..."
+    printf "%-10s %-15s %s\n" "Elapsed"   "Lines in Log"
     echo "------------------------------------"
 
     # Monitor the background process
@@ -49,7 +50,7 @@ heartbeat() {
         local formatted_time=$(printf "%02d:%02d:%02d" $hours $minutes $seconds)
         local line_count=$(wc -l < "$tmp_file" 2>/dev/null || echo "0")
         printf "%-10s %-15s %s\n" "$formatted_time" "$line_count"
-        sleep 120
+        sleep $interval
     done
 
     # Wait for the command to finish and get its exit code
@@ -57,19 +58,13 @@ heartbeat() {
     local exit_code=$?
 
     echo "------------------------------------"
-    echo "--- Heartbeat Monitoring Finished --"
+    echo "--- Monitoring Finished --"
 
     # Report result
-    if [ $exit_code -ne 0 ]; then
-        echo "Command failed with exit code $exit_code." >&2
-        echo "Full output log: $tmp_file" >&2
-        echo "Last 100 lines of output from $tmp_file:" >&2
-        tail -n 100 "$tmp_file" >&2
-    else
-        echo "Command completed successfully."
-        # Optionally, you can echo the tmp_file path here for successful runs too
-        # echo "Full output log: $tmp_file"
-    fi
+    echo "Command exit code: $exit_code." >&2
+    echo "Full output log: $tmp_file" >&2
+    echo "Last lines of output from $tmp_file:" >&2
+    tail -n 50 "$tmp_file" >&2
 
     return $exit_code
 }
