@@ -20,7 +20,9 @@ if semver_gte "$installed_version" "$min_req_ver"; then
 else 
     # Install node feature
     install_oci_feature "ghcr.io/stu-bell/devcontainer-features/node" \
-        "MIN_NODE_VERSION=$min_req_ver" 
+        "MIN_NODE_VERSION=$min_req_ver" \
+        "NODEGYPDEPENDENCIES=false" \
+        "INSTALLYARNUSINGAPT=false"
 fi
 
 # Check npm is installed
