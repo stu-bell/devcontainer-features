@@ -1,6 +1,6 @@
 [
     {
-        "name": "Build on alpine",
+        "name": "alpine",
         "expected_exit_code": 0,
         "devcontainer": {
             "image": "mcr.microsoft.com/devcontainers/base:alpine",
@@ -11,7 +11,7 @@
         }
     },
     {
-        "name": "Build on Ubuntu",
+        "name": "ubuntu",
         "expected_exit_code": 0,
         "devcontainer": {
             "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
@@ -22,7 +22,7 @@
         }
     },
     {
-        "name": "Build on Debian",
+        "name": "debian",
         "expected_exit_code": 0,
         "devcontainer": {
             "image": "mcr.microsoft.com/devcontainers/base:debian",
@@ -33,7 +33,7 @@
         }
     },
     {
-        "name": "Build on debian - node upgrade required",
+        "name": "debian-node-update-required",
         "expected_exit_code": 0,
         "devcontainer": {
             "image": "mcr.microsoft.com/devcontainers/javascript-node:1-18-bookworm",

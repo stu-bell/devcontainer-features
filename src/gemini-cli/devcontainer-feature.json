@@ -2,7 +2,7 @@
   // Copyright (c) 2026 Stuart Bell
   // Licensed under the MIT License. See https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE for license information.
   "id": "gemini-cli",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "name": "Google Gemini CLI (via npm)",
   "description": "Installs Google Gemini CLI for AI code assistance https://geminicli.com",
   "keywords": ["AI", "agent", "code", "coding", "alpine", "ubuntu", "debian"],
@@ -27,7 +27,9 @@
   },
   "dependsOn": {
     "ghcr.io/stu-bell/devcontainer-features/node": {
-      "min_node_version": "20"
+      "min_node_version": "20",
+      "installYarnUsingApt": false,
+      "nodeGypDependencies": false
     }
   }
 }

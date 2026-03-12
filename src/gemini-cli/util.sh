@@ -2,7 +2,7 @@
 # Copyright (c) 2026 Stuart Bell 
 # Licensed under the MIT License. See https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE for license information.
 
-# v0.1.5
+# v0.1.6
 
 # Colors for output
 RED='\033[0;31m'
@@ -295,5 +295,10 @@ esac
     cd -
     rm -rf "$TEMP_DIR"
     
+    # Re-source profile.d to pick up any PATH changes made by the feature
+    for f in /etc/profile.d/*.sh; do
+        . "$f" 2>/dev/null || true
+    done
+
     echo "Feature installation complete for $FEATURE_URI"
 }
