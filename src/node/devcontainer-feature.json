@@ -2,7 +2,7 @@
   // Copyright (c) 2026 Stuart Bell
   // Licensed under the MIT License. See https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE for license information.
   "id": "node",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "name": "Node.js",
   "description": "Checks if the system already includes a Node installation with version greater or equal to option min_node_version, and installs Node if not. For non-Alpine systems, uses ghcr.io/devcontainers/features/node",
   "keywords": ["node", "Node.js", "javascript", "typescript", "alpine", "ubuntu", "debian"],
