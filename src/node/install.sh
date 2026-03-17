@@ -23,11 +23,11 @@ if os_alpine; then
 else
     install_oci_feature "ghcr.io/devcontainers/features/node:1" \
         "VERSION=$min_req_ver" \
-        "NODEGYPDEPENDENCIES=${NODEGYPDEPENDENCIES:-'true'}" \
-        "NVMINSTALLPATH=${NVMINSTALLPATH:-'/usr/local/share/nvm'}" \
-        "PNPMVERSION=${PNPMVERSION:-'latest'}" \
-        "NVMVERSION=${NVMVERSION:-'latest'}" \
-        "INSTALLYARNUSINGAPT=${INSTALLYARNUSINGAPT:-'true'}"
+        "NODEGYPDEPENDENCIES=${NODEGYPDEPENDENCIES:-true}" \
+        "NVMINSTALLPATH=${NVMINSTALLPATH:-/usr/local/share/nvm}" \
+        "PNPMVERSION=${PNPMVERSION:-latest}" \
+        "NVMVERSION=${NVMVERSION:-latest}" \
+        "INSTALLYARNUSINGAPT=${INSTALLYARNUSINGAPT:-true}"
 fi
 
 # verify version
