@@ -23,6 +23,7 @@ containerEnv:
 - "PATH": "/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:${PATH}"
 
 install.sh:
+1. Check dependencies are installed: bash, curl. Install them if not
 1. check if brew is installed. if not, install with brew.sh script below
 1. verify brew is installed correctly
 1. if a brewPackage is not specified, exit here
@@ -40,8 +41,7 @@ non-functional requirements:
 Install script from homebrew: https://brew.sh/
 NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-Features considered for implementation but rejected (DO NOT IMPLEMENT THESE):
-- Add an option to remove brew after package install to keep the image small? This is just for the purpose of installing a package with brew
+Documentation: add to the NOTES.md file the command to uninstall homebrew at https://github.com/homebrew/install#uninstall-homebrew
 
 # Implementation comments/notes from agent:
 
