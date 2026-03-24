@@ -1,7 +1,7 @@
 ---
 # df-g2t5
 title: 'new feature: Homebrew'
-status: draft
+status: done
 type: task
 created_at: 2026-03-12T15:40:26Z
 updated_at: 2026-03-12T15:40:26Z
@@ -9,6 +9,16 @@ updated_at: 2026-03-12T15:40:26Z
 Read these instructions carefully. If further clarification is required, append questions to the body of this bean and set the status to draft (so the user can review and update). When the user provides the information to continue, they will reset the bean status to todo.
 
 For a recap of how to use beans, read the result of `beans prime`
+
+# Changes required
+
+The following brief has been implemented, however the following changes have been made. Read the brief for context about the original implementation
+
+Changes: 
+
+- test/homebrew/scenarios.json: jq is not a good tool choice for testing, as it is likely already available on the debian system
+
+# Brief
 
 Implement a new devcontainer feature in src/homebrew that should install homebrew (https://brew.sh/), and optionally, a brew package
 
@@ -45,5 +55,21 @@ Documentation: add to the NOTES.md file the command to uninstall homebrew at htt
 
 # Implementation comments/notes from agent:
 
-agent to update this section...
+## Implementation
+
+Reimplemented `src/homebrew` with:
+
+- **`devcontainer-feature.json`**: Replaced single `package` option with `brewPackage`, `brewPackageVersion`, `brewArgs`. Kept `containerEnv` PATH entries.
+- **`install.sh`**: Full rewrite using `util.sh` patterns:
+  - Skips gracefully on Alpine (Homebrew requires glibc; Alpine uses musl libc)
+  - Installs `curl`/`bash` dependencies if missing
+  - Installs Homebrew via official `brew.sh` script as remote user
+  - Verifies brew binary at `/home/linuxbrew/.linuxbrew/bin/brew`
+  - Exits early if no `brewPackage` specified
+  - Checks if package + `brewPackageVersion` requirement is already satisfied before installing (uses `semver_gte`)
+  - Verifies package post-install
+- **`util.sh`**: Copied from `test/util-test/sample-feature/util.sh` (v0.1.4)
+- **`NOTES.md`**: Documents supported OS, usage examples, and Homebrew uninstall command from https://github.com/homebrew/install#uninstall-homebrew
+- **`test/homebrew/scenarios.json`**: 5 scenarios — alpine (warns + exits 0), ubuntu, debian, ubuntu-with-package (hello), ubuntu-with-package-version (hello >= 2.10). Replaced `jq` with `hello` (GNU Hello) as `jq` is pre-installed on Debian/Ubuntu and would not validate brew actually installed it.
+
 
