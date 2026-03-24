@@ -15,6 +15,7 @@ jobs:
           - claude-code
           - cursor-cli
           - gemini-cli
+          - homebrew
           - neovim
           - node
           - open-code
