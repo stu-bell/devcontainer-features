@@ -1,0 +1,62 @@
+[
+  {
+    "name": "alpine",
+    "expected_exit_code": 0,
+    "expected_output": "WARNING: Homebrew does not support Alpine",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:alpine",
+      "features": {
+        "../../src/homebrew": {}
+      }
+    }
+  },
+  {
+    "name": "ubuntu",
+    "expected_exit_code": 0,
+    "expected_output": "Homebrew installed:",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+      "features": {
+        "../../src/homebrew": {}
+      }
+    }
+  },
+  {
+    "name": "debian",
+    "expected_exit_code": 0,
+    "expected_output": "Homebrew installed:",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:debian",
+      "features": {
+        "../../src/homebrew": {}
+      }
+    }
+  },
+  {
+    "name": "ubuntu-with-package",
+    "expected_exit_code": 0,
+    "expected_output": "installed successfully",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+      "features": {
+        "../../src/homebrew": {
+          "brewPackage": "hello"
+        }
+      }
+    }
+  },
+  {
+    "name": "ubuntu-with-package-version",
+    "expected_exit_code": 0,
+    "expected_output": "installed successfully",
+    "devcontainer": {
+      "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+      "features": {
+        "../../src/homebrew": {
+          "brewPackage": "hello",
+          "brewPackageVersion": "2.10"
+        }
+      }
+    }
+  }
+]

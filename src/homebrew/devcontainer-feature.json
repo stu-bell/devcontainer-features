@@ -1,0 +1,29 @@
+{
+  "id": "homebrew",
+  "version": "1.0.0",
+  "name": "Homebrew",
+  "description": "Installs the Homebrew package manager and optionally a brew package",
+  "options": {
+    "brewPackage": {
+      "type": "string",
+      "default": "",
+      "description": "Name of Brew package to install (e.g. 'hmans/beans/beans')"
+    },
+    "brewPackageVersion": {
+      "type": "string",
+      "default": "",
+      "description": "Minimum required version of brew package to install (e.g. '1.2.0')"
+    },
+    "brewArgs": {
+      "type": "string",
+      "default": "",
+      "description": "Argument string to pass to the brew install command (e.g. '--build-from-source')"
+    }
+  },
+  "containerEnv": {
+    "PATH": "/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:${PATH}"
+  },
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/common-utils"
+  ]
+}
