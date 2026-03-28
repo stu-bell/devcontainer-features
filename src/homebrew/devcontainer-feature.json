@@ -1,13 +1,13 @@
 {
   "id": "homebrew",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "name": "Homebrew",
   "description": "Installs the Homebrew package manager and optionally a brew package",
   "options": {
     "brewPackage": {
       "type": "string",
       "default": "",
-      "description": "Name of Brew package to install (e.g. 'hmans/beans/beans')"
+      "description": "Name of Brew package to install (e.g. 'hello')"
     },
     "brewPackageVersion": {
       "type": "string",
