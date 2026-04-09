@@ -1,0 +1,11 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/base:alpine",
+  "features": {
+    "../../../src/shell-config": {
+      "localConfigFiles": "${containerWorkspaceFolder}/.devcontainer/setWorkingDir.sh"
+    }
+  },
+  "remoteEnv": {
+    "CONTAINER_WORKSPACE_FOLDER": "${containerWorkspaceFolder}"
+  }
+}

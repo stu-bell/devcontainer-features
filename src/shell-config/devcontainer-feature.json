@@ -1,0 +1,23 @@
+{
+  "id": "shell-rc-config",
+  "version": "0.1.0",
+  "name": "Shell Config",
+  "description": "Adds a line to shell profile/rc files to source local shell config files. Assumes you have one or more shell configuration scripts in your .devcontainer workspace that you wish to source from shell config.",
+  "options": {
+    "localConfigFiles": {
+      "default": "",
+      "description": "Colon (:) separated paths to your local config files. Eg: ${containerWorkspaceFolder}/.devcontainer/mysetup.sh",
+      "type": "string"
+    },
+    "shellRcFiles": {
+      "default": "/etc/profile:/etc/bash.bashrc",
+      "description": "Colon (:) separated list of shell rc files. Each localConfigFiles will be sourced in each shellRcFiles.",
+      "type": "string"
+    },
+    "idempotent": {
+      "default": true,
+      "description": "Skip adding source line if already present in rc file",
+      "type": "boolean"
+    }
+  }
+}
