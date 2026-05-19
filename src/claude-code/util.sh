@@ -59,7 +59,7 @@ remote_user_run() {
     USER_OPTION="${REMOTE_USER_NAME:-automatic}"
     _REMOTE_USER="${_REMOTE_USER:-${USER_OPTION}}"
     if [ "${_REMOTE_USER}" = "auto" ] || [ "${_REMOTE_USER}" = "automatic" ]; then
-        _REMOTE_USER="$(id -un 1000 2>/dev/null || echo "vscode")" # vscode fallback
+        _REMOTE_USER="$(id -un 1000 2>/dev/null || id -un)" # fallback to current user
     fi
     echo "Running as: $_REMOTE_USER, command: $command_to_run" >&2
     su - "${_REMOTE_USER}" -c "sh -lc '$command_to_run'"
