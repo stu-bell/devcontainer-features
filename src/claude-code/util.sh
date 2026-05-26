@@ -2,7 +2,7 @@
 # Copyright (c) 2026 Stuart Bell 
 # Licensed under the MIT License. See https://github.com/stu-bell/devcontainer-features/blob/main/LICENSE for license information.
 
-# v0.1.3
+# v0.1.4
 # check if a command exists
 has_command() {
     command -v "$1" > /dev/null 2>&1
