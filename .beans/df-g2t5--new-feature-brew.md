@@ -1,11 +1,13 @@
 ---
 # df-g2t5
 title: 'new feature: Homebrew'
-status: done
-type: task
+status: completed
+type: epic
+priority: normal
 created_at: 2026-03-12T15:40:26Z
-updated_at: 2026-03-12T15:40:26Z
+updated_at: 2026-06-01T18:51:07Z
 ---
+
 Read these instructions carefully. If further clarification is required, append questions to the body of this bean and set the status to draft (so the user can review and update). When the user provides the information to continue, they will reset the bean status to todo.
 
 For a recap of how to use beans, read the result of `beans prime`
@@ -71,5 +73,3 @@ Reimplemented `src/homebrew` with:
 - **`util.sh`**: Copied from `test/util-test/sample-feature/util.sh` (v0.1.4)
 - **`NOTES.md`**: Documents supported OS, usage examples, and Homebrew uninstall command from https://github.com/homebrew/install#uninstall-homebrew
 - **`test/homebrew/scenarios.json`**: 5 scenarios — alpine (warns + exits 0), ubuntu, debian, ubuntu-with-package (hello), ubuntu-with-package-version (hello >= 2.10). Replaced `jq` with `hello` (GNU Hello) as `jq` is pre-installed on Debian/Ubuntu and would not validate brew actually installed it.
-
-
