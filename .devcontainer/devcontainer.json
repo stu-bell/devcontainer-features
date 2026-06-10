@@ -5,6 +5,9 @@
         "ghcr.io/devcontainers/features/docker-in-docker:2": {},
         "ghcr.io/stu-bell/devcontainer-features/claude-code": {},
         // "ghcr.io/stu-bell/devcontainer-features/geminicli": {},
+        "ghcr.io/stu-bell/devcontainer-features/homebrew": {
+            "brewPackage": "hmans/beans/beans"
+        },
         "ghcr.io/stu-bell/devcontainer-features/neovim": {
             "CONFIG_GIT_URL": "https://github.com/stu-bell/nvim.git"
         }

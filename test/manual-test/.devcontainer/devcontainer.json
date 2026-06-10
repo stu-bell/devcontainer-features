@@ -1,19 +1,7 @@
 {
-  // for manual testing features
-  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "name": "Node/TS",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:24",
   "features": {
-      "ghcr.io/stu-bell/devcontainer-features/claude-code": { },
-      "ghcr.io/stu-bell/devcontainer-features/cursor-cli": { },
-      "ghcr.io/stu-bell/devcontainer-features/gemini-cli": { },
-      "ghcr.io/stu-bell/devcontainer-features/neovim": {
-          "CONFIG_GIT_URL":"https://github.com/stu-bell/nvim"
-      },
-      "ghcr.io/stu-bell/devcontainer-features/node": { },
-      "ghcr.io/stu-bell/devcontainer-features/python": { 
-        "min_python_version": "3.12"
-      },
-      "ghcr.io/stu-bell/devcontainer-features/ttyd": { },
-      "ghcr.io/stu-bell/devcontainer-features/open-code": { },
-      "ghcr.io/stu-bell/devcontainer-features/homebrew": { }
+    "ghcr.io/stu-bell/devcontainer-features/claude-code:0": {}
   }
 }
