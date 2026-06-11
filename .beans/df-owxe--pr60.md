@@ -5,7 +5,7 @@ status: draft
 type: bug
 priority: normal
 created_at: 2026-06-02T15:49:44Z
-updated_at: 2026-06-10T15:55:45Z
+updated_at: 2026-06-11T13:41:49Z
 parent: df-lw9i
 ---
 
@@ -37,6 +37,8 @@ id -un returns whoever is actually executing the script (root during build), whi
 - confirm to me whether their assertion that id -un falls back to the current user is accurate. 
 - Discuss why they might be encounering that error
 
-UPDATE 2026-06-10 OP provided their minimal repro dc.json. I couldn't reproduce the error. They use vscode and docker (and win11/wsl). Not attempted to reproduce on that platform. 
+UPDATE 2026-06-10 OP provided their minimal repro dc.json. I couldn't reproduce the error. They use vscode and docker (and win11/wsl). Not attempted to reproduce on that platform (have installed vscode and docker, but vscode seems to be finding podman, not docker. Also unable to build the container without a different error (unexpected end of parent stream))
 
 Suggested action: If I can't reproduce the issue, but it passes the tests, ask AI what the potential side-effects and risks are of accepting the PR anyway. I don't want to shut down somebody else's PR
+
+UPDATE 2026-06-11: Attempted reproduction with the same setup (VSCode + Docker) and was unable to replicate the error message. The PR  author's suggestion of falling back to the current user if the first non-root user can't be found, seems better than hard coding 'vscode'. Next steps: investigate if the fix causes any bad side effects, ask AI agent to review and assess the risk. Then merge if you're happy with it. 
